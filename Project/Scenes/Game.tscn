@@ -25,7 +25,7 @@ targetNodePath = NodePath("../Karts/Kart1")
 [node name="Karts" type="Spatial" parent="."]
 
 [node name="Kart1" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 0, 27 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
 
 [node name="Controller" type="Node" parent="Karts/Kart1"]
 script = ExtResource( 3 )

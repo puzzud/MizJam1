@@ -11,8 +11,8 @@ height = 0.5
 script = ExtResource( 1 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.203567, 0 )
-pixel_size = 0.04
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.394664, 0 )
+pixel_size = 0.08
 billboard = 1
 texture = ExtResource( 2 )
 region_enabled = true
