@@ -33,4 +33,7 @@ func _physics_process(delta: float) -> void:
 		velocity = move_and_slide(velocity, Vector3(0.0, -1.0, 0.0))
 
 func getController() -> Controller:
-	return $Controller as Controller
+	if has_node("Controller"):
+		return $Controller as Controller
+	
+	return null

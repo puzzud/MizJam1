@@ -27,6 +27,19 @@ targetNodePath = NodePath("../Karts/Kart1")
 [node name="Kart1" parent="Karts" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
 
+[node name="Sprite3D" parent="Karts/Kart1" index="0"]
+modulate = Color( 0.301961, 0.282353, 0.733333, 1 )
+
 [node name="Controller" type="Node" parent="Karts/Kart1"]
 script = ExtResource( 3 )
+
+[node name="Kart2" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
+
+[node name="Sprite3D" parent="Karts/Kart2" index="0"]
+modulate = Color( 0.717647, 0.2, 0.2, 1 )
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
+
+[editable path="Karts/Kart1"]
+
+[editable path="Karts/Kart2"]
