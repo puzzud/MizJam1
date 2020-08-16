@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Graphics/track1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Track.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Coin.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/QuestionBlock.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -218,4 +219,89 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.4815, 0, 54.3803 )
 
 [node name="Coin35" parent="Items/Coins" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 39.4377, 0, 54.3803 )
+
+[node name="QuestionBlocks" type="Spatial" parent="Items"]
+
+[node name="QuestionBlock1" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -57.0214, 0, -31.0051 )
+
+[node name="QuestionBlock2" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -55.0012, 0, -29.023 )
+
+[node name="QuestionBlock3" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -53.0192, 0, -28.032 )
+
+[node name="QuestionBlock4" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -57.0214, 0, -27.041 )
+
+[node name="QuestionBlock5" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50.999, 0, -25.0971 )
+
+[node name="QuestionBlock6" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -55.0012, 0, -24.106 )
+
+[node name="QuestionBlock7" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -56.9833, 0, -20.9805 )
+
+[node name="QuestionBlock8" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51.0371, 0, -20.9805 )
+
+[node name="QuestionBlock9" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -54.0102, 0, -19.0366 )
+
+[node name="QuestionBlock10" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -57.0214, 0, -17.0165 )
+
+[node name="QuestionBlock11" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50.999, 0, -17.0165 )
+
+[node name="QuestionBlock12" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -55.0393, 0, -14.0053 )
 [connection signal="body_entered" from="FinishLine" to="." method="onFinishLineBodyEntered"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin1" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin2" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin3" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin4" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin5" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin6" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin7" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin8" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin9" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin10" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin11" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin12" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin13" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin14" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin15" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin16" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin17" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin18" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin19" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin20" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin21" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin22" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin23" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin24" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin25" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin26" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin27" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin28" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin29" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin30" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin31" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin32" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin33" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin34" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/Coins/Coin35" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock1" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock2" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock3" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock4" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock5" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock6" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock7" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock8" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock9" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock10" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock11" to="." method="onItemPickedUp"]
+[connection signal="itemPickedUp" from="Items/QuestionBlocks/QuestionBlock12" to="." method="onItemPickedUp"]

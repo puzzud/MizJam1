@@ -15,3 +15,6 @@ func getNavigation() -> Navigation:
 
 func onFinishLineBodyEntered(body: Node) -> void:
 	emit_signal("kartCrossedFinishLine", body)
+
+func onItemPickedUp(item, kart) -> void:
+	pass
