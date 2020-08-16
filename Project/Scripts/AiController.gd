@@ -1,6 +1,8 @@
 extends Controller
 class_name AiController
 
+export (float) var waypointDistanceTolerance = 5.0
+
 var waypointIndex := -1
 var currentWaypoint: Spatial = null
 
@@ -21,7 +23,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
 	
-	if get_parent().global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < 0.5:
+	if get_parent().global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
 		currentWaypoint = getNextWaypoint()
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
@@ -71,19 +73,20 @@ func updateTurnDirectionFromPath() -> void:
 	var position := currentWaypoint.global_transform.origin
 	var lookingAtEuler: Vector3 = parent.global_transform.looking_at(position, Vector3.UP).basis.get_euler()
 	
-	var ig1: ImmediateGeometry = parent.get_node("ig1")
-	ig1.clear()
-	ig1.begin(Mesh.PRIMITIVE_LINES)
-	ig1.add_vertex(parent.to_local(parent.global_transform.origin))
-	ig1.add_vertex(parent.to_local(position))
-	ig1.end()
-	
-	var ig2: ImmediateGeometry = parent.get_node("ig2")
-	ig2.clear()
-	ig2.begin(Mesh.PRIMITIVE_LINES)
-	ig2.add_vertex(parent.to_local(parent.global_transform.origin))
-	ig2.add_vertex(parent.to_local(parent.global_transform.origin) + (Vector3.FORWARD * 10.0))
-	ig2.end()
+	if false:
+		var ig1: ImmediateGeometry = parent.get_node("ig1")
+		ig1.clear()
+		ig1.begin(Mesh.PRIMITIVE_LINES)
+		ig1.add_vertex(parent.to_local(parent.global_transform.origin))
+		ig1.add_vertex(parent.to_local(position))
+		ig1.end()
+		
+		var ig2: ImmediateGeometry = parent.get_node("ig2")
+		ig2.clear()
+		ig2.begin(Mesh.PRIMITIVE_LINES)
+		ig2.add_vertex(parent.to_local(parent.global_transform.origin))
+		ig2.add_vertex(parent.to_local(parent.global_transform.origin) + (Vector3.FORWARD * 10.0))
+		ig2.end()
 	
 	var currentEuler = parent.rotation
 	if currentEuler.y != lookingAtEuler.y:
