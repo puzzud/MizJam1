@@ -1,16 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Track1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Kart.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/HumanController.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/FollowCamera.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/AiController.gd" type="Script" id=6]
 
 [node name="Game" type="Spatial"]
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="TopCamera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0543633, 90.6568, 0.00218773 )
+current = true
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.999936, -0.00301203, 0.0108995, 0, 0.963873, 0.266362, -0.011308, -0.266345, 0.963811, 53.5164, 1.55599, 29.0126 )
@@ -38,6 +43,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
 
 [node name="Sprite3D" parent="Karts/Kart2" index="0"]
 modulate = Color( 0.717647, 0.2, 0.2, 1 )
+
+[node name="Controller" type="Node" parent="Karts/Kart2"]
+script = ExtResource( 6 )
+trackNodePath = NodePath("../../../Track")
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
 
 [editable path="Karts/Kart1"]

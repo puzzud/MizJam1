@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Kart.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=2]
@@ -6,6 +6,12 @@
 [sub_resource type="CylinderShape" id=1]
 radius = 0.25
 height = 0.5
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.121569, 0, 1, 1 )
 
 [node name="Kart" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -21,3 +27,9 @@ region_rect = Rect2( 238, 340, 16, 15.8293 )
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
 shape = SubResource( 1 )
+
+[node name="ig1" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 2 )
+
+[node name="ig2" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 3 )

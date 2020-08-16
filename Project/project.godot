@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Controller",
+"class": "AiController",
+"language": "GDScript",
+"path": "res://Scripts/AiController.gd"
+}, {
 "base": "Node",
 "class": "Controller",
 "language": "GDScript",
@@ -40,6 +45,7 @@ _global_script_classes=[ {
 "path": "res://Scripts/Track.gd"
 } ]
 _global_script_class_icons={
+"AiController": "",
 "Controller": "",
 "FollowingCamera": "",
 "Game": "",

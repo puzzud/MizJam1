@@ -9,6 +9,12 @@ func _ready():
 	initialKartIds()
 	initialKartLapCounts()
 
+func _input(event: InputEvent) -> void:
+	if Input.is_key_pressed(KEY_F1):
+		Engine.time_scale = 0.125
+	else:
+		Engine.time_scale = 1.0
+
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
 
