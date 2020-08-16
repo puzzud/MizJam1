@@ -34,7 +34,7 @@ targetNodePath = NodePath("../Karts/Kart1")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
 
 [node name="Sprite3D" parent="Karts/Kart1" index="0"]
-modulate = Color( 0.301961, 0.282353, 0.733333, 1 )
+modulate = Color( 0.713726, 0.717647, 0.2, 1 )
 
 [node name="Controller" type="Node" parent="Karts/Kart1"]
 script = ExtResource( 3 )
@@ -48,8 +48,56 @@ modulate = Color( 0.717647, 0.2, 0.2, 1 )
 [node name="Controller" type="Node" parent="Karts/Kart2"]
 script = ExtResource( 6 )
 trackNodePath = NodePath("../../../Track")
+
+[node name="Kart3" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1661, 0, 15.0808 )
+
+[node name="Sprite3D" parent="Karts/Kart3" index="0"]
+modulate = Color( 0.2, 0.243137, 0.717647, 1 )
+
+[node name="Controller" type="Node" parent="Karts/Kart3"]
+script = ExtResource( 6 )
+trackNodePath = NodePath("../../../Track")
+
+[node name="Kart4" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0425, 0, 17.9947 )
+
+[node name="Sprite3D" parent="Karts/Kart4" index="0"]
+modulate = Color( 0.2, 0.717647, 0.215686, 1 )
+
+[node name="Controller" type="Node" parent="Karts/Kart4"]
+script = ExtResource( 6 )
+trackNodePath = NodePath("../../../Track")
+
+[node name="Kart5" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9714, 0, 21.1505 )
+
+[node name="Sprite3D" parent="Karts/Kart5" index="0"]
+modulate = Color( 0.654902, 0.2, 0.717647, 1 )
+
+[node name="Controller" type="Node" parent="Karts/Kart5"]
+script = ExtResource( 6 )
+trackNodePath = NodePath("../../../Track")
+
+[node name="Kart6" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9138, 0, 24.2642 )
+
+[node name="Sprite3D" parent="Karts/Kart6" index="0"]
+modulate = Color( 0.2, 0.717647, 0.709804, 1 )
+
+[node name="Controller" type="Node" parent="Karts/Kart6"]
+script = ExtResource( 6 )
+trackNodePath = NodePath("../../../Track")
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
 
 [editable path="Karts/Kart1"]
 
 [editable path="Karts/Kart2"]
+
+[editable path="Karts/Kart3"]
+
+[editable path="Karts/Kart4"]
+
+[editable path="Karts/Kart5"]
+
+[editable path="Karts/Kart6"]
