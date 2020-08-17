@@ -120,6 +120,11 @@ game_brake={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Obstacle"
+3d_physics/layer_2="Kart"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
