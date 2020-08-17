@@ -48,7 +48,7 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 		if kartLapCount >= 3:
 			print(kart.name + " is the winner!")
 			
-			endRace()
+			#endRace()
 
 func endRace() -> void:
 	get_tree().reload_current_scene()
