@@ -31,7 +31,7 @@ script = ExtResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
 
 [node name="Sprite3D" parent="Karts/Kart2" index="0"]
-modulate = Color( 0.533333, 0, 0, 1 )
+modulate = Color( 1, 0.466667, 0.466667, 1 )
 
 [node name="Controller" parent="Karts/Kart2" instance=ExtResource( 7 )]
 
@@ -109,12 +109,12 @@ current = true
 [node name="ViewportContainerBottom" type="ViewportContainer" parent="Viewports"]
 margin_top = 448.0
 margin_right = 1024.0
-margin_bottom = 895.0
+margin_bottom = 896.0
 size_flags_vertical = 3
 stretch = true
 
 [node name="ViewportBottom" type="Viewport" parent="Viewports/ViewportContainerBottom"]
-size = Vector2( 1024, 447 )
+size = Vector2( 1024, 448 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -126,11 +126,6 @@ current = true
 transform = Transform( 1, 1.00064e-06, -4.97715e-07, 0, 0.445348, 0.895358, 1.11759e-06, -0.895358, 0.445348, 0, 95, 62 )
 fov = 56.7
 far = 150.0
-
-[node name="Control" type="Control" parent="Viewports"]
-margin_top = 896.0
-margin_right = 1024.0
-margin_bottom = 896.0
 
 [node name="Ui" type="Control" parent="."]
 anchor_right = 1.0
