@@ -91,6 +91,7 @@ audio_listener_enable_3d = true
 [node name="Camera" type="Camera" parent="Viewports/ViewportContainerTop/ViewportTop"]
 transform = Transform( 0.999936, -0.00301202, 0.0108995, 0, 0.963873, 0.266362, -0.011308, -0.266345, 0.963811, 53.5164, 1.55599, 29.0126 )
 current = true
+far = 120.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_lock_": true

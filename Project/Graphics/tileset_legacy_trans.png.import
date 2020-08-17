@@ -2,31 +2,29 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/tileset_legacy_trans.png-6465a306c89200a7b1f7c247210e816d.s3tc.stex"
-path.etc="res://.import/tileset_legacy_trans.png-6465a306c89200a7b1f7c247210e816d.etc.stex"
+path="res://.import/tileset_legacy_trans.png-6465a306c89200a7b1f7c247210e816d.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Graphics/tileset_legacy_trans.png"
-dest_files=[ "res://.import/tileset_legacy_trans.png-6465a306c89200a7b1f7c247210e816d.s3tc.stex", "res://.import/tileset_legacy_trans.png-6465a306c89200a7b1f7c247210e816d.etc.stex" ]
+dest_files=[ "res://.import/tileset_legacy_trans.png-6465a306c89200a7b1f7c247210e816d.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
-compress/normal_map=0
-flags/repeat=true
+compress/normal_map=2
+flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=true
+process/fix_alpha_border=false
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
