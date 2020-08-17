@@ -95,8 +95,10 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 		if winnerKartId == -1:
 			winnerKartId = kartId
 		
-		if kartId == getKartIdFromKart(getHumanControlledKart()):
-			endRace()
+		var humanControlledKart := getHumanControlledKart()
+		if humanControlledKart != null:
+			if kartId == getKartIdFromKart(humanControlledKart):
+				endRace()
 	
 	if haveAllKartsStarted():
 		getTrack().showLapNumber(getHighestLapNumber())
