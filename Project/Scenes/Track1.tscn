@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Graphics/track1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Track.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Coin.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/QuestionBlock.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/TrafficLight.tscn" type="PackedScene" id=5]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -29,6 +30,9 @@ __meta__ = {
 transform = Transform( 64, 0, 0, 0, 1, 0, 0, 0, 64, 0, 0, 0 )
 mesh = SubResource( 1 )
 material = SubResource( 2 )
+
+[node name="TrafficLight" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 1.26131, 5.5 )
 
 [node name="FinishLine" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53.316, 0, 5.50187 )
@@ -274,6 +278,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50.999, 0, -17.0165 )
 
 [node name="QuestionBlock12" parent="Items/QuestionBlocks" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -55.0393, 0, -14.0053 )
+[connection signal="sequenceFinished" from="TrafficLight" to="." method="onTrafficLightSequenceFinished"]
 [connection signal="body_entered" from="FinishLine" to="." method="onFinishLineBodyEntered"]
 [connection signal="itemPickedUp" from="Items/Coins/Coin1" to="." method="onItemPickedUp"]
 [connection signal="itemPickedUp" from="Items/Coins/Coin2" to="." method="onItemPickedUp"]

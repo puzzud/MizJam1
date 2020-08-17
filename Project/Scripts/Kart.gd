@@ -19,6 +19,8 @@ var acceleration := Vector3.ZERO
 var velocity := Vector3.ZERO
 var steerDirection := 0.0
 
+var positionLocked := true
+
 var intendedTurnDirection := 0.0
 var intendedAccelerating := false
 var intendedBraking := false
@@ -40,6 +42,9 @@ func _process(delta: float) -> void:
 	steerDirection = deg2rad(-intendedTurnDirection * steeringAngle)
 
 func _physics_process(delta: float) -> void:
+	if positionLocked:
+		return
+	
 	acceleration = Vector3.ZERO
 	
 	if intendedAccelerating:

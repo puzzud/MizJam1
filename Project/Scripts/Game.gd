@@ -8,6 +8,8 @@ var kartIds = {}
 func _ready():
 	initialKartIds()
 	initialKartLapCounts()
+	
+	startTrafficLight()
 
 func _input(event: InputEvent) -> void:
 	if Input.is_key_pressed(KEY_F1):
@@ -23,6 +25,9 @@ func getKartLapCount(kartId) -> int:
 
 func increaseKartLapCount(kartId) -> void:
 	kartLapCounts[kartId] += 1
+
+func getTrack() -> Track:
+	return $Track as Track
 
 func initialKartIds() -> void:
 	var id = 0
@@ -52,3 +57,14 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 
 func endRace() -> void:
 	get_tree().reload_current_scene()
+
+func startTrafficLight() -> void:
+	getTrack().startStartSequence()
+
+func onTrackStartSequenceFinished() -> void:
+	unlockAllKarts()
+
+func unlockAllKarts() -> void:
+	for _kart in $Karts.get_children():
+		var kart: Kart = _kart
+		kart.positionLocked = false
