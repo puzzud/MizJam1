@@ -8,6 +8,9 @@ const reverseSpeedRatio := 0.975
 
 export (float) var enginePower := 25.0
 export (float) var brakingPower := -15.0
+export (float) var slipSpeed := 12.0
+export (float) var tractionFast := 0.1
+export (float) var tractionSlow := 0.7
 
 export (float) var friction := -1.9
 export (float) var drag := -0.00001
@@ -77,16 +80,17 @@ func calculateSteering(delta: float) -> void:
 	
 	var newHeading := (frontWheel - rearWheel).normalized()
 	
+	var traction := tractionSlow
+	if velocity.length() > slipSpeed:
+		traction = tractionFast
+	
 	var dotProduct := newHeading.dot(velocity.normalized())
 	if dotProduct > 0.0:
-		velocity = newHeading * velocity.length()
+		velocity = velocity.linear_interpolate(newHeading * velocity.length(), traction)
+		
+		# NOTE: It's questionable to do rotation like this.
+		# TODO: Should try to use newHeading.
 		rotate(Vector3.UP, steerDirection)
 	elif dotProduct < 0.0:
 		velocity = -newHeading * velocity.length() * reverseSpeedRatio
 		rotate(Vector3.UP, -steerDirection)
-	
-	# TODO: This part is question.
-	#rotation = newHeading
-	#rotation_degrees = newHeading
-	#transform.looking_at(Vector3(0, 0, 1), Vector3.UP)
-	
