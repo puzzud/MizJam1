@@ -11,9 +11,15 @@ var kartIds = {}
 
 var winnerKartId := -1
 
+var raceStarted := false
+var raceEnded := false
+var raceTime := 0.0
+var kartFinishTimes := []
+
 func _ready():
 	initializeKartIds()
 	initializeKartLapNumbers()
+	initializeKartFinishTimes()
 	
 	startTrafficLight()
 
@@ -25,6 +31,13 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_key_pressed(KEY_F1):
 		restartRace()
+
+func _process(delta: float) -> void:
+	if raceStarted:
+		raceTime += delta
+		
+		if not raceEnded:
+			updateTimeDisplay(raceTime)
 
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
@@ -80,6 +93,10 @@ func initializeKartLapNumbers() -> void:
 	for i in range(0, kartIds.size()):
 		kartLapNumbers.append(0)
 
+func initializeKartFinishTimes() -> void:
+	for i in range(0, kartIds.size()):
+		kartFinishTimes.append(0.0)
+
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	var kartId = getKartIdFromKart(kart)
 	
@@ -92,18 +109,22 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 		# Race is already over.
 		return
 	elif kartLapNumber > maxNumberOfLaps:
+		kartFinishTimes[kartId] = raceTime
+		
 		if winnerKartId == -1:
 			winnerKartId = kartId
 		
 		var humanControlledKart := getHumanControlledKart()
 		if humanControlledKart != null:
 			if kartId == getKartIdFromKart(humanControlledKart):
+				updateTimeDisplay(raceTime)
 				endRace()
 	
 	if haveAllKartsStarted():
 		getTrack().showLapNumber(getHighestLapNumber())
 
 func endRace() -> void:
+	raceEnded = true
 	issueRaceResultMessage()
 	automateAllHumanControlledKarts()
 
@@ -114,6 +135,7 @@ func startTrafficLight() -> void:
 	getTrack().startStartSequence()
 
 func onTrackStartSequenceFinished() -> void:
+	raceStarted = true
 	unlockAllKarts()
 
 func unlockAllKarts() -> void:
@@ -142,3 +164,10 @@ func issueRaceResultMessage() -> void:
 		$Ui/RaceResultMessage.text = "Winner!"
 	else:
 		$Ui/RaceResultMessage.text = "Loser!"
+
+func updateTimeDisplay(time: float) -> void:
+	var secondPercent := int((time - int(time)) * 100.0)
+	var minutes := int(time / 60.0)
+	var seconds := int(time - (minutes * 60))
+	
+	$Ui/Time.text = "%002d.%002d.%002d" % [minutes, seconds, secondPercent]

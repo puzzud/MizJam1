@@ -81,6 +81,9 @@ margin_right = 1024.0
 margin_bottom = 447.0
 size_flags_vertical = 3
 stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ViewportTop" type="Viewport" parent="Viewports/ViewportContainerTop"]
 size = Vector2( 1024, 447 )
@@ -106,12 +109,12 @@ current = true
 [node name="ViewportContainerBottom" type="ViewportContainer" parent="Viewports"]
 margin_top = 448.0
 margin_right = 1024.0
-margin_bottom = 896.0
+margin_bottom = 895.0
 size_flags_vertical = 3
 stretch = true
 
 [node name="ViewportBottom" type="Viewport" parent="Viewports/ViewportContainerBottom"]
-size = Vector2( 1024, 448 )
+size = Vector2( 1024, 447 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -124,10 +127,16 @@ transform = Transform( 1, 1.00064e-06, -4.97715e-07, 0, 0.445348, 0.895358, 1.11
 fov = 56.7
 far = 150.0
 
+[node name="Control" type="Control" parent="Viewports"]
+margin_top = 896.0
+margin_right = 1024.0
+margin_bottom = 896.0
+
 [node name="Ui" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -151,6 +160,26 @@ valign = 1
 autowrap = true
 uppercase = true
 __meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="Ui"]
+margin_left = 752.0
+margin_top = 16.0
+margin_right = 880.0
+margin_bottom = 32.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "00.00.00"
+align = 2
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
