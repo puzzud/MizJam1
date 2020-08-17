@@ -3,18 +3,20 @@ class_name TrafficLight
 
 signal sequenceFinished()
 
+const lightOffColor := Color("333333")
+const redLightColor := Color("880000")
+const greenLightColor := Color("00cc55")
+
 var lightOnStates := [
 	false,
 	false,
 	false
 ]
 
-var lightOffColor := Color.black + (Color.darkgray / 4.0)
-
 var lightColors := [
-	Color.red,
-	Color.red,
-	Color.green
+	redLightColor,
+	redLightColor,
+	greenLightColor
 ]
 
 func _ready() -> void:

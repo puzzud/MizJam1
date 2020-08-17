@@ -22,7 +22,7 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
 
 [node name="Sprite3D" parent="Karts/Kart1" index="0"]
-modulate = Color( 0.713726, 0.717647, 0.2, 1 )
+modulate = Color( 0.933333, 0.933333, 0.466667, 1 )
 
 [node name="Controller" type="Node" parent="Karts/Kart1"]
 script = ExtResource( 3 )
@@ -31,7 +31,7 @@ script = ExtResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
 
 [node name="Sprite3D" parent="Karts/Kart2" index="0"]
-modulate = Color( 0.717647, 0.2, 0.2, 1 )
+modulate = Color( 0.533333, 0, 0, 1 )
 
 [node name="Controller" parent="Karts/Kart2" instance=ExtResource( 7 )]
 
@@ -39,7 +39,7 @@ modulate = Color( 0.717647, 0.2, 0.2, 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1661, 0, 15.0808 )
 
 [node name="Sprite3D" parent="Karts/Kart3" index="0"]
-modulate = Color( 0.2, 0.243137, 0.717647, 1 )
+modulate = Color( 0, 0.533333, 1, 1 )
 
 [node name="Controller" parent="Karts/Kart3" instance=ExtResource( 7 )]
 
@@ -47,7 +47,7 @@ modulate = Color( 0.2, 0.243137, 0.717647, 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0425, 0, 17.9947 )
 
 [node name="Sprite3D" parent="Karts/Kart4" index="0"]
-modulate = Color( 0.2, 0.717647, 0.215686, 1 )
+modulate = Color( 0, 0.8, 0.333333, 1 )
 
 [node name="Controller" parent="Karts/Kart4" instance=ExtResource( 7 )]
 
@@ -55,7 +55,7 @@ modulate = Color( 0.2, 0.717647, 0.215686, 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9714, 0, 21.1505 )
 
 [node name="Sprite3D" parent="Karts/Kart5" index="0"]
-modulate = Color( 0.654902, 0.2, 0.717647, 1 )
+modulate = Color( 0.8, 0.266667, 0.8, 1 )
 
 [node name="Controller" parent="Karts/Kart5" instance=ExtResource( 7 )]
 
@@ -63,7 +63,7 @@ modulate = Color( 0.654902, 0.2, 0.717647, 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9138, 0, 24.2642 )
 
 [node name="Sprite3D" parent="Karts/Kart6" index="0"]
-modulate = Color( 0.2, 0.717647, 0.709804, 1 )
+modulate = Color( 0.666667, 1, 0.933333, 1 )
 
 [node name="Controller" parent="Karts/Kart6" instance=ExtResource( 7 )]
 
