@@ -26,9 +26,6 @@ modulate = Color( 0.713726, 0.717647, 0.2, 1 )
 [node name="Controller" type="Node" parent="Karts/Kart1"]
 script = ExtResource( 3 )
 
-[node name="Listener" type="Listener" parent="Karts/Kart1"]
-current = true
-
 [node name="Kart2" parent="Karts" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
 
@@ -98,6 +95,8 @@ stretch = true
 size = Vector2( 1024, 447 )
 handle_input_locally = false
 render_target_update_mode = 3
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
 
 [node name="Camera" type="Camera" parent="Viewports/ViewportContainerTop/ViewportTop"]
 transform = Transform( 0.999936, -0.00301202, 0.0108995, 0, 0.963873, 0.266362, -0.011308, -0.266345, 0.963811, 53.5164, 1.55599, 29.0126 )
@@ -107,6 +106,10 @@ __meta__ = {
 "_edit_lock_": true
 }
 targetNodePath = NodePath("../../../../Karts/Kart1")
+
+[node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/Camera"]
+transform = Transform( 0.999936, 9.31278e-10, -0.011308, -0.00301202, 0.963873, -0.266345, 0.0108995, 0.266362, 0.963811, -2.23936, 3.82087, -19.668 )
+current = true
 
 [node name="ViewportContainerBottom" type="ViewportContainer" parent="Viewports"]
 margin_top = 448.0
