@@ -99,9 +99,11 @@ func updateTurnDirectionFromPath() -> void:
 			else:
 				turnDirection = 1.0
 		else:
-			if angleDifference > 0.0:
+			if angleDifference > 0.025:
 				turnDirection = -1.0
-			else:
+			elif angleDifference < -0.025:
 				turnDirection = 1.0
+			else:
+				turnDirection = 0.0
 	else:
 		turnDirection = 0.0
