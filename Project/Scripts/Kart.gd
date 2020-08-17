@@ -26,7 +26,7 @@ var intendedAccelerating := false
 var intendedBraking := false
 
 func _ready() -> void:
-	pass
+	$AudioPlayers/Engine.stream.loop_offset = randf()
 
 func _process(delta: float) -> void:
 	intendedTurnDirection = 0.0
@@ -40,6 +40,8 @@ func _process(delta: float) -> void:
 		intendedBraking = controller.braking
 	
 	steerDirection = deg2rad(-intendedTurnDirection * steeringAngle)
+	
+	$AudioPlayers/Engine.pitch_scale = 1.0 + (velocity.length() / 4.0)
 
 func _physics_process(delta: float) -> void:
 	if positionLocked:

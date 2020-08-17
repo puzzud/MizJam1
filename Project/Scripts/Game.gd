@@ -17,6 +17,8 @@ var raceTime := 0.0
 var kartFinishTimes := []
 
 func _ready():
+	randomize()
+	
 	initializeKartIds()
 	initializeKartLapNumbers()
 	initializeKartFinishTimes()
