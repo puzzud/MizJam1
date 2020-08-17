@@ -17,8 +17,8 @@ func getNavigation() -> Navigation:
 func startStartSequence() -> void:
 	$TrafficLight.startSequence()
 
-func showLapCount(lapCount: int) -> void:
-	$TrafficLight.showLapCount(lapCount)
+func showLapNumber(lapNumber: int) -> void:
+	$TrafficLight.showLapNumber(lapNumber)
 
 func onTrafficLightSequenceFinished() -> void:
 	emit_signal("startSequenceFinished")

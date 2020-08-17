@@ -69,7 +69,7 @@ func onSequenceTimerTimeout() -> void:
 		
 		emit_signal("sequenceFinished")
 
-func showLapCount(lapCount: int) -> void:
+func showLapNumber(lapNumber: int) -> void:
 	turnOffAllLights()
-	for i in range(0, lapCount):
+	for i in range(0, lapNumber):
 		turnOnLight(i, true)

@@ -1,18 +1,15 @@
 extends Spatial
 class_name Game
 
-const numberOfLaps := 3
+const maxNumberOfLaps := 3
 
-var kartLapCounts = []
+var kartLapNumbers = []
 
 var kartIds = {}
 
-var highestLapCountReached := 0
-var numberOfKartsStarted := 0
-
 func _ready():
 	initializeKartIds()
-	initializeKartLapCounts()
+	initializeKartLapNumbers()
 	
 	startTrafficLight()
 
@@ -25,11 +22,29 @@ func _input(event: InputEvent) -> void:
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
 
-func getKartLapCount(kartId) -> int:
-	return kartLapCounts[kartId]
+func getKartLapNumber(kartId) -> int:
+	return kartLapNumbers[kartId]
 
-func increaseKartLapCount(kartId) -> void:
-	kartLapCounts[kartId] += 1
+func increaseKartLapNumber(kartId) -> void:
+	kartLapNumbers[kartId] += 1
+
+func getHighestLapNumber() -> int:
+	var highestLapNumber := 0
+	
+	for lapNumber in kartLapNumbers:
+		if lapNumber > highestLapNumber:
+			highestLapNumber = lapNumber
+	
+	return highestLapNumber
+
+func getNumberOfKartsStarted() -> int:
+	var numberOfKartsStarted := 0
+	
+	for lapNumber in kartLapNumbers:
+		if lapNumber > 0:
+			numberOfKartsStarted += 1
+	
+	return numberOfKartsStarted
 
 func getTrack() -> Track:
 	return $Track as Track
@@ -40,36 +55,26 @@ func initializeKartIds() -> void:
 		kartIds[kart] = id
 		id += 1
 
-func initializeKartLapCounts() -> void:
+func initializeKartLapNumbers() -> void:
 	for i in range(0, kartIds.size()):
-		kartLapCounts.append(-1)
-	
-	highestLapCountReached = 0
-	numberOfKartsStarted = 0
+		kartLapNumbers.append(0)
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	var kartId = getKartIdFromKart(kart)
 	
-	print(kart.name + ":" + str(kartId) + " crossed finish line.")
+	increaseKartLapNumber(kartId)
 	
-	increaseKartLapCount(kartId)
+	var kartLapNumber = getKartLapNumber(kartId)
+	print("Kart:%d Lap:%d" % [kartId, kartLapNumber])
 	
-	var kartLapCount = getKartLapCount(kartId)
-	if kartLapCount > 0:
-		if kartLapCount > highestLapCountReached:
-			highestLapCountReached = kartLapCount
-		
-		print("Lap #" + str(kartLapCount))
-		
-		if kartLapCount >= numberOfLaps:
-			print(kart.name + " is the winner!")
-			
-			#endRace()
-	else:
-		numberOfKartsStarted += 1
+	if kartLapNumber > maxNumberOfLaps + 1:
+		# Race is already over.
+		return
+	elif kartLapNumber > maxNumberOfLaps:
+		endRace()
 	
-	if numberOfKartsStarted == kartIds.size():
-		getTrack().showLapCount(highestLapCountReached + 1)
+	if getNumberOfKartsStarted() == kartIds.size():
+		getTrack().showLapNumber(getHighestLapNumber())
 
 func endRace() -> void:
 	get_tree().reload_current_scene()
