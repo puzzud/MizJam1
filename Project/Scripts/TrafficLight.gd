@@ -33,6 +33,10 @@ func areAllLightsOn() -> bool:
 	return getNumberOfLightsOn() == lightOnStates.size()
 
 func turnOnLight(lightIndex: int, on: bool) -> void:
+	if lightIndex >= lightOnStates.size():
+		printerr("Attempted to turn on nonexistant light: %d" % lightIndex)
+		return
+	
 	var light: Sprite3D = $CSGBox/Lights.get_child(lightIndex)
 	if on:
 		light.modulate = lightColors[lightIndex]
@@ -64,3 +68,8 @@ func onSequenceTimerTimeout() -> void:
 		$AudioPlayers/Beep2.play()
 		
 		emit_signal("sequenceFinished")
+
+func showLapCount(lapCount: int) -> void:
+	turnOffAllLights()
+	for i in range(0, lapCount):
+		turnOnLight(i, true)
