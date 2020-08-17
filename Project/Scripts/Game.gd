@@ -37,14 +37,19 @@ func getHighestLapNumber() -> int:
 	
 	return highestLapNumber
 
-func getNumberOfKartsStarted() -> int:
-	var numberOfKartsStarted := 0
-	
+func haveAllKartsStarted() -> bool:
 	for lapNumber in kartLapNumbers:
-		if lapNumber > 0:
-			numberOfKartsStarted += 1
+		if lapNumber == 0:
+			return false
 	
-	return numberOfKartsStarted
+	return true
+
+func haveAllKartsFinished() -> bool:
+	for lapNumber in kartLapNumbers:
+		if lapNumber <= maxNumberOfLaps:
+			return false
+	
+	return true
 
 func getTrack() -> Track:
 	return $Track as Track
@@ -70,10 +75,10 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	if kartLapNumber > maxNumberOfLaps + 1:
 		# Race is already over.
 		return
-	elif kartLapNumber > maxNumberOfLaps:
+	elif haveAllKartsFinished():
 		endRace()
 	
-	if getNumberOfKartsStarted() == kartIds.size():
+	if haveAllKartsStarted():
 		getTrack().showLapNumber(getHighestLapNumber())
 
 func endRace() -> void:
