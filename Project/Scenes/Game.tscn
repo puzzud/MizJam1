@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Track1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Kart.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/HumanController.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Game.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/FollowCamera.gd" type="Script" id=5]
+[ext_resource path="res://Graphics/Font.fnt" type="BitmapFont" id=6]
 [ext_resource path="res://Scenes/AiController.tscn" type="PackedScene" id=7]
 
 [node name="Game" type="Spatial"]
@@ -135,16 +136,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -475.0
-margin_top = -420.0
-margin_right = -355.0
-margin_bottom = -389.0
-rect_scale = Vector2( 8, 8 )
+margin_left = -416.0
+margin_top = -416.0
+margin_right = -208.0
+margin_bottom = -372.0
+rect_scale = Vector2( 4, 4 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
 align = 1
 valign = 1
 autowrap = true
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

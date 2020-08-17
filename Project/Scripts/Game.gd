@@ -139,6 +139,6 @@ func issueRaceResultMessage() -> void:
 	
 	var kartId := getKartIdFromKart(kart)
 	if kartId == winnerKartId:
-		$Ui/RaceResultMessage.text = "You Have Become a Winner!"
+		$Ui/RaceResultMessage.text = "Winner!"
 	else:
-		$Ui/RaceResultMessage.text = "Try Again"
+		$Ui/RaceResultMessage.text = "Loser!"
