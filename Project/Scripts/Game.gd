@@ -180,4 +180,6 @@ func updateCoinDisplay(coinCount: int) -> void:
 func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:
 		kart.coinCount += 1
-		updateCoinDisplay(kart.coinCount)
+		
+		if kart == getHumanControlledKart():
+			updateCoinDisplay(kart.coinCount)
