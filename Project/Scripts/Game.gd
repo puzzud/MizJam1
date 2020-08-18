@@ -121,6 +121,8 @@ func startTransitionFromRaceEndToRace() -> void:
 	$Ui/Race/PressStart.visible = false
 	
 	$Ui/Race/RaceResultMessage.visible = false
+	
+	$AudioPlayers/Track1Theme.stop()
 
 func initializeKartIds() -> void:
 	var id = 0
@@ -199,6 +201,8 @@ func onTrackStartSequenceFinished() -> void:
 	raceStarted = true
 	lockAllKarts(false)
 	startAllKartEngines(true)
+	
+	startThemeMusic()
 
 func lockAllKarts(lock: bool) -> void:
 	for _kart in $Karts.get_children():
@@ -277,3 +281,6 @@ func onTrackKartExitedRoughZone(kart: Kart) -> void:
 	kart.roughZoneCounter -= 1
 	if kart.roughZoneCounter < 0:
 		kart.roughZoneCounter = 0
+
+func startThemeMusic() -> void:
+	$AudioPlayers/Track1Theme.play()
