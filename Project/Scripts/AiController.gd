@@ -73,7 +73,8 @@ func updateTurnDirectionFromPath() -> void:
 	var position := currentWaypoint.global_transform.origin
 	var lookingAtEuler: Vector3 = parent.global_transform.looking_at(position, Vector3.UP).basis.get_euler()
 	
-	if false:
+	var debug := false
+	if debug:
 		var ig1: ImmediateGeometry = parent.get_node("ig1")
 		ig1.clear()
 		ig1.begin(Mesh.PRIMITIVE_LINES)

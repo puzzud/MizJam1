@@ -110,6 +110,9 @@ targetNodePath = NodePath("../../../../Karts/Kart1")
 [node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/Camera"]
 current = true
 
+[node name="TitleCamera" type="Camera" parent="Viewports/ViewportContainerTop/ViewportTop"]
+transform = Transform( -0.707107, -0.40558, -0.579228, 0, 0.819152, -0.573577, 0.707107, -0.40558, -0.579228, 0, 60.7392, 0 )
+
 [node name="ViewportContainerBottom" type="ViewportContainer" parent="Viewports"]
 margin_top = 448.0
 margin_right = 1024.0
@@ -124,12 +127,15 @@ render_target_update_mode = 3
 
 [node name="TopCamera" type="Camera" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0543633, 90.6568, 0.00218773 )
-current = true
 
 [node name="BirdsEyeCamera" type="Camera" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
 transform = Transform( 1, 1.00064e-06, -4.97715e-07, 0, 0.445348, 0.895358, 1.11759e-06, -0.895358, 0.445348, 0, 95, 62 )
+current = true
 fov = 56.7
 far = 150.0
+
+[node name="TitleCamera" type="Camera" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
+transform = Transform( 1, 0, 0, 0, 0.810768, -0.585368, 0, 0.585368, 0.810768, 0, 60.7392, 0 )
 
 [node name="Ui" type="Control" parent="."]
 anchor_right = 1.0
@@ -139,15 +145,76 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RaceResultMessage" type="Label" parent="Ui"]
+[node name="Title" type="Control" parent="Ui"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Ui/Title"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -416.0
-margin_top = -416.0
-margin_right = -208.0
-margin_bottom = -372.0
+margin_left = 28.0
+margin_top = 12.0
+margin_right = 182.0
+margin_bottom = 89.0
+rect_scale = Vector2( 6, 6 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Krazy
+Kart"
+align = 1
+valign = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="PressStart" type="Label" parent="Ui/Title"]
+margin_left = 336.0
+margin_top = 512.0
+margin_right = 512.0
+margin_bottom = 528.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Press Start"
+align = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Race" type="Control" parent="Ui"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="RaceResultMessage" type="Label" parent="Ui/Race"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 76.0
+margin_top = 12.0
+margin_right = 284.0
+margin_bottom = 56.0
 rect_scale = Vector2( 4, 4 )
 custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -163,7 +230,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Time" type="Label" parent="Ui"]
+[node name="Time" type="Label" parent="Ui/Race"]
 margin_left = 752.0
 margin_top = 16.0
 margin_right = 880.0
@@ -182,7 +249,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CoinInfo" type="Control" parent="Ui"]
+[node name="CoinInfo" type="Control" parent="Ui/Race"]
 margin_left = 912.0
 margin_top = 400.0
 margin_right = 1008.0
@@ -191,7 +258,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Symbol" type="TextureRect" parent="Ui/CoinInfo"]
+[node name="Symbol" type="TextureRect" parent="Ui/Race/CoinInfo"]
 modulate = Color( 0.866667, 0.533333, 0.333333, 1 )
 margin_right = 32.0
 margin_bottom = 32.0
@@ -202,7 +269,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Count" type="Label" parent="Ui/CoinInfo"]
+[node name="Count" type="Label" parent="Ui/Race/CoinInfo"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 16.0

@@ -78,6 +78,10 @@ config/name="MizJam1"
 run/main_scene="res://Scenes/Game.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Scripts/Global.gd"
+
 [display]
 
 window/size/height=896

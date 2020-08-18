@@ -19,11 +19,13 @@ var kartFinishTimes := []
 func _ready():
 	randomize()
 	
+	Global.game = self
+	
 	initializeKartIds()
 	initializeKartLapNumbers()
 	initializeKartFinishTimes()
 	
-	startTrafficLight()
+	startTitle()
 
 func _input(event: InputEvent) -> void:
 	if Input.is_key_pressed(KEY_P):
@@ -84,6 +86,28 @@ func haveAllKartsFinished() -> bool:
 
 func getTrack() -> Track:
 	return $Track as Track
+
+func startTitle() -> void:
+	$Viewports/ViewportContainerTop/ViewportTop/Camera.current = false
+	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera.current = true
+	
+	$Viewports/ViewportContainerBottom/ViewportBottom/BirdsEyeCamera.current = false
+	$Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera.current = true
+	
+	$Ui/Race.visible = false
+	$Ui/Title.visible = true
+
+func startTransitionFromTitleToRace() -> void:
+	$Viewports/ViewportContainerTop/ViewportTop/Camera.current = true
+	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera.current = false
+	
+	$Viewports/ViewportContainerBottom/ViewportBottom/BirdsEyeCamera.current = true
+	$Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera.current = false
+	
+	$Ui/Race.visible = true
+	$Ui/Title.visible = false
+	
+	startTrafficLight()
 
 func initializeKartIds() -> void:
 	var id = 0
@@ -163,19 +187,19 @@ func issueRaceResultMessage() -> void:
 	
 	var kartId := getKartIdFromKart(kart)
 	if kartId == winnerKartId:
-		$Ui/RaceResultMessage.text = "Winner!"
+		$Ui/Race/RaceResultMessage.text = "Winner!"
 	else:
-		$Ui/RaceResultMessage.text = "Loser!"
+		$Ui/Race/RaceResultMessage.text = "Loser!"
 
 func updateTimeDisplay(time: float) -> void:
 	var secondPercent := int((time - int(time)) * 100.0)
 	var minutes := int(time / 60.0)
 	var seconds := int(time - (minutes * 60))
 	
-	$Ui/Time.text = "%002d.%002d.%002d" % [minutes, seconds, secondPercent]
+	$Ui/Race/Time.text = "%002d.%002d.%002d" % [minutes, seconds, secondPercent]
 
 func updateCoinDisplay(coinCount: int) -> void:
-	$Ui/CoinInfo/Count.text = str(coinCount)
+	$Ui/Race/CoinInfo/Count.text = str(coinCount)
 
 func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:
