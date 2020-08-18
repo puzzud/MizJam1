@@ -183,3 +183,9 @@ func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 		
 		if kart == getHumanControlledKart():
 			updateCoinDisplay(kart.coinCount)
+
+func onTrackKartEnteredRoughZone(kart: Kart) -> void:
+	kart.roughZoneCounter += 1
+
+func onTrackKartExitedRoughZone(kart: Kart) -> void:
+	kart.roughZoneCounter -= 1

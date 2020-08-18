@@ -3,10 +3,13 @@ class_name Track
 
 signal startSequenceFinished()
 signal kartCrossedFinishLine(kart)
+signal kartEnteredRoughZone(kart)
+signal kartExitedRoughZone(kart)
 signal itemPickedUp(item, kart)
 
 func _ready():
-	pass
+	var trackOutside: Area = $RoughZones/TrackOutside
+	var box: CollisionPolygon = trackOutside.get_node("Box")
 
 func getWaypoint(waypointIndex: int) -> Spatial:
 	var numberOfWaypoints = $Navigation/Waypoints.get_child_count()
@@ -29,3 +32,9 @@ func onFinishLineBodyEntered(body: Node) -> void:
 
 func onItemPickedUp(item: Spatial, kart: Kart) -> void:
 	emit_signal("itemPickedUp", item, kart)
+
+func onRoughZoneBodyEntered(body: Node) -> void:
+	emit_signal("kartEnteredRoughZone", body)
+
+func onRoughZoneBodyExited(body: Node) -> void:
+	emit_signal("kartExitedRoughZone", body)

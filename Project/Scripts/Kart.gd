@@ -25,6 +25,8 @@ var intendedTurnDirection := 0.0
 var intendedAccelerating := false
 var intendedBraking := false
 
+var roughZoneCounter := 0
+
 var coinCount := 0
 
 func _ready() -> void:
@@ -75,7 +77,11 @@ func applyFriction() -> void:
 	if velocity.length() < nominalVelocityLength:
 		velocity = Vector3.ZERO
 	
-	var frictionForce := velocity * friction
+	var frictionFromRoughZone := 0.0
+	if roughZoneCounter > 0:
+		frictionFromRoughZone = -1.9
+	
+	var frictionForce := velocity * (friction + frictionFromRoughZone)
 	var dragForce = velocity * velocity.length() * drag
 	
 	acceleration += dragForce + frictionForce

@@ -220,6 +220,8 @@ __meta__ = {
 }
 [connection signal="itemPickedUp" from="Track" to="." method="onTrackItemPickedUp"]
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
+[connection signal="kartEnteredRoughZone" from="Track" to="." method="onTrackKartEnteredRoughZone"]
+[connection signal="kartExitedRoughZone" from="Track" to="." method="onTrackKartExitedRoughZone"]
 [connection signal="startSequenceFinished" from="Track" to="." method="onTrackStartSequenceFinished"]
 
 [editable path="Karts/Kart1"]
