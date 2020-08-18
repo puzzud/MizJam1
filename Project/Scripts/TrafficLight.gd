@@ -39,6 +39,8 @@ func turnOnLight(lightIndex: int, on: bool) -> void:
 		printerr("Attempted to turn on nonexistant light: %d" % lightIndex)
 		return
 	
+	lightOnStates[lightIndex] = on
+	
 	var light: Sprite3D = $CSGBox/Lights.get_child(lightIndex)
 	if on:
 		light.modulate = lightColors[lightIndex]
@@ -48,7 +50,6 @@ func turnOnLight(lightIndex: int, on: bool) -> void:
 func turnOnNextLight() -> void:
 	for i in range(0, lightOnStates.size()):
 		if not lightOnStates[i]:
-			lightOnStates[i] = true
 			turnOnLight(i, true)
 			return
 
@@ -57,6 +58,7 @@ func turnOffAllLights() -> void:
 		turnOnLight(i, false)
 
 func startSequence() -> void:
+	turnOffAllLights()
 	$Timers/SequenceTimer.start()
 
 func onSequenceTimerTimeout() -> void:

@@ -8,8 +8,10 @@ signal kartExitedRoughZone(kart)
 signal itemPickedUp(item, kart)
 
 func _ready():
-	var trackOutside: Area = $RoughZones/TrackOutside
-	var box: CollisionPolygon = trackOutside.get_node("Box")
+	resetValues()
+
+func getPolePositions() -> Array:
+	return $PolePositions.get_children()
 
 func getWaypoint(waypointIndex: int) -> Spatial:
 	var numberOfWaypoints = $Navigation/Waypoints.get_child_count()
@@ -17,6 +19,16 @@ func getWaypoint(waypointIndex: int) -> Spatial:
 
 func getNavigation() -> Navigation:
 	return $Navigation as Navigation
+
+func resetValues() -> void:
+	# Reset track stuff like coins & boxes.
+	for _coin in $Items/Coins.get_children():
+		var coin: Coin = _coin
+		coin.resetValues()
+	
+	for _questionBlock in $Items/QuestionBlocks.get_children():
+		var questionBlock: QuestionBlock = _questionBlock
+		questionBlock.resetValues()
 
 func startStartSequence() -> void:
 	$TrafficLight.startSequence()

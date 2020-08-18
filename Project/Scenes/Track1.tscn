@@ -44,6 +44,47 @@ collision_mask = 2
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.90909, 0, 0 )
 shape = SubResource( 3 )
 
+[node name="PolePositions" type="Spatial" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition1" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition2" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition3" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1661, 0, 15.0808 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition4" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0425, 0, 17.9947 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition5" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9714, 0, 21.1505 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition6" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9138, 0, 24.2642 )
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="Border" type="GridMap" parent="."]
 mesh_library = ExtResource( 6 )
 data = {

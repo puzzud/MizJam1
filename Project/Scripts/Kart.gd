@@ -31,6 +31,8 @@ var coinCount := 0
 
 func _ready() -> void:
 	$AudioPlayers/Engine.stream.loop_offset = randf()
+	
+	resetValues()
 
 func _process(delta: float) -> void:
 	intendedTurnDirection = 0.0
@@ -109,6 +111,26 @@ func calculateSteering(delta: float) -> void:
 	elif dotProduct < 0.0:
 		velocity = -newHeading * velocity.length() * reverseSpeedRatio
 		rotate(Vector3.UP, -steerDirection)
+
+func resetValues() -> void:
+	acceleration = Vector3.ZERO
+	velocity = Vector3.ZERO
+	steerDirection = 0.0
+	
+	positionLocked = true
+	
+	intendedTurnDirection = 0.0
+	intendedAccelerating = false
+	intendedBraking = false
+	
+	roughZoneCounter = 0
+	
+	coinCount = 0
+
+func resetController() -> void:
+	var controller := getController()
+	if controller != null:
+		controller.resetValues()
 
 func startEngine(on: bool) -> void:
 	if on:

@@ -4,7 +4,11 @@ class_name QuestionBlock
 signal itemPickedUp(item, kart)
 
 func _ready() -> void:
-	pass
+	resetValues()
+
+func resetValues() -> void:
+	$CollisionShape.disabled = false
+	$AnimationPlayer.play("Idle")
 
 func onBodyEntered(body: Node) -> void:
 	emit_signal("itemPickedUp", self, body)
@@ -15,5 +19,4 @@ func onBodyEntered(body: Node) -> void:
 	$AnimationPlayer.play("PickedUp")
 
 func onRespawnTimerTimeout() -> void:
-	$CollisionShape.disabled = false
-	$AnimationPlayer.play("Idle")
+	resetValues()

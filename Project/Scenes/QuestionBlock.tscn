@@ -3,7 +3,7 @@
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/QuestionBlock.gd" type="Script" id=2]
 
-[sub_resource type="CylinderShape" id=4]
+[sub_resource type="CylinderShape" id=1]
 radius = 0.65
 height = 1.0
 
@@ -76,7 +76,7 @@ region_rect = Rect2( 391, 17, 16, 16 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="Timers" type="Node" parent="."]
 

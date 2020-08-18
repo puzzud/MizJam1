@@ -14,11 +14,7 @@ var pathIndex = 0
 export (NodePath) var trackNodePath = null
 
 func _ready() -> void:
-	accelerating = true
-	
-	if currentWaypoint == null:
-		currentWaypoint = getNextWaypoint()
-		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
+	resetValues()
 
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
@@ -66,6 +62,23 @@ func getLocalDirectionToWaypoint(waypoint: Spatial) -> Vector3:
 func doesDirectionRequireTurnaround(direction: Vector3) -> bool:
 	var dotProduct := Vector3.FORWARD.dot(direction)
 	return dotProduct < 0.0
+
+func resetValues() -> void:
+	.resetValues()
+	
+	accelerating = true
+	
+	waypointIndex = -1
+	currentWaypoint = null
+	
+	previousDistanceToDestination = 0.0
+	
+	path = []
+	pathIndex = 0
+	
+	if currentWaypoint == null:
+		currentWaypoint = getNextWaypoint()
+		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 
 func updateTurnDirectionFromPath() -> void:
 	var parent: Spatial = get_parent()

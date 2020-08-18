@@ -4,7 +4,8 @@ enum ScreenStates {
 	NONE = -1,
 	TITLE,
 	TITLE_TO_RACE,
-	RACE
+	RACE,
+	RACE_END
 }
 
 var screenState: int = ScreenStates.NONE
@@ -23,4 +24,8 @@ func _input(event: InputEvent) -> void:
 		ScreenStates.RACE:
 			if Input.is_key_pressed(KEY_F1):
 				screenState = ScreenStates.TITLE
-				game.restartRace()
+				game.restartGame()
+		ScreenStates.RACE_END:
+			if event.is_action_pressed("ui_accept"):
+				game.startTransitionFromRaceEndToRace()
+				screenState = ScreenStates.RACE

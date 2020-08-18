@@ -4,7 +4,12 @@ class_name Coin
 signal itemPickedUp(item, kart)
 
 func _ready() -> void:
-	pass
+	resetValues()
+
+func resetValues() -> void:
+	$CollisionShape.disabled = false
+	$Sprite3D.visible = true
+	$AnimationPlayer.play("Idle")
 
 func onCoinBodyEntered(body: Node) -> void:
 	emit_signal("itemPickedUp", self, body)
@@ -16,6 +21,4 @@ func onCoinBodyEntered(body: Node) -> void:
 	$AudioPlayers/Pickup.play()
 
 func onRespawnTimerTimeout() -> void:
-	$CollisionShape.disabled = false
-	$Sprite3D.visible = true
-	$AnimationPlayer.play("Idle")
+	resetValues()

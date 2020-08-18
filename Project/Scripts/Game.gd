@@ -2,6 +2,7 @@ extends Spatial
 class_name Game
 
 const aiControllerPrefab := preload("res://Scenes/AiController.tscn")
+const humanControllerPrefab := preload("res://Scenes/HumanController.tscn")
 
 const maxNumberOfLaps := 3
 
@@ -20,10 +21,6 @@ func _ready():
 	randomize()
 	
 	Global.game = self
-	
-	initializeKartIds()
-	initializeKartLapNumbers()
-	initializeKartFinishTimes()
 	
 	startTitle()
 
@@ -95,6 +92,9 @@ func startTitle() -> void:
 	$Ui/Title.visible = true
 
 func startTransitionFromTitleToRace() -> void:
+	resetRace()
+	startTrafficLight()
+	
 	$Viewports/ViewportContainerTop/ViewportTop/Camera.current = true
 	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera.current = false
 	
@@ -104,7 +104,23 @@ func startTransitionFromTitleToRace() -> void:
 	$Ui/Race.visible = true
 	$Ui/Title.visible = false
 	
+	$Ui/Race/RaceResultMessage.visible = false
+
+func startTransitionFromRaceToRaceEnd() -> void:
+	raceEnded = true
+	issueRaceResultMessage()
+	
+	automateAllHumanControlledKarts()
+	
+	$Ui/Race/PressStart.visible = true
+
+func startTransitionFromRaceEndToRace() -> void:
+	resetRace()
 	startTrafficLight()
+	
+	$Ui/Race/PressStart.visible = false
+	
+	$Ui/Race/RaceResultMessage.visible = false
 
 func initializeKartIds() -> void:
 	var id = 0
@@ -113,12 +129,26 @@ func initializeKartIds() -> void:
 		id += 1
 
 func initializeKartLapNumbers() -> void:
+	kartLapNumbers.clear()
+	
 	for i in range(0, kartIds.size()):
 		kartLapNumbers.append(0)
 
 func initializeKartFinishTimes() -> void:
+	kartFinishTimes.clear()
+	
 	for i in range(0, kartIds.size()):
 		kartFinishTimes.append(0.0)
+
+func initializeKartsAtPolePositions() -> void:
+	var polePositions := getTrack().getPolePositions()
+	
+	for kartIndex in range(0, kartIds.size()):
+		var polePosition: Spatial = polePositions[kartIndex]
+		var polePositionTransform: Transform = polePosition.global_transform
+		
+		var kart: Kart = $Karts.get_child(kartIndex)
+		kart.global_transform = polePositionTransform
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	var kartId = getKartIdFromKart(kart)
@@ -147,11 +177,19 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 		getTrack().showLapNumber(getHighestLapNumber())
 
 func endRace() -> void:
-	raceEnded = true
-	issueRaceResultMessage()
-	automateAllHumanControlledKarts()
+	Global.screenState = Global.ScreenStates.RACE_END
+	startTransitionFromRaceToRaceEnd()
 
-func restartRace():
+func resetRace() -> void:
+	initializeKartIds()
+	initializeKartLapNumbers()
+	initializeKartFinishTimes()
+	initializeKartsAtPolePositions()
+	lockAllKarts(true)
+	startAllKartEngines(false)
+	resetAllKarts()
+
+func restartGame() -> void:
 	get_tree().reload_current_scene()
 
 func startTrafficLight() -> void:
@@ -159,18 +197,32 @@ func startTrafficLight() -> void:
 
 func onTrackStartSequenceFinished() -> void:
 	raceStarted = true
-	unlockAllKarts()
-	startAllKartEngines()
+	lockAllKarts(false)
+	startAllKartEngines(true)
 
-func unlockAllKarts() -> void:
+func lockAllKarts(lock: bool) -> void:
 	for _kart in $Karts.get_children():
 		var kart: Kart = _kart
-		kart.positionLocked = false
+		kart.positionLocked = lock
 
-func startAllKartEngines() -> void:
+func startAllKartEngines(on: bool) -> void:
 	for _kart in $Karts.get_children():
 		var kart: Kart = _kart
-		kart.startEngine(true)
+		kart.startEngine(on)
+
+func resetAllKarts() -> void:
+	# Reset carts.
+	for _kart in $Karts.get_children():
+		var kart: Kart = _kart
+		kart.resetValues()
+	
+	# Reset controls.
+	for kartIndex in range(0, $Karts.get_child_count()):
+		var kart: Kart = $Karts.get_child(kartIndex)
+		if kartIndex == 0:
+			giveHumanControlToKart(kart)
+		else:
+			automateKart(kart)
 
 func automateAllHumanControlledKarts() -> void:
 	var kart := getHumanControlledKart()
@@ -178,10 +230,15 @@ func automateAllHumanControlledKarts() -> void:
 		automateKart(kart)
 
 func automateKart(kart: Kart) -> void:
+	changeKartController(kart, aiControllerPrefab.instance())
+
+func giveHumanControlToKart(kart: Kart) -> void:
+	changeKartController(kart, humanControllerPrefab.instance())
+
+func changeKartController(kart: Kart, controller: Controller) -> void:
 	kart.remove_child(kart.get_node("Controller"))
-	var aiController := aiControllerPrefab.instance()
-	aiController.name = "Controller"
-	kart.add_child(aiController)
+	controller.name = "Controller"
+	kart.add_child(controller)
 
 func issueRaceResultMessage() -> void:
 	var kart := getHumanControlledKart()
@@ -193,6 +250,8 @@ func issueRaceResultMessage() -> void:
 		$Ui/Race/RaceResultMessage.text = "Winner!"
 	else:
 		$Ui/Race/RaceResultMessage.text = "Loser!"
+	
+	$Ui/Race/RaceResultMessage.visible = true
 
 func updateTimeDisplay(time: float) -> void:
 	var secondPercent := int((time - int(time)) * 100.0)
@@ -216,3 +275,5 @@ func onTrackKartEnteredRoughZone(kart: Kart) -> void:
 
 func onTrackKartExitedRoughZone(kart: Kart) -> void:
 	kart.roughZoneCounter -= 1
+	if kart.roughZoneCounter < 0:
+		kart.roughZoneCounter = 0
