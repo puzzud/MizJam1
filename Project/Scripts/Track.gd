@@ -3,6 +3,7 @@ class_name Track
 
 signal startSequenceFinished()
 signal kartCrossedFinishLine(kart)
+signal itemPickedUp(item, kart)
 
 func _ready():
 	pass
@@ -26,5 +27,5 @@ func onTrafficLightSequenceFinished() -> void:
 func onFinishLineBodyEntered(body: Node) -> void:
 	emit_signal("kartCrossedFinishLine", body)
 
-func onItemPickedUp(item, kart) -> void:
-	pass
+func onItemPickedUp(item: Spatial, kart: Kart) -> void:
+	emit_signal("itemPickedUp", item, kart)

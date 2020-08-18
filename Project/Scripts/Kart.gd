@@ -25,6 +25,8 @@ var intendedTurnDirection := 0.0
 var intendedAccelerating := false
 var intendedBraking := false
 
+var coinCount := 0
+
 func _ready() -> void:
 	$AudioPlayers/Engine.stream.loop_offset = randf()
 
@@ -50,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	acceleration = Vector3.ZERO
 	
 	if intendedAccelerating:
-		acceleration = -transform.basis.z * enginePower
+		acceleration = -transform.basis.z * (enginePower + (coinCount * 0.5))
 	
 	if intendedBraking:
 		acceleration = -transform.basis.z * brakingPower

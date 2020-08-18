@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Track1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Kart.tscn" type="PackedScene" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://Scripts/FollowCamera.gd" type="Script" id=5]
 [ext_resource path="res://Graphics/Font.fnt" type="BitmapFont" id=6]
 [ext_resource path="res://Scenes/AiController.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=8]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 8 )
+region = Rect2( 153, 425, 16, 16 )
 
 [node name="Game" type="Spatial"]
 script = ExtResource( 4 )
@@ -103,7 +108,6 @@ __meta__ = {
 targetNodePath = NodePath("../../../../Karts/Kart1")
 
 [node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 current = true
 
 [node name="ViewportContainerBottom" type="ViewportContainer" parent="Viewports"]
@@ -177,6 +181,44 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="CoinInfo" type="Control" parent="Ui"]
+margin_left = 912.0
+margin_top = 400.0
+margin_right = 1008.0
+margin_bottom = 432.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Symbol" type="TextureRect" parent="Ui/CoinInfo"]
+modulate = Color( 0.866667, 0.533333, 0.333333, 1 )
+margin_right = 32.0
+margin_bottom = 32.0
+texture = SubResource( 1 )
+expand = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Count" type="Label" parent="Ui/CoinInfo"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 16.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "0"
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+[connection signal="itemPickedUp" from="Track" to="." method="onTrackItemPickedUp"]
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
 [connection signal="startSequenceFinished" from="Track" to="." method="onTrackStartSequenceFinished"]
 

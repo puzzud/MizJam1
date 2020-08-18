@@ -173,3 +173,11 @@ func updateTimeDisplay(time: float) -> void:
 	var seconds := int(time - (minutes * 60))
 	
 	$Ui/Time.text = "%002d.%002d.%002d" % [minutes, seconds, secondPercent]
+
+func updateCoinDisplay(coinCount: int) -> void:
+	$Ui/CoinInfo/Count.text = str(coinCount)
+
+func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
+	if item is Coin:
+		kart.coinCount += 1
+		updateCoinDisplay(kart.coinCount)
