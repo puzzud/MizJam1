@@ -32,9 +32,6 @@ func _input(event: InputEvent) -> void:
 		Engine.time_scale = 0.125
 	else:
 		Engine.time_scale = 1.0
-	
-	if Input.is_key_pressed(KEY_F1):
-		restartRace()
 
 func _process(delta: float) -> void:
 	if raceStarted:
@@ -163,11 +160,17 @@ func startTrafficLight() -> void:
 func onTrackStartSequenceFinished() -> void:
 	raceStarted = true
 	unlockAllKarts()
+	startAllKartEngines()
 
 func unlockAllKarts() -> void:
 	for _kart in $Karts.get_children():
 		var kart: Kart = _kart
 		kart.positionLocked = false
+
+func startAllKartEngines() -> void:
+	for _kart in $Karts.get_children():
+		var kart: Kart = _kart
+		kart.startEngine(true)
 
 func automateAllHumanControlledKarts() -> void:
 	var kart := getHumanControlledKart()

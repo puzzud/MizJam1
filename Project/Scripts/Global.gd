@@ -18,5 +18,9 @@ func _input(event: InputEvent) -> void:
 	match screenState:
 		ScreenStates.TITLE:
 			if event.is_action_pressed("ui_accept"):
-				screenState = ScreenStates.TITLE_TO_RACE
 				game.startTransitionFromTitleToRace()
+				screenState = ScreenStates.RACE
+		ScreenStates.RACE:
+			if Input.is_key_pressed(KEY_F1):
+				screenState = ScreenStates.TITLE
+				game.restartRace()

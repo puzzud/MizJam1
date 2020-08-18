@@ -109,3 +109,9 @@ func calculateSteering(delta: float) -> void:
 	elif dotProduct < 0.0:
 		velocity = -newHeading * velocity.length() * reverseSpeedRatio
 		rotate(Vector3.UP, -steerDirection)
+
+func startEngine(on: bool) -> void:
+	if on:
+		$AudioPlayers/Engine.play()
+	else:
+		$AudioPlayers/Engine.stop()

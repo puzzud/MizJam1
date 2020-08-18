@@ -79,6 +79,5 @@ material_override = SubResource( 4 )
 [node name="Engine" type="AudioStreamPlayer3D" parent="AudioPlayers"]
 stream = ExtResource( 3 )
 unit_db = -0.5
-autoplay = true
 max_distance = 50.0
 out_of_range_mode = 1
