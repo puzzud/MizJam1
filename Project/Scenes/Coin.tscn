@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Coin.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/CoinPickup.ogg" type="AudioStream" id=3]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.25
@@ -87,5 +88,10 @@ one_shot = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 2 )
 anims/PickedUp = SubResource( 3 )
+
+[node name="AudioPlayers" type="Spatial" parent="."]
+
+[node name="Pickup" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+stream = ExtResource( 3 )
 [connection signal="body_entered" from="." to="." method="onCoinBodyEntered"]
 [connection signal="timeout" from="Timers/RespawnTimer" to="." method="onRespawnTimerTimeout"]

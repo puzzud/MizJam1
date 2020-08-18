@@ -13,6 +13,7 @@ func onCoinBodyEntered(body: Node) -> void:
 	$Timers/RespawnTimer.start()
 	
 	$AnimationPlayer.play("PickedUp")
+	$AudioPlayers/Pickup.play()
 
 func onRespawnTimerTimeout() -> void:
 	$CollisionShape.disabled = false
