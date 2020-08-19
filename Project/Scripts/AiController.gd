@@ -44,10 +44,13 @@ func getNextWaypoint() -> Waypoint:
 func isParentCloserToNextWaypoint() -> bool:
 	return currentWaypoint.isCloserToNextWaypoint(get_parent().global_transform.origin)
 
-
 func getDistanceToWaypoint(waypoint: Spatial) -> float:
 	var parent: Spatial = get_parent()
-	return parent.global_transform.origin.distance_to(waypoint.global_transform.origin)
+	return waypoint.getDistanceToPosition(parent.global_transform.origin)
+
+# position: global
+func isCloserToCurrentWaypoint(position: Vector3) -> bool:
+	return (getDistanceToWaypoint(currentWaypoint) < currentWaypoint.getDistanceToPosition(position))
 
 func getParentRayCast() -> RayCast:
 	return get_parent().get_node("RayCast") as RayCast
