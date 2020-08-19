@@ -42,10 +42,8 @@ func getNextWaypoint() -> Waypoint:
 
 # Check if parent is closer to the next way point than the current waypoint.
 func isParentCloserToNextWaypoint() -> bool:
-	var parentDistanceToNextWaypoint := currentWaypoint.nextWaypoint.getDistanceToPosition(get_parent().global_transform.origin)
-	var currentWaypointDistanceToNextWaypoint := currentWaypoint.getDistanceToWaypoint(currentWaypoint.nextWaypoint) # TODO: Use precalculated distance?
-	
-	return parentDistanceToNextWaypoint < currentWaypointDistanceToNextWaypoint
+	return currentWaypoint.isCloserToNextWaypoint(get_parent().global_transform.origin)
+
 
 func getDistanceToWaypoint(waypoint: Spatial) -> float:
 	var parent: Spatial = get_parent()

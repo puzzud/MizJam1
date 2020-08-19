@@ -33,3 +33,14 @@ func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
 		
 	# Error condition.
 	return 0.0
+
+# position: global
+func isCloserToNextWaypoint(position: Vector3) -> bool:
+	if nextWaypoint == null:
+		return true
+	
+	var positionDistanceToNextWaypoint := nextWaypoint.getDistanceToPosition(position)
+	var distanceToNextWaypoint := getDistanceToWaypoint(nextWaypoint) # TODO: Use precalculated distance?
+	
+	return (positionDistanceToNextWaypoint < distanceToNextWaypoint)
+
