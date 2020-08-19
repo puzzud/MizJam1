@@ -201,6 +201,8 @@ func startTransitionFromRaceEndToRace() -> void:
 	
 	$Ui/Race/RaceResultMessage.visible = false
 	
+	$AudioPlayers/RaceLoseMusic.stop()
+	$AudioPlayers/RaceWinMusic.stop()
 	$AudioPlayers/Track1Theme.stop()
 
 func initializeKartIds() -> void:
