@@ -181,17 +181,23 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	if kartLapNumber > maxNumberOfLaps + 1:
 		# Race is already over.
 		return
-	elif kartLapNumber > maxNumberOfLaps:
+	
+	var humanControlledKart := getHumanControlledKart()
+	
+	if kartLapNumber > maxNumberOfLaps:
 		kartFinishTimes[kartId] = raceTime
 		
 		if winnerKartId == -1:
 			winnerKartId = kartId
 		
-		var humanControlledKart := getHumanControlledKart()
 		if humanControlledKart != null:
 			if kartId == getKartIdFromKart(humanControlledKart):
 				updateTimeDisplay(raceTime)
 				endRace()
+	else:
+		if humanControlledKart != null:
+			if kartId == getKartIdFromKart(humanControlledKart):
+				updateLapDisplay(kartLapNumber)
 	
 	if haveAllKartsStarted():
 		getTrack().showLapNumber(getHighestLapNumber())
@@ -215,6 +221,7 @@ func resetRace() -> void:
 	startAllKartEngines(true)
 	resetAllKarts()
 	
+	updateLapDisplay(0)
 	updateCoinDisplay(0)
 
 func restartGame() -> void:
@@ -290,6 +297,13 @@ func updateTimeDisplay(time: float) -> void:
 
 func updateCoinDisplay(coinCount: int) -> void:
 	$Ui/Race/CoinInfo/Count.text = str(coinCount)
+
+func updateLapDisplay(lapNumber: int) -> void:
+	var lapNumberString := ""
+	if lapNumber > 0:
+		lapNumberString = str(lapNumber)
+	
+	$Ui/Race/LapInfo/Count.text = lapNumberString
 
 func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:

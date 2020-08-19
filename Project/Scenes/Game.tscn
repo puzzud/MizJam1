@@ -235,9 +235,9 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="Ui/Race"]
-margin_left = 752.0
+margin_left = 720.0
 margin_top = 16.0
-margin_right = 880.0
+margin_right = 848.0
 margin_bottom = 32.0
 rect_scale = Vector2( 2, 2 )
 custom_fonts/font = ExtResource( 6 )
@@ -253,12 +253,56 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LapInfo" type="Control" parent="Ui/Race"]
+margin_left = 816.0
+margin_top = 48.0
+margin_right = 976.0
+margin_bottom = 80.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Ui/Race/LapInfo"]
+margin_right = 48.0
+margin_bottom = 16.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Lap"
+align = 2
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Count" type="Label" parent="Ui/Race/LapInfo"]
+margin_left = 128.0
+margin_right = 144.0
+margin_bottom = 16.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
 [node name="CoinInfo" type="Control" parent="Ui/Race"]
 margin_left = 912.0
 margin_top = 400.0
 margin_right = 1008.0
 margin_bottom = 432.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -307,6 +351,7 @@ Press Start"
 align = 1
 uppercase = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
