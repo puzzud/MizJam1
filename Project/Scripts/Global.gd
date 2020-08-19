@@ -22,7 +22,7 @@ func _input(event: InputEvent) -> void:
 				game.startTransitionFromTitleToRace()
 				screenState = ScreenStates.RACE
 		ScreenStates.RACE:
-			if Input.is_key_pressed(KEY_F1):
+			if Input.is_key_pressed(KEY_ESCAPE):
 				screenState = ScreenStates.TITLE
 				game.restartGame()
 		ScreenStates.RACE_END:
