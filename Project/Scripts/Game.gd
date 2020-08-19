@@ -29,6 +29,11 @@ func _input(event: InputEvent) -> void:
 		Engine.time_scale = 0.125
 	else:
 		Engine.time_scale = 1.0
+	
+	if Input.is_key_pressed(KEY_F5):
+		automateAllHumanControlledKarts()
+	elif Input.is_key_pressed(KEY_F6):
+		resetAllKartControls()
 
 func _process(delta: float) -> void:
 	match Global.screenState:
@@ -240,6 +245,9 @@ func resetAllKarts() -> void:
 		var kart: Kart = _kart
 		kart.resetValues()
 	
+	resetAllKartControls()
+	
+func resetAllKartControls() -> void:
 	# Reset controls.
 	for kartIndex in range(0, $Karts.get_child_count()):
 		var kart: Kart = $Karts.get_child(kartIndex)
