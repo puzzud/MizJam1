@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Track1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Kart.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=8]
 [ext_resource path="res://Sounds/Track1Theme.ogg" type="AudioStream" id=9]
 [ext_resource path="res://Sounds/RaceStartMusic.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Sounds/RaceLoseMusic.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Sounds/RaceWinMusic.ogg" type="AudioStream" id=12]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 8 )
@@ -315,6 +317,12 @@ stream = ExtResource( 10 )
 
 [node name="Track1Theme" type="AudioStreamPlayer" parent="AudioPlayers"]
 stream = ExtResource( 9 )
+
+[node name="RaceLoseMusic" type="AudioStreamPlayer" parent="AudioPlayers"]
+stream = ExtResource( 11 )
+
+[node name="RaceWinMusic" type="AudioStreamPlayer" parent="AudioPlayers"]
+stream = ExtResource( 12 )
 [connection signal="itemPickedUp" from="Track" to="." method="onTrackItemPickedUp"]
 [connection signal="kartCrossedFinishLine" from="Track" to="." method="onTrackKartCrossedFinishLine"]
 [connection signal="kartEnteredRoughZone" from="Track" to="." method="onTrackKartEnteredRoughZone"]

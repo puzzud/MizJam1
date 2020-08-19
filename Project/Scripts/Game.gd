@@ -108,7 +108,13 @@ func startTransitionFromTitleToRace() -> void:
 
 func startTransitionFromRaceToRaceEnd() -> void:
 	raceEnded = true
-	issueRaceResultMessage()
+	
+	var kart := getHumanControlledKart()
+	if kart != null:
+		var kartId := getKartIdFromKart(kart)
+		var humanWinner := (kartId == winnerKartId)
+		issueRaceResultMessage(humanWinner)
+		playRaceEndMusic(humanWinner)
 	
 	automateAllHumanControlledKarts()
 	
@@ -244,13 +250,8 @@ func changeKartController(kart: Kart, controller: Controller) -> void:
 	controller.name = "Controller"
 	kart.add_child(controller)
 
-func issueRaceResultMessage() -> void:
-	var kart := getHumanControlledKart()
-	if kart == null:
-		return
-	
-	var kartId := getKartIdFromKart(kart)
-	if kartId == winnerKartId:
+func issueRaceResultMessage(humanWinner: bool) -> void:
+	if humanWinner:
 		$Ui/Race/RaceResultMessage.text = "Winner!"
 	else:
 		$Ui/Race/RaceResultMessage.text = "Loser!"
@@ -290,3 +291,11 @@ func startThemeMusic() -> void:
 
 func onStartRaceMusicFinished() -> void:
 	startThemeMusic()
+
+func playRaceEndMusic(humanWinner: bool) -> void:
+	$AudioPlayers/Track1Theme.stop()
+	
+	if humanWinner:
+		$AudioPlayers/RaceWinMusic.play()
+	else:
+		$AudioPlayers/RaceLoseMusic.play()
