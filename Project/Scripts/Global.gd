@@ -1,5 +1,8 @@
 extends Node
 
+const configFileName := "Configuration.ini"
+const configFilePath := "user://" + configFileName
+
 enum ScreenStates {
 	NONE = -1,
 	TITLE,
@@ -12,7 +15,12 @@ var screenState: int = ScreenStates.NONE
 
 var game: Game = null
 
+var hasSeenInstructions := false
+
 func _ready():
+	loadConfiguration()
+	randomize()
+	
 	screenState = ScreenStates.TITLE
 
 func _input(event: InputEvent) -> void:
@@ -22,9 +30,10 @@ func _input(event: InputEvent) -> void:
 				game.startTransitionFromTitleToRace()
 				screenState = ScreenStates.TITLE_TO_RACE
 		ScreenStates.TITLE_TO_RACE:
-			if event.is_action_pressed("ui_accept"):
-				screenState = ScreenStates.RACE
-				game.startRace()
+			if hasSeenInstructions:
+				if event.is_action_pressed("ui_accept"):
+					screenState = ScreenStates.RACE
+					game.startRace()
 		ScreenStates.RACE:
 			if Input.is_key_pressed(KEY_ESCAPE):
 				screenState = ScreenStates.TITLE
@@ -33,3 +42,23 @@ func _input(event: InputEvent) -> void:
 			if event.is_action_pressed("ui_accept"):
 				game.startTransitionFromRaceEndToRace()
 				screenState = ScreenStates.RACE
+
+func loadConfiguration() -> void:
+	var configFile = ConfigFile.new() 
+	var result = configFile.load(configFilePath)
+	if result != OK:
+		return
+	
+	var _hasSeenInstructions = configFile.get_value("Game", "HasSeenInstructions")
+	if _hasSeenInstructions != null:
+		hasSeenInstructions = _hasSeenInstructions
+
+func saveConfiguration() -> void:
+	var configFile = ConfigFile.new()
+	
+	configFile.set_value("Game", "HasSeenInstructions", hasSeenInstructions)
+
+func onSawInstructions() -> void:
+	if not hasSeenInstructions:
+		hasSeenInstructions = true
+		saveConfiguration()

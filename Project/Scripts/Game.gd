@@ -1,6 +1,8 @@
 extends Spatial
 class_name Game
 
+signal sawInstructions()
+
 const aiControllerPrefab := preload("res://Scenes/AiController.tscn")
 const humanControllerPrefab := preload("res://Scenes/HumanController.tscn")
 
@@ -18,9 +20,9 @@ var raceTime := 0.0
 var kartFinishTimes := []
 
 func _ready():
-	randomize()
-	
 	Global.game = self
+	
+	connect("sawInstructions", Global, "onSawInstructions")
 	
 	$Ui/Race/CoinInfo/Symbol/ColorAnimationPlayer.play("Idle")
 	
@@ -127,6 +129,8 @@ func startTransitionFromTitleToRace() -> void:
 	$Ui/Title.visible = false
 
 func onTopCameraTweenCompleted() -> void:
+	emit_signal("sawInstructions")
+	
 	startRace()
 
 func startRace() -> void:
