@@ -128,10 +128,19 @@ __meta__ = {
 targetNodePath = NodePath("../../../../Karts/Kart1")
 
 [node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/Camera"]
-current = true
 
 [node name="TitleCamera" type="Camera" parent="Viewports/ViewportContainerTop/ViewportTop"]
-transform = Transform( -0.707107, -0.40558, -0.579228, 0, 0.819152, -0.573577, 0.707107, -0.40558, -0.579228, 0, 60.7392, 0 )
+transform = Transform( -0.707107, -0.40558, -0.579228, 0, 0.819152, -0.573577, 0.707107, -0.40558, -0.579228, 0, 60.7392, 114.447 )
+far = 120.0
+
+[node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/TitleCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+current = true
+
+[node name="TitleCameraPosition" type="Spatial" parent="Viewports/ViewportContainerTop/ViewportTop"]
+transform = Transform( -0.707107, -0.40558, -0.579228, 0, 0.819152, -0.573577, 0.707107, -0.40558, -0.579228, 0, 60.7392, 114.447 )
+
+[node name="Tween" type="Tween" parent="Viewports/ViewportContainerTop/ViewportTop"]
 
 [node name="ViewportContainerBottom" type="ViewportContainer" parent="Viewports"]
 margin_top = 448.0
@@ -147,6 +156,7 @@ render_target_update_mode = 3
 
 [node name="TopCamera" type="Camera" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0543633, 90.6568, 0.00218773 )
+visible = false
 
 [node name="BirdsEyeCamera" type="Camera" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
 transform = Transform( 1, 1.00064e-06, -4.97715e-07, 0, 0.445348, 0.895358, 1.11759e-06, -0.895358, 0.445348, 0, 95, 62 )
@@ -156,6 +166,13 @@ far = 150.0
 
 [node name="TitleCamera" type="Camera" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
 transform = Transform( 1, 0, 0, 0, 0.810768, -0.585368, 0, 0.585368, 0.810768, 0, 60.7392, 0 )
+fov = 56.7
+far = 150.0
+
+[node name="TitleCameraPosition" type="Spatial" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
+transform = Transform( 1, 0, 0, 0, 0.810768, -0.585368, 0, 0.585368, 0.810768, 0, 60.7392, 0 )
+
+[node name="Tween" type="Tween" parent="Viewports/ViewportContainerBottom/ViewportBottom"]
 
 [node name="Ui" type="Control" parent="."]
 anchor_right = 1.0
@@ -392,6 +409,7 @@ stream = ExtResource( 12 )
 [connection signal="kartEnteredRoughZone" from="Track" to="." method="onTrackKartEnteredRoughZone"]
 [connection signal="kartExitedRoughZone" from="Track" to="." method="onTrackKartExitedRoughZone"]
 [connection signal="startSequenceFinished" from="Track" to="." method="onTrackStartSequenceFinished"]
+[connection signal="tween_all_completed" from="Viewports/ViewportContainerTop/ViewportTop/Tween" to="." method="onTopCameraTweenCompleted"]
 [connection signal="finished" from="AudioPlayers/StartRaceMusic" to="." method="onStartRaceMusicFinished"]
 
 [editable path="Karts/Kart1"]

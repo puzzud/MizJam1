@@ -97,7 +97,9 @@ func getTrack() -> Track:
 
 func startTitle() -> void:
 	$Viewports/ViewportContainerTop/ViewportTop/Camera.current = false
+	$Viewports/ViewportContainerTop/ViewportTop/Camera/Listener.current = false
 	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera.current = true
+	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera/Listener.current = true
 	
 	$Viewports/ViewportContainerBottom/ViewportBottom/BirdsEyeCamera.current = false
 	$Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera.current = true
@@ -107,16 +109,43 @@ func startTitle() -> void:
 
 func startTransitionFromTitleToRace() -> void:
 	resetRace()
+	
+	var tweenTime := 24.0
+	
+	var topTitleCamera: Camera = $Viewports/ViewportContainerTop/ViewportTop/TitleCamera
+	var destTopCamera: Camera = $Viewports/ViewportContainerTop/ViewportTop/Camera
+	var topCameraTween: Tween = $Viewports/ViewportContainerTop/ViewportTop/Tween
+	topCameraTween.interpolate_property(topTitleCamera, "global_transform", topTitleCamera.global_transform, destTopCamera.global_transform, tweenTime, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	topCameraTween.start()
+	
+	var bottomTitleCamera: Camera = $Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera
+	var destBottomCamera: Camera = $Viewports/ViewportContainerBottom/ViewportBottom/BirdsEyeCamera
+	var bottomCameraTween: Tween = $Viewports/ViewportContainerBottom/ViewportBottom/Tween
+	bottomCameraTween.interpolate_property(bottomTitleCamera, "global_transform", bottomTitleCamera.global_transform, destBottomCamera.global_transform, tweenTime, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	bottomCameraTween.start()
+	
+	$Ui/Title.visible = false
+
+func onTopCameraTweenCompleted() -> void:
+	startRace()
+
+func startRace() -> void:
+	Global.screenState = Global.ScreenStates.RACE
+	
+	$Viewports/ViewportContainerTop/ViewportTop/Tween.stop_all()
+	$Viewports/ViewportContainerBottom/ViewportBottom/Tween.stop_all()
+	
 	startTrafficLight()
 	
 	$Viewports/ViewportContainerTop/ViewportTop/Camera.current = true
+	$Viewports/ViewportContainerTop/ViewportTop/Camera/Listener.current = true
 	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera.current = false
+	$Viewports/ViewportContainerTop/ViewportTop/TitleCamera/Listener.current = false
 	
 	$Viewports/ViewportContainerBottom/ViewportBottom/BirdsEyeCamera.current = true
 	$Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera.current = false
 	
 	$Ui/Race.visible = true
-	$Ui/Title.visible = false
 	
 	$Ui/Race/RaceResultMessage.visible = false
 
