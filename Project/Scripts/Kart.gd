@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	acceleration = Vector3.ZERO
 	
 	if intendedAccelerating:
-		acceleration = -transform.basis.z * (enginePower + (coinCount * 0.5))
+		acceleration = -transform.basis.z * (enginePower + (coinCount * 0.25))
 	
 	if intendedBraking:
 		acceleration = -transform.basis.z * brakingPower

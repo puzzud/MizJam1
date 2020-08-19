@@ -10,10 +10,12 @@ const greenLightColor := Color("00cc55")
 var lightOnStates := [
 	false,
 	false,
+	false,
 	false
 ]
 
 var lightColors := [
+	redLightColor,
 	redLightColor,
 	redLightColor,
 	greenLightColor

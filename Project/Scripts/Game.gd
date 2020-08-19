@@ -6,7 +6,7 @@ signal sawInstructions()
 const aiControllerPrefab := preload("res://Scenes/AiController.tscn")
 const humanControllerPrefab := preload("res://Scenes/HumanController.tscn")
 
-const maxNumberOfLaps := 3
+const maxNumberOfLaps := 4
 
 var kartLapNumbers = []
 
@@ -129,9 +129,10 @@ func startTransitionFromTitleToRace() -> void:
 	bottomCameraTween.start()
 	
 	$Ui/Title.visible = false
-	
 	$Ui/TitleToRace.visible = true
+	
 	instructionMessageIndex = -1
+	$Ui/TitleToRace/NumberOfLaps.text = "%d laps" % maxNumberOfLaps
 	$Timers/InstructionMessageTimer.start()
 
 func onInstructionMessageTimerTimeout() -> void:

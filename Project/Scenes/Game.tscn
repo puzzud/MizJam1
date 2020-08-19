@@ -360,7 +360,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ThreeLaps" type="Label" parent="Ui/TitleToRace"]
+[node name="NumberOfLaps" type="Label" parent="Ui/TitleToRace"]
 visible = false
 margin_top = 112.0
 margin_right = 512.0
