@@ -202,7 +202,6 @@ __meta__ = {
 }
 
 [node name="Title" type="Control" parent="Ui"]
-visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
@@ -248,6 +247,31 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_as_outline = 1
 text = "Press Start"
+align = 2
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="AuthorLink" type="LinkButton" parent="Ui/Title"]
+margin_left = 800.0
+margin_top = 880.0
+margin_right = 1024.0
+margin_bottom = 896.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+underline = 2
+
+[node name="Author" type="Label" parent="Ui/Title/AuthorLink"]
+margin_right = 224.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "puzzud.itch.io"
 align = 2
 uppercase = true
 __meta__ = {
@@ -577,6 +601,7 @@ stream = ExtResource( 12 )
 [connection signal="kartExitedRoughZone" from="Track" to="." method="onTrackKartExitedRoughZone"]
 [connection signal="startSequenceFinished" from="Track" to="." method="onTrackStartSequenceFinished"]
 [connection signal="tween_all_completed" from="Viewports/ViewportContainerTop/ViewportTop/Tween" to="." method="onTopCameraTweenCompleted"]
+[connection signal="pressed" from="Ui/Title/AuthorLink" to="." method="onAuthorLinkPressed"]
 [connection signal="timeout" from="Timers/InstructionMessageTimer" to="." method="onInstructionMessageTimerTimeout"]
 [connection signal="finished" from="AudioPlayers/StartRaceMusic" to="." method="onStartRaceMusicFinished"]
 

@@ -400,3 +400,6 @@ func playRaceEndMusic(humanWinner: bool) -> void:
 		$AudioPlayers/RaceWinMusic.play()
 	else:
 		$AudioPlayers/RaceLoseMusic.play()
+
+func onAuthorLinkPressed() -> void:
+	OS.shell_open("https://puzzud.itch.io")
