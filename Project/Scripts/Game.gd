@@ -350,7 +350,7 @@ func updateTimeDisplay(time: float) -> void:
 	var minutes := int(time / 60.0)
 	var seconds := int(time - (minutes * 60))
 	
-	$Ui/Race/Time.text = "%002d.%002d.%002d" % [minutes, seconds, secondPercent]
+	$Ui/Race/Time.text = "%002d:%002d:%002d" % [minutes, seconds, secondPercent]
 
 func updateCoinDisplay(coinCount: int) -> void:
 	$Ui/Race/CoinInfo/Count.text = str(coinCount)
