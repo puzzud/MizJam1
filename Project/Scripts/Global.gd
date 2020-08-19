@@ -34,14 +34,14 @@ func _input(event: InputEvent) -> void:
 				if event.is_action_pressed("ui_accept"):
 					screenState = ScreenStates.RACE
 					game.startRace()
+			checkForEscape()
 		ScreenStates.RACE:
-			if Input.is_key_pressed(KEY_ESCAPE):
-				screenState = ScreenStates.TITLE
-				game.restartGame()
+			checkForEscape()
 		ScreenStates.RACE_END:
 			if event.is_action_pressed("ui_accept"):
 				game.startTransitionFromRaceEndToRace()
 				screenState = ScreenStates.RACE
+			checkForEscape()
 
 func loadConfiguration() -> void:
 	var configFile = ConfigFile.new() 
@@ -62,3 +62,8 @@ func onSawInstructions() -> void:
 	if not hasSeenInstructions:
 		hasSeenInstructions = true
 		saveConfiguration()
+
+func checkForEscape() -> void:
+	if Input.is_key_pressed(KEY_ESCAPE):
+		screenState = ScreenStates.TITLE
+		game.restartGame()
