@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/RaceStartMusic.ogg-971c0d1c3d0d49d7e06f7fdef193be8e.oggstr"
+
+[deps]
+
+source_file="res://Sounds/RaceStartMusic.ogg"
+dest_files=[ "res://.import/RaceStartMusic.ogg-971c0d1c3d0d49d7e06f7fdef193be8e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

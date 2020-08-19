@@ -202,7 +202,7 @@ func onTrackStartSequenceFinished() -> void:
 	lockAllKarts(false)
 	startAllKartEngines(true)
 	
-	startThemeMusic()
+	startStartRaceMusic()
 
 func lockAllKarts(lock: bool) -> void:
 	for _kart in $Karts.get_children():
@@ -282,5 +282,11 @@ func onTrackKartExitedRoughZone(kart: Kart) -> void:
 	if kart.roughZoneCounter < 0:
 		kart.roughZoneCounter = 0
 
+func startStartRaceMusic() -> void:
+	$AudioPlayers/StartRaceMusic.play()
+
 func startThemeMusic() -> void:
 	$AudioPlayers/Track1Theme.play()
+
+func onStartRaceMusicFinished() -> void:
+	startThemeMusic()
