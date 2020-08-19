@@ -316,7 +316,7 @@ func resetAllKartControls() -> void:
 	# Reset controls.
 	for kartIndex in range(0, $Karts.get_child_count()):
 		var kart: Kart = $Karts.get_child(kartIndex)
-		if kartIndex == 0:
+		if kartIndex == 7:
 			giveHumanControlToKart(kart)
 		else:
 			automateKart(kart)

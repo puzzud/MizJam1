@@ -47,53 +47,69 @@ __meta__ = {
 [node name="Karts" type="Spatial" parent="."]
 
 [node name="Kart1" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0953, 0, 8.7697 )
 
 [node name="Saucer" parent="Karts/Kart1" index="0"]
-modulate = Color( 0.933333, 0.933333, 0.466667, 1 )
+modulate = Color( 1, 0.466667, 0.466667, 1 )
 
-[node name="Controller" type="Node" parent="Karts/Kart1"]
-script = ExtResource( 3 )
+[node name="Controller" parent="Karts/Kart1" instance=ExtResource( 7 )]
 
 [node name="Kart2" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0394, 0, 11.748 )
 
 [node name="Saucer" parent="Karts/Kart2" index="0"]
-modulate = Color( 1, 0.466667, 0.466667, 1 )
+modulate = Color( 0, 0.533333, 1, 1 )
 
 [node name="Controller" parent="Karts/Kart2" instance=ExtResource( 7 )]
 
 [node name="Kart3" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1661, 0, 15.0808 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0704, 0, 14.8953 )
 
 [node name="Saucer" parent="Karts/Kart3" index="0"]
-modulate = Color( 0, 0.533333, 1, 1 )
+modulate = Color( 0, 0.8, 0.333333, 1 )
 
 [node name="Controller" parent="Karts/Kart3" instance=ExtResource( 7 )]
 
 [node name="Kart4" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0425, 0, 17.9947 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9673, 0, 17.7507 )
 
 [node name="Saucer" parent="Karts/Kart4" index="0"]
-modulate = Color( 0, 0.8, 0.333333, 1 )
+modulate = Color( 0.8, 0.266667, 0.8, 1 )
 
 [node name="Controller" parent="Karts/Kart4" instance=ExtResource( 7 )]
 
 [node name="Kart5" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9714, 0, 21.1505 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9811, 0, 20.7517 )
 
 [node name="Saucer" parent="Karts/Kart5" index="0"]
-modulate = Color( 0.8, 0.266667, 0.8, 1 )
+modulate = Color( 0.666667, 1, 0.933333, 1 )
 
 [node name="Controller" parent="Karts/Kart5" instance=ExtResource( 7 )]
 
 [node name="Kart6" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9138, 0, 24.2642 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0114, 0, 23.7367 )
 
 [node name="Saucer" parent="Karts/Kart6" index="0"]
-modulate = Color( 0.666667, 1, 0.933333, 1 )
+modulate = Color( 0.533333, 0, 0, 1 )
 
 [node name="Controller" parent="Karts/Kart6" instance=ExtResource( 7 )]
+
+[node name="Kart7" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9855, 0, 26.7736 )
+
+[node name="Saucer" parent="Karts/Kart7" index="0"]
+modulate = Color( 0.2, 0.2, 0.2, 1 )
+
+[node name="Controller" parent="Karts/Kart7" instance=ExtResource( 7 )]
+
+[node name="Kart8" parent="Karts" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9889, 0, 29.717 )
+
+[node name="Saucer" parent="Karts/Kart8" index="0"]
+modulate = Color( 0.933333, 0.933333, 0.466667, 1 )
+
+[node name="Controller" type="Node" parent="Karts/Kart8"]
+script = ExtResource( 3 )
 
 [node name="Viewports" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -128,7 +144,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
-targetNodePath = NodePath("../../../../Karts/Kart1")
+targetNodePath = NodePath("../../../../Karts/Kart8")
 
 [node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/Camera"]
 current = true
@@ -575,3 +591,7 @@ stream = ExtResource( 12 )
 [editable path="Karts/Kart5"]
 
 [editable path="Karts/Kart6"]
+
+[editable path="Karts/Kart7"]
+
+[editable path="Karts/Kart8"]

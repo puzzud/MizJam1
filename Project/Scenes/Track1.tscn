@@ -51,37 +51,49 @@ __meta__ = {
 }
 
 [node name="PolePosition1" type="Spatial" parent="PolePositions"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 9.06399 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.0513, 0, 8.71124 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PolePosition2" type="Spatial" parent="PolePositions"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 12.0611 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9208, 0, 11.8494 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PolePosition3" type="Spatial" parent="PolePositions"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1661, 0, 15.0808 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9545, 0, 14.7281 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PolePosition4" type="Spatial" parent="PolePositions"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0425, 0, 17.9947 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55.0425, 0, 17.7831 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PolePosition5" type="Spatial" parent="PolePositions"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9714, 0, 21.1505 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9714, 0, 20.7977 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PolePosition6" type="Spatial" parent="PolePositions"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9138, 0, 24.2642 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9138, 0, 23.7703 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition7" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.9896, 0, 26.797 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PolePosition8" type="Spatial" parent="PolePositions"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9285, 0, 29.6911 )
 __meta__ = {
 "_edit_lock_": true
 }
