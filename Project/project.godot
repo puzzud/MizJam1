@@ -128,6 +128,7 @@ game_brake={
 
 3d_physics/layer_1="Obstacle"
 3d_physics/layer_2="Kart"
+3d_physics/layer_3="RoughZones"
 
 [rendering]
 

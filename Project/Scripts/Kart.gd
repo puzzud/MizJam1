@@ -75,6 +75,9 @@ func getController() -> Controller:
 	
 	return null
 
+func isInRoughZone() -> bool:
+	return (roughZoneCounter > 0)
+
 func applyFriction() -> void:
 	if velocity.length() < nominalVelocityLength:
 		velocity = Vector3.ZERO

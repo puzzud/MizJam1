@@ -19,7 +19,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
 	
-	if get_parent().global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
+	if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
 		currentWaypoint = getNextWaypoint()
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
@@ -31,6 +31,8 @@ func _physics_process(delta: float) -> void:
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
 	updateTurnDirectionFromPath()
+	
+	updateAcceleratingBasedOnRayCast()
 
 func getNextWaypoint() -> Spatial:
 	waypointIndex += 1
@@ -62,6 +64,9 @@ func getLocalDirectionToWaypoint(waypoint: Spatial) -> Vector3:
 func doesDirectionRequireTurnaround(direction: Vector3) -> bool:
 	var dotProduct := Vector3.FORWARD.dot(direction)
 	return dotProduct < 0.0
+
+func getParentRayCast() -> RayCast:
+	return get_parent().get_node("RayCast") as RayCast
 
 func resetValues() -> void:
 	.resetValues()
@@ -121,3 +126,33 @@ func updateTurnDirectionFromPath() -> void:
 				turnDirection = 0.0
 	else:
 		turnDirection = 0.0
+
+func updateAcceleratingBasedOnRayCast() -> void:
+	accelerating = true
+	
+	var rayCast := getParentRayCast()
+	
+	if not rayCast.is_colliding():
+		return
+	
+	var collider := rayCast.get_collider()
+	
+	if collider is Coin:
+		return
+	
+	if collider is QuestionBlock:
+		return
+	
+	var parent = get_parent()
+	
+	if parent.isInRoughZone():
+		return
+	
+	var kartVelocityLength: float = parent.velocity.length()
+	if kartVelocityLength < 5.0:
+		return
+	
+	#if collider.get_parent().name == "RoughZones":
+	if kartVelocityLength > 10.0:
+		accelerating = false
+		return
