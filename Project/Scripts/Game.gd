@@ -189,13 +189,20 @@ func endRace() -> void:
 	startTransitionFromRaceToRaceEnd()
 
 func resetRace() -> void:
+	raceStarted = false
+	raceEnded = false
+	raceTime = 0.0
+	updateTimeDisplay(raceTime)
+	
 	initializeKartIds()
 	initializeKartLapNumbers()
 	initializeKartFinishTimes()
 	initializeKartsAtPolePositions()
 	lockAllKarts(true)
-	startAllKartEngines(false)
+	startAllKartEngines(true)
 	resetAllKarts()
+	
+	updateCoinDisplay(0)
 
 func restartGame() -> void:
 	get_tree().reload_current_scene()
