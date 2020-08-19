@@ -28,6 +28,7 @@ var intendedBraking := false
 var roughZoneCounter := 0
 
 var coinCount := 0
+var coinsAhead := []
 
 func _ready() -> void:
 	$AudioPlayers/Engine.stream.loop_offset = randf()
@@ -129,6 +130,8 @@ func resetValues() -> void:
 	roughZoneCounter = 0
 	
 	coinCount = 0
+	
+	coinsAhead = []
 
 func resetController() -> void:
 	var controller := getController()
@@ -140,3 +143,14 @@ func startEngine(on: bool) -> void:
 		$AudioPlayers/Engine.play()
 	else:
 		$AudioPlayers/Engine.stop()
+
+func onAreaAheadAreaEntered(area: Area) -> void:
+	if area is Coin:
+		if coinsAhead.find(area) == -1:
+			coinsAhead.append(area)
+
+func onAreaAheadAreaExited(area: Area) -> void:
+	if area is Coin:
+		var coinIndex := coinsAhead.find(area)
+		if coinIndex > -1:
+			coinsAhead.remove(coinIndex)

@@ -13,6 +13,9 @@ func resetValues() -> void:
 	$Sprite3D.visible = true
 	$AnimationPlayer.play("Idle")
 
+func isEnabled() -> bool:
+	return (not $CollisionShape.disabled)
+
 func onCoinBodyEntered(body: Node) -> void:
 	emit_signal("itemPickedUp", self, body)
 	

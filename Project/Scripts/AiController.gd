@@ -10,6 +10,9 @@ var previousDistanceToDestination := 0.0
 var path = []
 var pathIndex = 0
 
+#var targetPosition := Vector3.ZERO
+var targetCoin: Coin = null
+
 export (NodePath) var trackNodePath = null
 
 func _ready() -> void:
@@ -28,6 +31,8 @@ func _physics_process(delta: float) -> void:
 	
 	if isParentCloserToNextWaypoint():
 		currentWaypoint = getNextWaypoint()
+	
+	checkForTargetCoin()
 	
 	updateTurnDirectionFromPath()
 	
@@ -50,10 +55,38 @@ func getDistanceToWaypoint(waypoint: Spatial) -> float:
 
 # position: global
 func isCloserToCurrentWaypoint(position: Vector3) -> bool:
-	return (getDistanceToWaypoint(currentWaypoint) < currentWaypoint.getDistanceToPosition(position))
+	return (currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(currentWaypoint))
 
 func getParentRayCast() -> RayCast:
 	return get_parent().get_node("RayCast") as RayCast
+
+func getOptimalClosestCoin() -> Coin:
+	var parent: Spatial = get_parent()
+	
+	var coinsAhead: Array = parent.coinsAhead
+	if coinsAhead.empty():
+		return null
+	
+	var closestCoin: Coin = null
+	var closestCoinDistance := 10000.0 # TODO: Get largest float.
+	
+	var parentPosition := parent.global_transform.origin
+	
+	for coin in coinsAhead:
+		if not coin.isEnabled():
+			continue
+		
+		var coinPosition: Vector3 = coin.global_transform.origin
+		
+		if not isCloserToCurrentWaypoint(coinPosition):
+			continue
+		
+		var distance := parentPosition.distance_to(coinPosition)
+		if distance < closestCoinDistance:
+			closestCoin = coin
+			closestCoinDistance = distance
+	
+	return closestCoin
 
 func resetValues() -> void:
 	.resetValues()
@@ -67,6 +100,9 @@ func resetValues() -> void:
 	path = []
 	pathIndex = 0
 	
+	#targetPosition = get_parent().global_transform.origin
+	targetCoin = null
+	
 	if currentWaypoint == null:
 		currentWaypoint = getClosestWaypoint()
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
@@ -75,6 +111,10 @@ func updateTurnDirectionFromPath() -> void:
 	var parent: Spatial = get_parent()
 	
 	var position := currentWaypoint.global_transform.origin
+	
+	if targetCoin != null:
+		position = targetCoin.global_transform.origin
+	
 	var lookingAtEuler: Vector3 = parent.global_transform.looking_at(position, Vector3.UP).basis.get_euler()
 	
 	var debug := false
@@ -142,3 +182,15 @@ func updateAcceleratingBasedOnRayCast() -> void:
 	if kartVelocityLength > 10.0:
 		accelerating = false
 		return
+
+func checkForTargetCoin() -> void:
+	if targetCoin != null:
+		if not targetCoin.isEnabled():
+			targetCoin = null
+		elif not isCloserToCurrentWaypoint(targetCoin.global_transform.origin):
+			targetCoin = null
+	
+	if targetCoin == null:
+		targetCoin = getOptimalClosestCoin()
+		if targetCoin != null:
+			print("Found coin")

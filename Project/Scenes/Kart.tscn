@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Kart.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=2]
@@ -17,6 +17,9 @@ albedo_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="SpatialMaterial" id=4]
 albedo_color = Color( 0.121569, 0, 1, 1 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 5, 0.5, 8 )
 
 [node name="Kart" type="KinematicBody"]
 collision_layer = 2
@@ -81,6 +84,13 @@ cast_to = Vector3( 0, 0, -10 )
 collision_mask = 5
 collide_with_areas = true
 
+[node name="AreaAhead" type="Area" parent="RayCast"]
+collision_layer = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="RayCast/AreaAhead"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -8.63153 )
+shape = SubResource( 5 )
+
 [node name="AudioPlayers" type="Spatial" parent="."]
 
 [node name="Engine" type="AudioStreamPlayer3D" parent="AudioPlayers"]
@@ -88,3 +98,5 @@ stream = ExtResource( 3 )
 unit_db = 2.0
 max_distance = 40.0
 out_of_range_mode = 1
+[connection signal="area_entered" from="RayCast/AreaAhead" to="." method="onAreaAheadAreaEntered"]
+[connection signal="area_exited" from="RayCast/AreaAhead" to="." method="onAreaAheadAreaExited"]
