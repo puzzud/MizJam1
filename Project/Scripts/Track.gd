@@ -39,6 +39,15 @@ func getClosestWaypoint(position: Vector3) -> Waypoint:
 	
 	return closestWaypoint
 
+# position: global
+func getClosestWaypointCloserToFinishLine(position: Vector3) -> Waypoint:
+	var closestWaypoint: Waypoint = getClosestWaypoint(position)
+	
+	if closestWaypoint.isCloserToNextWaypoint(position):
+		closestWaypoint = closestWaypoint.nextWaypoint
+	
+	return closestWaypoint
+
 #func getNavigation() -> Navigation:
 #	return $Navigation as Navigation
 
