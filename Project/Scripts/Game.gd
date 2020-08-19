@@ -190,6 +190,7 @@ func startTransitionFromRaceToRaceEnd() -> void:
 	
 	automateAllHumanControlledKarts()
 	
+	$Ui/Race/LapInfo.visible = false
 	$Ui/Race/PressStart.visible = true
 
 func startTransitionFromRaceEndToRace() -> void:
@@ -281,6 +282,7 @@ func resetRace() -> void:
 	startAllKartEngines(true)
 	resetAllKarts()
 	
+	$Ui/Race/LapInfo.visible = true
 	updateLapDisplay(0)
 	updateCoinDisplay(0)
 
