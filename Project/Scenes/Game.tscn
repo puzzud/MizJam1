@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Track1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Kart.tscn" type="PackedScene" id=2]
@@ -15,7 +15,23 @@
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 8 )
-region = Rect2( 153, 425, 16, 16 )
+region = Rect2( 289, 374, 16, 16 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("./.:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 0.933333, 0.933333, 0.466667, 1 ), Color( 0.866667, 0.533333, 0.333333, 1 ), Color( 0.4, 0.266667, 0, 1 ), Color( 0.866667, 0.533333, 0.333333, 1 ), Color( 0.933333, 0.933333, 0.466667, 1 ) ]
+}
 
 [node name="Game" type="Spatial"]
 script = ExtResource( 4 )
@@ -307,7 +323,7 @@ __meta__ = {
 }
 
 [node name="Symbol" type="TextureRect" parent="Ui/Race/CoinInfo"]
-modulate = Color( 0.866667, 0.533333, 0.333333, 1 )
+modulate = Color( 0.933333, 0.933333, 0.466667, 1 )
 margin_right = 32.0
 margin_bottom = 32.0
 texture = SubResource( 1 )
@@ -316,6 +332,9 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="ColorAnimationPlayer" type="AnimationPlayer" parent="Ui/Race/CoinInfo/Symbol"]
+anims/Idle = SubResource( 2 )
 
 [node name="Count" type="Label" parent="Ui/Race/CoinInfo"]
 margin_left = 32.0

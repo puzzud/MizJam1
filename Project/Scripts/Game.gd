@@ -22,6 +22,8 @@ func _ready():
 	
 	Global.game = self
 	
+	$Ui/Race/CoinInfo/Symbol/ColorAnimationPlayer.play("Idle")
+	
 	startTitle()
 
 func _input(event: InputEvent) -> void:

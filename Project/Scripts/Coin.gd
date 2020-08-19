@@ -5,6 +5,8 @@ signal itemPickedUp(item, kart)
 
 func _ready() -> void:
 	resetValues()
+	
+	$ColorAnimationPlayer.play("Idle")
 
 func resetValues() -> void:
 	$CollisionShape.disabled = false
