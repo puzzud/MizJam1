@@ -8,6 +8,8 @@ const humanControllerPrefab := preload("res://Scenes/HumanController.tscn")
 
 const maxNumberOfLaps := 4
 
+var humanControlledKartIndex := 7
+
 var kartLapNumbers = []
 
 var kartIds = {}
@@ -317,7 +319,7 @@ func resetAllKartControls() -> void:
 	# Reset controls.
 	for kartIndex in range(0, $Karts.get_child_count()):
 		var kart: Kart = $Karts.get_child(kartIndex)
-		if kartIndex == 7:
+		if kartIndex == humanControlledKartIndex:
 			giveHumanControlToKart(kart)
 		else:
 			automateKart(kart)
@@ -367,7 +369,7 @@ func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:
 		kart.coinCount += 1
 		
-		if kart == getHumanControlledKart():
+		if getKartIdFromKart(kart) == humanControlledKartIndex:
 			updateCoinDisplay(kart.coinCount)
 
 func onTrackKartEnteredRoughZone(kart: Kart) -> void:
