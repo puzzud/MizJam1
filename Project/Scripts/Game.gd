@@ -201,6 +201,7 @@ func endRace() -> void:
 	startTransitionFromRaceToRaceEnd()
 
 func resetRace() -> void:
+	winnerKartId = -1
 	raceStarted = false
 	raceEnded = false
 	raceTime = 0.0
