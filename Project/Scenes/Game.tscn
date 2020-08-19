@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Track1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Kart.tscn" type="PackedScene" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://Sounds/RaceStartMusic.ogg" type="AudioStream" id=10]
 [ext_resource path="res://Sounds/RaceLoseMusic.ogg" type="AudioStream" id=11]
 [ext_resource path="res://Sounds/RaceWinMusic.ogg" type="AudioStream" id=12]
+[ext_resource path="res://Graphics/KeyUp.tres" type="Texture" id=13]
+[ext_resource path="res://Graphics/KeyRight.tres" type="Texture" id=14]
+[ext_resource path="res://Graphics/KeyLeft.tres" type="Texture" id=15]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 8 )
@@ -235,6 +238,148 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TitleToRace" type="Control" parent="Ui"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Controls" type="Control" parent="Ui/TitleToRace"]
+visible = false
+margin_top = 128.0
+margin_right = 512.0
+margin_bottom = 144.0
+rect_scale = Vector2( 2, 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveSymbol" type="TextureRect" parent="Ui/TitleToRace/Controls"]
+margin_left = 208.0
+margin_top = -8.0
+margin_right = 224.0
+margin_bottom = 8.0
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MoveLabel" type="Label" parent="Ui/TitleToRace/Controls"]
+margin_left = 256.0
+margin_top = -8.0
+margin_right = 320.0
+margin_bottom = 8.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Move"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="SteerLeftSymbol" type="TextureRect" parent="Ui/TitleToRace/Controls"]
+margin_left = 192.0
+margin_top = 16.0
+margin_right = 208.0
+margin_bottom = 32.0
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="SteerRightSymbol" type="TextureRect" parent="Ui/TitleToRace/Controls"]
+margin_left = 224.0
+margin_top = 16.0
+margin_right = 240.0
+margin_bottom = 32.0
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="SteerLabel" type="Label" parent="Ui/TitleToRace/Controls"]
+margin_left = 248.0
+margin_top = 16.0
+margin_right = 328.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Steer"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="CollectGems" type="Label" parent="Ui/TitleToRace"]
+visible = false
+margin_top = 112.0
+margin_right = 512.0
+margin_bottom = 128.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Collect Gems For Speed"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ThreeLaps" type="Label" parent="Ui/TitleToRace"]
+visible = false
+margin_top = 112.0
+margin_right = 512.0
+margin_bottom = 128.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "3 laps"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Win" type="Label" parent="Ui/TitleToRace"]
+visible = false
+margin_top = 112.0
+margin_right = 512.0
+margin_bottom = 128.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "Win"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Race" type="Control" parent="Ui"]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -391,6 +536,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Timers" type="Node" parent="."]
+
+[node name="InstructionMessageTimer" type="Timer" parent="Timers"]
+wait_time = 4.5
+one_shot = true
+
 [node name="AudioPlayers" type="Spatial" parent="."]
 
 [node name="StartRaceMusic" type="AudioStreamPlayer" parent="AudioPlayers"]
@@ -410,6 +561,7 @@ stream = ExtResource( 12 )
 [connection signal="kartExitedRoughZone" from="Track" to="." method="onTrackKartExitedRoughZone"]
 [connection signal="startSequenceFinished" from="Track" to="." method="onTrackStartSequenceFinished"]
 [connection signal="tween_all_completed" from="Viewports/ViewportContainerTop/ViewportTop/Tween" to="." method="onTopCameraTweenCompleted"]
+[connection signal="timeout" from="Timers/InstructionMessageTimer" to="." method="onInstructionMessageTimerTimeout"]
 [connection signal="finished" from="AudioPlayers/StartRaceMusic" to="." method="onStartRaceMusicFinished"]
 
 [editable path="Karts/Kart1"]

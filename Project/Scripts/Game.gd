@@ -19,6 +19,8 @@ var raceEnded := false
 var raceTime := 0.0
 var kartFinishTimes := []
 
+var instructionMessageIndex := -1
+
 func _ready():
 	Global.game = self
 	
@@ -127,6 +129,25 @@ func startTransitionFromTitleToRace() -> void:
 	bottomCameraTween.start()
 	
 	$Ui/Title.visible = false
+	
+	$Ui/TitleToRace.visible = true
+	instructionMessageIndex = -1
+	$Timers/InstructionMessageTimer.start()
+
+func onInstructionMessageTimerTimeout() -> void:
+	showNextInstruction()
+
+func showNextInstruction() -> void:
+	for message in $Ui/TitleToRace.get_children():
+		message.visible = false
+	
+	instructionMessageIndex += 1
+	if instructionMessageIndex >= $Ui/TitleToRace.get_child_count():
+		return
+	
+	$Ui/TitleToRace.get_child(instructionMessageIndex).visible = true
+	
+	$Timers/InstructionMessageTimer.start()
 
 func onTopCameraTweenCompleted() -> void:
 	emit_signal("sawInstructions")
@@ -149,6 +170,7 @@ func startRace() -> void:
 	$Viewports/ViewportContainerBottom/ViewportBottom/BirdsEyeCamera.current = true
 	$Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera.current = false
 	
+	$Ui/TitleToRace.visible = false
 	$Ui/Race.visible = true
 	
 	$Ui/Race/RaceResultMessage.visible = false
