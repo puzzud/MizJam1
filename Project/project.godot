@@ -58,6 +58,11 @@ _global_script_classes=[ {
 "class": "TrafficLight",
 "language": "GDScript",
 "path": "res://Scripts/TrafficLight.gd"
+}, {
+"base": "Spatial",
+"class": "Waypoint",
+"language": "GDScript",
+"path": "res://Scripts/Waypoint.gd"
 } ]
 _global_script_class_icons={
 "AiController": "",
@@ -69,7 +74,8 @@ _global_script_class_icons={
 "Kart": "",
 "QuestionBlock": "",
 "Track": "",
-"TrafficLight": ""
+"TrafficLight": "",
+"Waypoint": ""
 }
 
 [application]

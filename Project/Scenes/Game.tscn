@@ -131,13 +131,13 @@ __meta__ = {
 targetNodePath = NodePath("../../../../Karts/Kart1")
 
 [node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/Camera"]
+current = true
 
 [node name="TitleCamera" type="Camera" parent="Viewports/ViewportContainerTop/ViewportTop"]
 transform = Transform( -0.707107, -0.40558, -0.579228, 0, 0.819152, -0.573577, 0.707107, -0.40558, -0.579228, 0, 60.7392, 114.447 )
 far = 120.0
 
 [node name="Listener" type="Listener" parent="Viewports/ViewportContainerTop/ViewportTop/TitleCamera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 current = true
 
 [node name="TitleCameraPosition" type="Spatial" parent="Viewports/ViewportContainerTop/ViewportTop"]

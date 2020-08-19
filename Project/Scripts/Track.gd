@@ -9,16 +9,38 @@ signal itemPickedUp(item, kart)
 
 func _ready():
 	resetValues()
+	initializeWaypoints()
 
 func getPolePositions() -> Array:
 	return $PolePositions.get_children()
+
+func getWaypoints() -> Array:
+	return $Navigation/Waypoints.get_children()
 
 func getWaypoint(waypointIndex: int) -> Spatial:
 	var numberOfWaypoints = $Navigation/Waypoints.get_child_count()
 	return $Navigation/Waypoints.get_child(waypointIndex % numberOfWaypoints) as Spatial
 
-func getNavigation() -> Navigation:
-	return $Navigation as Navigation
+func getFinishLineWaypoint() -> Waypoint:
+	var waypoints := getWaypoints()
+	return waypoints[waypoints.size() - 1]
+
+# position: global
+func getClosestWaypoint(position: Vector3) -> Waypoint:
+	var closestWaypointDistance := 100000.0 # Find out max float.
+	var closestWaypoint: Waypoint = null
+	
+	for _waypoint in getWaypoints():
+		var waypoint: Waypoint = _waypoint
+		var waypointDistance := position.distance_to(waypoint.global_transform.origin)
+		if waypointDistance < closestWaypointDistance:
+			closestWaypointDistance = waypointDistance
+			closestWaypoint = waypoint
+	
+	return closestWaypoint
+
+#func getNavigation() -> Navigation:
+#	return $Navigation as Navigation
 
 func resetValues() -> void:
 	# Reset track stuff like coins & boxes.
@@ -29,6 +51,16 @@ func resetValues() -> void:
 	for _questionBlock in $Items/QuestionBlocks.get_children():
 		var questionBlock: QuestionBlock = _questionBlock
 		questionBlock.resetValues()
+
+func initializeWaypoints() -> void:
+	var waypoints := getWaypoints()
+	for i in range(0, waypoints.size()):
+		var waypoint: Waypoint = waypoints[i] as Waypoint
+		
+		if (i + 1) < waypoints.size():
+			waypoint.nextWaypoint = waypoints[i + 1] as Waypoint
+		else:
+			waypoint.nextWaypoint = waypoints[0] as Waypoint
 
 func startStartSequence() -> void:
 	$TrafficLight.startSequence()

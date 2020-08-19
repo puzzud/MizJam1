@@ -3,8 +3,7 @@ class_name AiController
 
 export (float) var waypointDistanceTolerance = 5.0
 
-var waypointIndex := -1
-var currentWaypoint: Spatial = null
+var currentWaypoint: Waypoint = null
 
 var previousDistanceToDestination := 0.0
 
@@ -23,47 +22,34 @@ func _physics_process(delta: float) -> void:
 		currentWaypoint = getNextWaypoint()
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
-	#while not isWaypointAhead(currentWaypoint):
-	#	currentWaypoint = getNextAheadWaypoint()
-	
 	if getDistanceToWaypoint(currentWaypoint) > previousDistanceToDestination:
 		currentWaypoint = getNextWaypoint()
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
+	
+	if isParentCloserToNextWaypoint():
+		currentWaypoint = getNextWaypoint()
 	
 	updateTurnDirectionFromPath()
 	
 	updateAcceleratingBasedOnRayCast()
 
-func getNextWaypoint() -> Spatial:
-	waypointIndex += 1
-	print("Waypoint %d" % waypointIndex)
+func getClosestWaypoint() -> Waypoint:
 	var track := get_node(trackNodePath) as Track
-	return track.getWaypoint(waypointIndex)
+	return track.getClosestWaypoint(get_parent().global_transform.origin)
 
-func getNextAheadWaypoint() -> Spatial:
-	var track := get_node(trackNodePath) as Track
-	
-	var currentWaypoint := track.getWaypoint(waypointIndex)
-	while not isWaypointAhead(currentWaypoint):
-		waypointIndex += 1
-		currentWaypoint = track.getWaypoint(waypointIndex)
-	
-	return currentWaypoint
+func getNextWaypoint() -> Waypoint:
+	return currentWaypoint.nextWaypoint
 
-func isWaypointAhead(waypoint: Spatial) -> bool:
-	return not doesDirectionRequireTurnaround(getLocalDirectionToWaypoint(waypoint))
+# Check if parent is closer to the next way point than the current waypoint.
+func isParentCloserToNextWaypoint() -> bool:
+	var parentDistanceToNextWaypoint := currentWaypoint.nextWaypoint.getDistanceToPosition(get_parent().global_transform.origin)
+	var currentWaypointDistanceToNextWaypoint := currentWaypoint.getDistanceToWaypoint(currentWaypoint.nextWaypoint) # TODO: Use precalculated distance?
+	
+	return parentDistanceToNextWaypoint < currentWaypointDistanceToNextWaypoint
 
 func getDistanceToWaypoint(waypoint: Spatial) -> float:
 	var parent: Spatial = get_parent()
 	return parent.global_transform.origin.distance_to(waypoint.global_transform.origin)
-
-func getLocalDirectionToWaypoint(waypoint: Spatial) -> Vector3:
-	var parent: Spatial = get_parent()
-	return parent.transform.origin.direction_to(parent.to_local(waypoint.global_transform.origin))
-
-func doesDirectionRequireTurnaround(direction: Vector3) -> bool:
-	var dotProduct := Vector3.FORWARD.dot(direction)
-	return dotProduct < 0.0
 
 func getParentRayCast() -> RayCast:
 	return get_parent().get_node("RayCast") as RayCast
@@ -73,7 +59,6 @@ func resetValues() -> void:
 	
 	accelerating = true
 	
-	waypointIndex = -1
 	currentWaypoint = null
 	
 	previousDistanceToDestination = 0.0
@@ -82,7 +67,7 @@ func resetValues() -> void:
 	pathIndex = 0
 	
 	if currentWaypoint == null:
-		currentWaypoint = getNextWaypoint()
+		currentWaypoint = getClosestWaypoint()
 		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 
 func updateTurnDirectionFromPath() -> void:
