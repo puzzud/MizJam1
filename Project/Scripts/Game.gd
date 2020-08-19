@@ -31,11 +31,18 @@ func _input(event: InputEvent) -> void:
 		Engine.time_scale = 1.0
 
 func _process(delta: float) -> void:
-	if raceStarted:
-		raceTime += delta
+	match Global.screenState:
+		Global.ScreenStates.TITLE:
+			# Rotate title cameras.
+			$Viewports/ViewportContainerTop/ViewportTop/TitleCamera.rotate(Vector3.UP, deg2rad(1.0 * delta))
+			$Viewports/ViewportContainerBottom/ViewportBottom/TitleCamera.rotate(Vector3.UP, deg2rad(1.0 * delta))
 		
-		if not raceEnded:
-			updateTimeDisplay(raceTime)
+		Global.ScreenStates.RACE:
+			if raceStarted:
+				raceTime += delta
+				
+				if not raceEnded:
+					updateTimeDisplay(raceTime)
 
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
