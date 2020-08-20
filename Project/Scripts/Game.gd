@@ -304,7 +304,7 @@ func isKartCloserToFinishingRace(kartIdA, kartIdB):
 	var kartALapNumber := getKartLapNumber(kartIdA)
 	var kartBLapNumber := getKartLapNumber(kartIdB)
 	if kartALapNumber != kartBLapNumber:
-		return (kartALapNumber < kartBLapNumber)
+		return (kartALapNumber > kartBLapNumber)
 	
 	var track := getTrack()
 	
