@@ -23,11 +23,11 @@ func getWaypoint(waypointIndex: int) -> Spatial:
 
 func getFinishLineWaypoint() -> Waypoint:
 	var waypoints := getWaypoints()
-	return waypoints[waypoints.size() - 1]
+	return waypoints[0]
 
 # position: global
 func getClosestWaypoint(position: Vector3) -> Waypoint:
-	var closestWaypointDistance := 100000.0 # Find out max float.
+	var closestWaypointDistance := INF
 	var closestWaypoint: Waypoint = null
 	
 	for _waypoint in getWaypoints():
@@ -43,8 +43,18 @@ func getClosestWaypoint(position: Vector3) -> Waypoint:
 func getClosestWaypointCloserToFinishLine(position: Vector3) -> Waypoint:
 	var closestWaypoint: Waypoint = getClosestWaypoint(position)
 	
-	if closestWaypoint.isCloserToNextWaypoint(position):
-		closestWaypoint = closestWaypoint.nextWaypoint
+	var finishLineWaypoint := getFinishLineWaypoint()
+	
+	if closestWaypoint != finishLineWaypoint:
+		if closestWaypoint.isPositionCloserToNextWaypoint(position):
+			closestWaypoint = closestWaypoint.nextWaypoint
+	else:
+		if finishLineWaypoint.isPositionCloserToNextWaypoint(position):
+			# Kart is ahead of finish line.
+			closestWaypoint = finishLineWaypoint.nextWaypoint
+		else:
+			# Kart is behind finish line.
+			closestWaypoint = finishLineWaypoint
 	
 	return closestWaypoint
 
@@ -53,7 +63,7 @@ func getDistanceToFinishLine(position: Vector3, waypointToUse: Waypoint = null) 
 	if waypointToUse == null:
 		waypointToUse = getClosestWaypointCloserToFinishLine(position)
 	
-	return waypointToUse.getDistanceToWaypoint(getFinishLineWaypoint()) + waypointToUse.getDistanceToPosition(position)
+	return waypointToUse.getDistanceToPosition(position) + waypointToUse.getDistanceToWaypoint(getFinishLineWaypoint())
 
 #func getNavigation() -> Navigation:
 #	return $Navigation as Navigation

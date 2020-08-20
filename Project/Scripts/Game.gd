@@ -39,10 +39,12 @@ func _input(event: InputEvent) -> void:
 	else:
 		Engine.time_scale = 1.0
 	
+	if Input.is_key_pressed(KEY_F1):
+		resetAllKartControls()
 	if Input.is_key_pressed(KEY_F5):
 		automateAllHumanControlledKarts()
 	elif Input.is_key_pressed(KEY_F6):
-		resetAllKartControls()
+		removeAllAutomatedKartControls()
 
 func _process(delta: float) -> void:
 	match Global.screenState:
@@ -311,6 +313,10 @@ func isKartCloserToFinishingRace(kartIdA, kartIdB):
 	var kartA := $Karts.get_child(kartIdA) as Kart
 	var kartB := $Karts.get_child(kartIdB) as Kart
 	
+	#var kartADistanceToFinishLine := track.getDistanceToFinishLine(kartA.global_transform.origin)
+	#var kartBDistanceToFinishLine := track.getDistanceToFinishLine(kartB.global_transform.origin)
+	#return (kartADistanceToFinishLine < kartBDistanceToFinishLine)
+	
 	return (track.getDistanceToFinishLine(kartA.global_transform.origin) < track.getDistanceToFinishLine(kartB.global_transform.origin))
 
 func resetRace() -> void:
@@ -365,7 +371,7 @@ func resetAllKarts() -> void:
 		kart.resetValues()
 	
 	resetAllKartControls()
-	
+
 func resetAllKartControls() -> void:
 	# Reset controls.
 	for kartIndex in range(0, $Karts.get_child_count()):
@@ -380,16 +386,27 @@ func automateAllHumanControlledKarts() -> void:
 	if kart != null:
 		automateKart(kart)
 
+func removeAllAutomatedKartControls() -> void:
+	for _kart in $Karts.get_children():
+		var kart: Kart = _kart
+		if kart.has_node("Controller") and kart.get_node("Controller") is AiController:
+			removeKartController(kart)
+
 func automateKart(kart: Kart) -> void:
 	changeKartController(kart, aiControllerPrefab.instance())
 
 func giveHumanControlToKart(kart: Kart) -> void:
 	changeKartController(kart, humanControllerPrefab.instance())
 
+func removeKartController(kart: Kart) -> void:
+	changeKartController(kart, null)
+
 func changeKartController(kart: Kart, controller: Controller) -> void:
 	kart.remove_child(kart.get_node("Controller"))
-	controller.name = "Controller"
-	kart.add_child(controller)
+	
+	if controller != null:
+		controller.name = "Controller"
+		kart.add_child(controller)
 
 func issueRaceResultMessage(humanWinner: bool) -> void:
 	if humanWinner:

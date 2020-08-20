@@ -50,8 +50,11 @@ func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
 	inaccessibleWaypoints[targetWaypoint] = -INF
 	return -INF
 
+# Checks to see if the supplied position is closer in waypoint directed distance
+# to the next waypoint than this waypoint.
+# In other words, is this position considered past this waypoint.
 # position: global
-func isCloserToNextWaypoint(position: Vector3) -> bool:
+func isPositionCloserToNextWaypoint(position: Vector3) -> bool:
 	if nextWaypoint == null:
 		return true
 	
