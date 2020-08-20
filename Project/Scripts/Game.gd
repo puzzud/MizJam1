@@ -257,7 +257,7 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	increaseKartLapNumber(kartId)
 	
 	var kartLapNumber = getKartLapNumber(kartId)
-	print("Kart:%d Lap:%d" % [kartId, kartLapNumber])
+	#print("Kart:%d Lap:%d" % [kartId, kartLapNumber])
 	
 	if kartLapNumber > maxNumberOfLaps + 1:
 		# Race is already over.

@@ -192,5 +192,5 @@ func checkForTargetCoin() -> void:
 	
 	if targetCoin == null:
 		targetCoin = getOptimalClosestCoin()
-		if targetCoin != null:
-			print("Found coin")
+		#if targetCoin != null:
+		#	print("Found coin")
