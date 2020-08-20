@@ -2,7 +2,12 @@ extends Spatial
 class_name Waypoint
 
 var nextWaypoint: Waypoint = null
-#var distanceToNextWaypoint := 0.0 # TODO: Precalculate distance.
+
+# Used for caching distances to other waypoints.
+var distanceToWaypoints = {}
+
+# Track which waypoints cannot be reached from this waypoint.
+var inaccessibleWaypoints = {}
 
 func _ready() -> void:
 	pass
@@ -12,8 +17,14 @@ func getDistanceToPosition(position: Vector3) -> float:
 	return global_transform.origin.distance_to(position)
 
 func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
+	if distanceToWaypoints.has(targetWaypoint):
+		return distanceToWaypoints[targetWaypoint]
+	
 	if nextWaypoint == null:
 		return 0.0
+	
+	if inaccessibleWaypoints.has(targetWaypoint):
+		return inaccessibleWaypoints[targetWaypoint]
 	
 	var distance := 0.0
 	
@@ -23,6 +34,7 @@ func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
 		distance += previousWaypoint.getDistanceToPosition(currentWaypoint.global_transform.origin)
 		
 		if currentWaypoint == targetWaypoint:
+			distanceToWaypoints[targetWaypoint] = distance
 			return distance
 		
 		previousWaypoint = currentWaypoint
@@ -32,7 +44,8 @@ func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
 			break
 		
 	# Error condition.
-	return 0.0
+	inaccessibleWaypoints[targetWaypoint] = -10000.0
+	return -10000.0
 
 # position: global
 func isCloserToNextWaypoint(position: Vector3) -> bool:
@@ -40,7 +53,7 @@ func isCloserToNextWaypoint(position: Vector3) -> bool:
 		return true
 	
 	var positionDistanceToNextWaypoint := nextWaypoint.getDistanceToPosition(position)
-	var distanceToNextWaypoint := getDistanceToWaypoint(nextWaypoint) # TODO: Use precalculated distance?
+	var distanceToNextWaypoint := getDistanceToWaypoint(nextWaypoint)
 	
 	return (positionDistanceToNextWaypoint < distanceToNextWaypoint)
 
