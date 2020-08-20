@@ -57,6 +57,8 @@ func saveConfiguration() -> void:
 	var configFile = ConfigFile.new()
 	
 	configFile.set_value("Game", "HasSeenInstructions", hasSeenInstructions)
+	
+	configFile.save(configFilePath)
 
 func onSawInstructions() -> void:
 	if not hasSeenInstructions:
