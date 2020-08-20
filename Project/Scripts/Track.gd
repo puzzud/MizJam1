@@ -48,6 +48,13 @@ func getClosestWaypointCloserToFinishLine(position: Vector3) -> Waypoint:
 	
 	return closestWaypoint
 
+# position: global
+func getDistanceToFinishLine(position: Vector3, waypointToUse: Waypoint = null) -> float:
+	if waypointToUse == null:
+		waypointToUse = getClosestWaypointCloserToFinishLine(position)
+	
+	return waypointToUse.getDistanceToWaypoint(getFinishLineWaypoint()) + waypointToUse.getDistanceToPosition(position)
+
 #func getNavigation() -> Navigation:
 #	return $Navigation as Navigation
 

@@ -8,7 +8,8 @@ const humanControllerPrefab := preload("res://Scenes/HumanController.tscn")
 
 const maxNumberOfLaps := 4
 
-var humanControlledKartIndex := 7
+var humanControlledKartId := 7
+var humanControlledKartPolePositionIndex := humanControlledKartId
 
 var kartLapNumbers = []
 
@@ -20,6 +21,7 @@ var raceStarted := false
 var raceEnded := false
 var raceTime := 0.0
 var kartFinishTimes := []
+var kartFinishOrders := [] # TODO: Temporary. Should generate from finish times.
 
 var instructionMessageIndex := -1
 
@@ -194,6 +196,7 @@ func startTransitionFromRaceToRaceEnd() -> void:
 	$Ui/Race/PressStart.visible = true
 
 func startTransitionFromRaceEndToRace() -> void:
+	fillInUnfinishedKarts()
 	resetRace()
 	startTrafficLight()
 	
@@ -223,15 +226,45 @@ func initializeKartFinishTimes() -> void:
 	for i in range(0, kartIds.size()):
 		kartFinishTimes.append(0.0)
 
-func initializeKartsAtPolePositions() -> void:
-	var polePositions := getTrack().getPolePositions()
+func initializeKartFinishOrders() -> void:
+	kartFinishOrders = []
+
+func aaa() -> void:
+	var polePositionIndex := 0
 	
-	for kartIndex in range(0, kartIds.size()):
-		var polePosition: Spatial = polePositions[kartIndex]
-		var polePositionTransform: Transform = polePosition.global_transform
-		
-		var kart: Kart = $Karts.get_child(kartIndex)
-		kart.global_transform = polePositionTransform
+	for kartId in range(0, humanControlledKartId):
+		initializeKartAtPolePosition(kartId, polePositionIndex)
+		polePositionIndex += 1
+	
+	initializeKartAtPolePosition(humanControlledKartId, polePositionIndex)
+	polePositionIndex += 1
+	
+	if humanControlledKartId < kartIds.size() - 1:
+		for kartId in range(humanControlledKartId + 1, kartIds.size()):
+			initializeKartAtPolePosition(kartId, polePositionIndex)
+			polePositionIndex += 1
+
+func initializeKartsAtPolePositions() -> void:
+	var kartIdsInPolePositionOrders = []
+	
+	if not kartFinishOrders.empty():
+		kartIdsInPolePositionOrders = kartFinishOrders.duplicate()
+	else:
+		# NOTE: Could cause issues later. Good for now.
+		# TODO: Should probably get values in key order.
+		kartIdsInPolePositionOrders = range(0, kartIds.size())
+	
+	var polePositionIndex := 0
+	
+	for kartId in kartIdsInPolePositionOrders:
+		initializeKartAtPolePosition(kartId, polePositionIndex)
+		polePositionIndex += 1
+
+func initializeKartAtPolePosition(kartId: int, polePositionIndex: int) -> void:
+	var polePosition: Spatial = getTrack().getPolePositions()[polePositionIndex]
+	
+	var kart: Kart = $Karts.get_child(kartId)
+	kart.global_transform = polePosition.global_transform
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	var kartId = getKartIdFromKart(kart)
@@ -249,6 +282,7 @@ func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	
 	if kartLapNumber > maxNumberOfLaps:
 		kartFinishTimes[kartId] = raceTime
+		kartFinishOrders.append(kartId)
 		
 		if winnerKartId == -1:
 			winnerKartId = kartId
@@ -269,22 +303,45 @@ func endRace() -> void:
 	Global.screenState = Global.ScreenStates.RACE_END
 	startTransitionFromRaceToRaceEnd()
 
+func fillInUnfinishedKarts() -> void:
+	# Get list of unfinished karts
+	var unfinishedKartIds := []
+	
+	for kartId in kartIds.values():
+		if kartFinishOrders.find(kartId) < 0:
+			unfinishedKartIds.append(kartId)
+	
+	# Sort them by their distance to the finish line.
+	unfinishedKartIds.sort_custom(self, "sortKartIdsByDistanceToFinishLine")
+	
+	# Append this sorted list to the kartFinishOrders.
+	kartFinishOrders += unfinishedKartIds
+
+func sortKartIdsByDistanceToFinishLine(kartIdA, kartIdB):
+	var track := getTrack()
+	
+	var kartA := $Karts.get_child(kartIdA) as Kart
+	var kartB := $Karts.get_child(kartIdA) as Kart
+	
+	return (track.getDistanceToFinishLine(kartA.global_transform.origin) < track.getDistanceToFinishLine(kartB.global_transform.origin))
+
 func resetRace() -> void:
 	winnerKartId = -1
 	raceStarted = false
 	raceEnded = false
 	raceTime = 0.0
-	updateTimeDisplay(raceTime)
 	
 	initializeKartIds()
 	initializeKartLapNumbers()
-	initializeKartFinishTimes()
 	initializeKartsAtPolePositions()
+	initializeKartFinishTimes()
+	initializeKartFinishOrders()
 	lockAllKarts(true)
 	startAllKartEngines(true)
 	resetAllKarts()
 	
 	$Ui/Race/LapInfo.visible = true
+	updateTimeDisplay(raceTime)
 	updateLapDisplay(0)
 	updateCoinDisplay(0)
 
@@ -323,7 +380,7 @@ func resetAllKartControls() -> void:
 	# Reset controls.
 	for kartIndex in range(0, $Karts.get_child_count()):
 		var kart: Kart = $Karts.get_child(kartIndex)
-		if kartIndex == humanControlledKartIndex:
+		if kartIndex == humanControlledKartId:
 			giveHumanControlToKart(kart)
 		else:
 			automateKart(kart)
@@ -373,7 +430,7 @@ func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:
 		kart.coinCount += 1
 		
-		if getKartIdFromKart(kart) == humanControlledKartIndex:
+		if getKartIdFromKart(kart) == humanControlledKartId:
 			updateCoinDisplay(kart.coinCount)
 
 func onTrackKartEnteredRoughZone(kart: Kart) -> void:
