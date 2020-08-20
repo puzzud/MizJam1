@@ -57,6 +57,9 @@ func _process(delta: float) -> void:
 				
 				if not raceEnded:
 					updateTimeDisplay(raceTime)
+			
+			calculateKartOrders()
+			updateOrderDisplay(getKartOrder(humanControlledKartId) + 1)
 
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
@@ -98,6 +101,14 @@ func haveAllKartsFinished() -> bool:
 			return false
 	
 	return true
+
+func getKartOrder(kartId: int) -> int:
+	for i in range(0, kartOrders.size()):
+		if kartOrders[i] == kartId:
+			return i
+	
+	# Error condition.
+	return 0
 
 func getTrack() -> Track:
 	return $Track as Track
@@ -394,6 +405,9 @@ func updateTimeDisplay(time: float) -> void:
 	var seconds := int(time - (minutes * 60))
 	
 	$Ui/Race/Time.text = "%002d:%002d:%002d" % [minutes, seconds, secondPercent]
+
+func updateOrderDisplay(orderNumber: int) -> void:
+	$Ui/Race/Order.text = str(orderNumber)
 
 func updateCoinDisplay(coinCount: int) -> void:
 	$Ui/Race/CoinInfo/Count.text = str(coinCount)
