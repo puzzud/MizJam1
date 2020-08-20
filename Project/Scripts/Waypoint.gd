@@ -17,11 +17,14 @@ func getDistanceToPosition(position: Vector3) -> float:
 	return global_transform.origin.distance_to(position)
 
 func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
+	if self == targetWaypoint:
+		return 0.0
+	
 	if distanceToWaypoints.has(targetWaypoint):
 		return distanceToWaypoints[targetWaypoint]
 	
 	if nextWaypoint == null:
-		return 0.0
+		return -INF
 	
 	if inaccessibleWaypoints.has(targetWaypoint):
 		return inaccessibleWaypoints[targetWaypoint]
@@ -44,8 +47,8 @@ func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
 			break
 		
 	# Error condition.
-	inaccessibleWaypoints[targetWaypoint] = -10000.0
-	return -10000.0
+	inaccessibleWaypoints[targetWaypoint] = -INF
+	return -INF
 
 # position: global
 func isCloserToNextWaypoint(position: Vector3) -> bool:
