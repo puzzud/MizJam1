@@ -306,7 +306,7 @@ func sortKartIdsByDistanceToFinishLine(kartIdA, kartIdB):
 	var track := getTrack()
 	
 	var kartA := $Karts.get_child(kartIdA) as Kart
-	var kartB := $Karts.get_child(kartIdA) as Kart
+	var kartB := $Karts.get_child(kartIdB) as Kart
 	
 	return (track.getDistanceToFinishLine(kartA.global_transform.origin) < track.getDistanceToFinishLine(kartB.global_transform.origin))
 
