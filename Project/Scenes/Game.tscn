@@ -103,7 +103,7 @@ modulate = Color( 0.2, 0.2, 0.2, 1 )
 [node name="Controller" parent="Karts/Kart7" instance=ExtResource( 7 )]
 
 [node name="Kart8" parent="Karts" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9889, 0, 29.717 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 29.7 )
 
 [node name="Saucer" parent="Karts/Kart8" index="0"]
 modulate = Color( 0.933333, 0.933333, 0.466667, 1 )

@@ -229,21 +229,6 @@ func initializeKartFinishTimes() -> void:
 func initializeKartFinishOrders() -> void:
 	kartFinishOrders = []
 
-func aaa() -> void:
-	var polePositionIndex := 0
-	
-	for kartId in range(0, humanControlledKartId):
-		initializeKartAtPolePosition(kartId, polePositionIndex)
-		polePositionIndex += 1
-	
-	initializeKartAtPolePosition(humanControlledKartId, polePositionIndex)
-	polePositionIndex += 1
-	
-	if humanControlledKartId < kartIds.size() - 1:
-		for kartId in range(humanControlledKartId + 1, kartIds.size()):
-			initializeKartAtPolePosition(kartId, polePositionIndex)
-			polePositionIndex += 1
-
 func initializeKartsAtPolePositions() -> void:
 	var kartIdsInPolePositionOrders = []
 	
