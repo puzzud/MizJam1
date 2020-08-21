@@ -3,8 +3,6 @@ class_name AiController
 
 export (float) var waypointDistanceTolerance = 5.0
 
-var currentWaypoint: Waypoint = null
-
 var previousDistanceToDestination := 0.0
 
 var path = []
@@ -21,16 +19,17 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
 	
-	if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
-		currentWaypoint = getNextWaypoint()
-		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
-	
-	if getDistanceToWaypoint(currentWaypoint) > previousDistanceToDestination:
-		currentWaypoint = getNextWaypoint()
-		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
-	
-	if isParentCloserToNextWaypoint():
-		currentWaypoint = getNextWaypoint()
+	if parent.currentWaypoint != null:
+		if parent.global_transform.origin.distance_to(parent.currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
+			parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
+			if parent.currentWaypoint != null:
+				previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
+		
+		if parent.currentWaypoint != null:
+			if getDistanceToWaypoint(parent.currentWaypoint) > previousDistanceToDestination:
+				parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
+				if parent.currentWaypoint != null:
+					previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
 	
 	checkForTargetCoin()
 	
@@ -38,24 +37,14 @@ func _physics_process(delta: float) -> void:
 	
 	updateAcceleratingBasedOnRayCast()
 
-func getClosestWaypoint() -> Waypoint:
-	var track := get_node(trackNodePath) as Track
-	return track.getClosestWaypoint(get_parent().global_transform.origin)
-
-func getNextWaypoint() -> Waypoint:
-	return currentWaypoint.nextWaypoint
-
-# Check if parent is closer to the next way point than the current waypoint.
-func isParentCloserToNextWaypoint() -> bool:
-	return currentWaypoint.isPositionCloserToNextWaypoint(get_parent().global_transform.origin)
-
 func getDistanceToWaypoint(waypoint: Spatial) -> float:
 	var parent: Spatial = get_parent()
 	return waypoint.getDistanceToPosition(parent.global_transform.origin)
 
 # position: global
 func isCloserToCurrentWaypoint(position: Vector3) -> bool:
-	return (currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(currentWaypoint))
+	var parent: Spatial = get_parent()
+	return (parent.currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(parent.currentWaypoint))
 
 func getParentRayCast() -> RayCast:
 	return get_parent().get_node("RayCast") as RayCast
@@ -68,7 +57,7 @@ func getOptimalClosestCoin() -> Coin:
 		return null
 	
 	var closestCoin: Coin = null
-	var closestCoinDistance := 10000.0 # TODO: Get largest float.
+	var closestCoinDistance := INF
 	
 	var parentPosition := parent.global_transform.origin
 	
@@ -91,9 +80,7 @@ func getOptimalClosestCoin() -> Coin:
 func resetValues() -> void:
 	.resetValues()
 	
-	accelerating = true
-	
-	currentWaypoint = null
+	accelerating = false
 	
 	previousDistanceToDestination = 0.0
 	
@@ -102,36 +89,19 @@ func resetValues() -> void:
 	
 	#targetPosition = get_parent().global_transform.origin
 	targetCoin = null
-	
-	if currentWaypoint == null:
-		currentWaypoint = getClosestWaypoint()
-		previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 
 func updateTurnDirectionFromPath() -> void:
 	var parent: Spatial = get_parent()
 	
-	var position := currentWaypoint.global_transform.origin
+	if parent.currentWaypoint == null:
+		return
+	
+	var position: Vector3 = parent.currentWaypoint.global_transform.origin
 	
 	if targetCoin != null:
 		position = targetCoin.global_transform.origin
 	
 	var lookingAtEuler: Vector3 = parent.global_transform.looking_at(position, Vector3.UP).basis.get_euler()
-	
-	var debug := false
-	if debug:
-		var ig1: ImmediateGeometry = parent.get_node("ig1")
-		ig1.clear()
-		ig1.begin(Mesh.PRIMITIVE_LINES)
-		ig1.add_vertex(parent.to_local(parent.global_transform.origin))
-		ig1.add_vertex(parent.to_local(position))
-		ig1.end()
-		
-		var ig2: ImmediateGeometry = parent.get_node("ig2")
-		ig2.clear()
-		ig2.begin(Mesh.PRIMITIVE_LINES)
-		ig2.add_vertex(parent.to_local(parent.global_transform.origin))
-		ig2.add_vertex(parent.to_local(parent.global_transform.origin) + (Vector3.FORWARD * 10.0))
-		ig2.end()
 	
 	var currentEuler = parent.rotation
 	if currentEuler.y != lookingAtEuler.y:
@@ -154,7 +124,9 @@ func updateTurnDirectionFromPath() -> void:
 		turnDirection = 0.0
 
 func updateAcceleratingBasedOnRayCast() -> void:
-	accelerating = true
+	var parent = get_parent()
+	
+	accelerating = (parent.currentWaypoint != null)
 	
 	var rayCast := getParentRayCast()
 	
@@ -168,8 +140,6 @@ func updateAcceleratingBasedOnRayCast() -> void:
 	
 	if collider is QuestionBlock:
 		return
-	
-	var parent = get_parent()
 	
 	if parent.isInRoughZone():
 		return

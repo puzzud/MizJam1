@@ -9,8 +9,21 @@ var distanceToWaypoints = {}
 # Track which waypoints cannot be reached from this waypoint.
 var inaccessibleWaypoints = {}
 
+var isDuplicate := false
+
 func _ready() -> void:
-	pass
+	resetValues()
+
+func resetValues() -> void:
+	nextWaypoint = null
+	distanceToWaypoints = {}
+	inaccessibleWaypoints = {}
+
+func copy() -> Waypoint:
+	var newWaypoint: Waypoint = duplicate()
+	newWaypoint.isDuplicate = true
+	newWaypoint.resetValues()
+	return newWaypoint
 
 # position: global
 func getDistanceToPosition(position: Vector3) -> float:
@@ -62,4 +75,3 @@ func isPositionCloserToNextWaypoint(position: Vector3) -> bool:
 	var distanceToNextWaypoint := getDistanceToWaypoint(nextWaypoint)
 	
 	return (positionDistanceToNextWaypoint < distanceToNextWaypoint)
-

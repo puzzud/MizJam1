@@ -15,6 +15,8 @@ var screenState: int = ScreenStates.NONE
 
 var game: Game = null
 
+var debug := false
+
 var hasSeenInstructions := false
 
 func _ready():
@@ -42,6 +44,9 @@ func _input(event: InputEvent) -> void:
 				game.startTransitionFromRaceEndToRace()
 				screenState = ScreenStates.RACE
 			checkForEscape()
+	
+	if Input.is_key_pressed(KEY_F2):
+		debug = true
 
 func loadConfiguration() -> void:
 	var configFile = ConfigFile.new() 

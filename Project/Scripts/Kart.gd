@@ -30,6 +30,9 @@ var roughZoneCounter := 0
 var coinCount := 0
 var coinsAhead := []
 
+var startingWaypoint: Waypoint = null
+var currentWaypoint: Waypoint = null
+
 func _ready() -> void:
 	$AudioPlayers/Engine.stream.loop_offset = randf()
 	
@@ -69,12 +72,46 @@ func _physics_process(delta: float) -> void:
 	velocity += acceleration * delta
 	velocity.y = 0.0
 	velocity = move_and_slide(velocity, Vector3.UP)
+	
+	checkWaypointOrientation()
 
 func getController() -> Controller:
 	if has_node("Controller"):
 		return $Controller as Controller
 	
 	return null
+
+func checkWaypointOrientation() -> void:
+	var ig2: ImmediateGeometry = $ig2
+	ig2.clear()
+	
+	if Global.debug:
+		ig2.begin(Mesh.PRIMITIVE_LINES)
+		ig2.add_vertex(to_local(global_transform.origin))
+		ig2.add_vertex(to_local(global_transform.origin) + (Vector3.FORWARD * 10.0))
+		ig2.end()
+	
+	if currentWaypoint == null:
+		return
+	
+	var ig1: ImmediateGeometry = $ig1
+	ig1.clear()
+	
+	if Global.debug:
+		var position: Vector3 = currentWaypoint.global_transform.origin
+		
+		ig1.begin(Mesh.PRIMITIVE_LINES)
+		ig1.add_vertex(to_local(global_transform.origin))
+		ig1.add_vertex(to_local(position))
+		ig1.end()
+	
+	# Check if kart is closer to the next way point than the current waypoint.
+	if currentWaypoint.nextWaypoint != null:
+		if currentWaypoint.isPositionCloserToNextWaypoint(global_transform.origin):
+			currentWaypoint = currentWaypoint.nextWaypoint
+	else:
+		#currentWaypoint = startingWaypoint
+		pass
 
 func isInRoughZone() -> bool:
 	return (roughZoneCounter > 0)
@@ -132,6 +169,9 @@ func resetValues() -> void:
 	coinCount = 0
 	
 	coinsAhead = []
+	
+	startingWaypoint = null
+	currentWaypoint = null
 
 func resetController() -> void:
 	var controller := getController()

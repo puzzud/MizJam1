@@ -9,7 +9,6 @@ signal itemPickedUp(item, kart)
 
 func _ready():
 	resetValues()
-	initializeWaypoints()
 
 func getPolePositions() -> Array:
 	return $PolePositions.get_children()
@@ -21,27 +20,36 @@ func getWaypoint(waypointIndex: int) -> Spatial:
 	var numberOfWaypoints = $Navigation/Waypoints.get_child_count()
 	return $Navigation/Waypoints.get_child(waypointIndex % numberOfWaypoints) as Spatial
 
+func getStartingLineWaypoint() -> Waypoint:
+	return getWaypoints()[0]
+
 func getFinishLineWaypoint() -> Waypoint:
 	var waypoints := getWaypoints()
-	return waypoints[0]
+	
+	# NOTE: Only legit when track as been reset with a race,
+	# else the finish line is the first waypoint.
+	return waypoints[waypoints.size() - 1]
 
 # position: global
-func getClosestWaypoint(position: Vector3) -> Waypoint:
+func getClosestWaypoint(position: Vector3, fromWaypoint: Waypoint) -> Waypoint:
 	var closestWaypointDistance := INF
 	var closestWaypoint: Waypoint = null
 	
-	for _waypoint in getWaypoints():
-		var waypoint: Waypoint = _waypoint
+	var waypoint: Waypoint = fromWaypoint
+	while waypoint != null:
 		var waypointDistance := position.distance_to(waypoint.global_transform.origin)
 		if waypointDistance < closestWaypointDistance:
 			closestWaypointDistance = waypointDistance
 			closestWaypoint = waypoint
+		
+		waypoint = waypoint.nextWaypoint
+		# TODO: This may need to be thought about more deeply.
 	
 	return closestWaypoint
 
 # position: global
-func getClosestWaypointCloserToFinishLine(position: Vector3) -> Waypoint:
-	var closestWaypoint: Waypoint = getClosestWaypoint(position)
+func getClosestWaypointCloserToFinishLine(position: Vector3, fromWaypoint: Waypoint) -> Waypoint:
+	var closestWaypoint: Waypoint = getClosestWaypoint(position, fromWaypoint)
 	
 	var finishLineWaypoint := getFinishLineWaypoint()
 	
@@ -59,11 +67,11 @@ func getClosestWaypointCloserToFinishLine(position: Vector3) -> Waypoint:
 	return closestWaypoint
 
 # position: global
-func getDistanceToFinishLine(position: Vector3, waypointToUse: Waypoint = null) -> float:
-	if waypointToUse == null:
-		waypointToUse = getClosestWaypointCloserToFinishLine(position)
+func getDistanceToFinishLine(position: Vector3, currentWaypoint: Waypoint) -> float:
+	if currentWaypoint == null:
+		return INF
 	
-	return waypointToUse.getDistanceToPosition(position) + waypointToUse.getDistanceToWaypoint(getFinishLineWaypoint())
+	return currentWaypoint.getDistanceToPosition(position) + currentWaypoint.getDistanceToWaypoint(getFinishLineWaypoint())
 
 #func getNavigation() -> Navigation:
 #	return $Navigation as Navigation
@@ -77,16 +85,60 @@ func resetValues() -> void:
 	for _questionBlock in $Items/QuestionBlocks.get_children():
 		var questionBlock: QuestionBlock = _questionBlock
 		questionBlock.resetValues()
+	
+	# Delete duplicate waypoints.
+	var duplicateWaypoints = []
+	for _waypoint in getWaypoints():
+		var waypoint: Waypoint = _waypoint
+		if waypoint.isDuplicate:
+			waypoint.get_parent().remove_child(waypoint)
+			waypoint.queue_free()
+	
+	# Reset source waypoints.
+	for _waypoint in getWaypoints():
+		var waypoint: Waypoint = _waypoint
+		waypoint.resetValues()
 
-func initializeWaypoints() -> void:
-	var waypoints := getWaypoints()
+func setupForLaps(numberOfLaps: int) -> void:
+	setupWaypointsForLaps(numberOfLaps)
+
+func linkWaypoints(waypoints: Array) -> void:
 	for i in range(0, waypoints.size()):
 		var waypoint: Waypoint = waypoints[i] as Waypoint
 		
 		if (i + 1) < waypoints.size():
 			waypoint.nextWaypoint = waypoints[i + 1] as Waypoint
-		else:
-			waypoint.nextWaypoint = waypoints[0] as Waypoint
+
+func setupWaypointsForLaps(numberOfLaps: int) -> void:
+	resetValues()
+	
+	var waypointLapSets := [getWaypoints()]
+	
+	# Create a set of duplicate linked waypoints for each
+	# additional lap.
+	for lapIndex in range(0, numberOfLaps - 1):
+		var waypointLapSet := []
+		for _waypoint in getWaypoints():
+			var waypoint: Waypoint = _waypoint
+			var waypointCopy := waypoint.copy()
+			waypointLapSet.append(waypointCopy)
+		
+		waypointLapSets.append(waypointLapSet)
+	
+	# Create a single list of all waypoints.
+	var waypoints := []
+	for waypointLapSet in waypointLapSets:
+		waypoints += waypointLapSet
+	
+	# Add a finish line waypoint that is a copy of the starting line waypoint.
+	waypoints.append(waypoints[0].copy())
+	
+	# Add all duplicate waypoints to parent.
+	for waypoint in waypoints:
+		$Navigation/Waypoints.add_child(waypoint)
+	
+	# Link all waypoints.
+	linkWaypoints(waypoints)
 
 func startStartSequence() -> void:
 	$TrafficLight.startSequence()

@@ -220,6 +220,20 @@ func startTransitionFromRaceEndToRace() -> void:
 	$AudioPlayers/RaceWinMusic.stop()
 	$AudioPlayers/Track1Theme.stop()
 
+func initializeTrack() -> void:
+	getTrack().setupForLaps(maxNumberOfLaps)
+
+func initializeKarts() -> void:
+	initializeKartIds()
+	initializeKartOrders()
+	
+	resetAllKarts()
+	initializeKartsAtPolePositions()
+	initializeKartWaypoints()
+	
+	initializeKartFinishTimes()
+	initializeKartLapNumbers()
+
 func initializeKartIds() -> void:
 	var id = 0
 	for kart in $Karts.get_children():
@@ -254,6 +268,14 @@ func initializeKartAtPolePosition(kartId: int, polePositionIndex: int) -> void:
 	
 	var kart: Kart = $Karts.get_child(kartId)
 	kart.global_transform = polePosition.global_transform
+
+func initializeKartWaypoints() -> void:
+	for _kart in $Karts.get_children():
+		initializeKartWaypoint(_kart)
+
+func initializeKartWaypoint(kart: Kart) -> void:
+	kart.startingWaypoint = getTrack().getStartingLineWaypoint()
+	kart.currentWaypoint = kart.startingWaypoint
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	var kartId = getKartIdFromKart(kart)
@@ -303,21 +325,16 @@ func isKartCloserToFinishingRace(kartIdA, kartIdB):
 	if kartAFinishTime < INF or kartBFinishTime < INF:
 		return (kartAFinishTime < kartBFinishTime)
 	
-	var kartALapNumber := getKartLapNumber(kartIdA)
-	var kartBLapNumber := getKartLapNumber(kartIdB)
-	if kartALapNumber != kartBLapNumber:
-		return (kartALapNumber > kartBLapNumber)
-	
 	var track := getTrack()
 	
 	var kartA := $Karts.get_child(kartIdA) as Kart
 	var kartB := $Karts.get_child(kartIdB) as Kart
 	
-	#var kartADistanceToFinishLine := track.getDistanceToFinishLine(kartA.global_transform.origin)
-	#var kartBDistanceToFinishLine := track.getDistanceToFinishLine(kartB.global_transform.origin)
-	#return (kartADistanceToFinishLine < kartBDistanceToFinishLine)
+	var kartADistanceToFinishLine := track.getDistanceToFinishLine(kartA.global_transform.origin, kartA.currentWaypoint)
+	var kartBDistanceToFinishLine := track.getDistanceToFinishLine(kartB.global_transform.origin, kartB.currentWaypoint)
+	return (kartADistanceToFinishLine < kartBDistanceToFinishLine)
 	
-	return (track.getDistanceToFinishLine(kartA.global_transform.origin) < track.getDistanceToFinishLine(kartB.global_transform.origin))
+	#return (track.getDistanceToFinishLine(kartA.global_transform.origin) < track.getDistanceToFinishLine(kartB.global_transform.origin))
 
 func resetRace() -> void:
 	winnerKartId = -1
@@ -325,16 +342,11 @@ func resetRace() -> void:
 	raceEnded = false
 	raceTime = 0.0
 	
-	initializeKartIds()
-	
-	initializeKartOrders()
-	initializeKartsAtPolePositions()
-	initializeKartFinishTimes()
-	initializeKartLapNumbers()
+	initializeTrack()
+	initializeKarts()
 	
 	lockAllKarts(true)
 	startAllKartEngines(true)
-	resetAllKarts()
 	
 	$Ui/Race/LapInfo.visible = true
 	updateTimeDisplay(raceTime)
