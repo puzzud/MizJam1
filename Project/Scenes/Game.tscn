@@ -615,6 +615,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead1"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead2" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 64.0
 margin_right = 96.0
@@ -623,6 +632,15 @@ rect_scale = Vector2( 4, 4 )
 texture = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead2"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
 }
 
 [node name="RacerHead3" type="TextureRect" parent="Ui/Race/RacerInfo"]
@@ -635,6 +653,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead3"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead4" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 192.0
 margin_right = 96.0
@@ -643,6 +670,15 @@ rect_scale = Vector2( 4, 4 )
 texture = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead4"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
 }
 
 [node name="RacerHead5" type="TextureRect" parent="Ui/Race/RacerInfo"]
@@ -655,6 +691,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead5"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead6" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 320.0
 margin_right = 96.0
@@ -663,6 +708,15 @@ rect_scale = Vector2( 4, 4 )
 texture = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead6"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
 }
 
 [node name="RacerHead7" type="TextureRect" parent="Ui/Race/RacerInfo"]
@@ -675,6 +729,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead7"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead8" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 448.0
 margin_right = 96.0
@@ -683,6 +746,15 @@ rect_scale = Vector2( 4, 4 )
 texture = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Ui/Race/RacerInfo/RacerHead8"]
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
 }
 
 [node name="Timers" type="Node" parent="."]

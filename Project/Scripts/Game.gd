@@ -17,6 +17,8 @@ const racerColors := [
 	Color("eeee77")
 ]
 
+#const racerIconGemBarMaxWidth := 40
+
 const maxNumberOfLaps := 4
 
 var humanControlledKartId := 7
@@ -123,6 +125,15 @@ func getKartOrder(kartId: int) -> int:
 	
 	# Error condition.
 	return 0
+
+func getTotalKartCoinCount() -> int:
+	var totalKartCoinCount := 0
+	
+	for _kart in $Karts.get_children():
+		var kart: Kart = _kart
+		totalKartCoinCount += kart.coinCount
+	
+	return totalKartCoinCount
 
 func getTrack() -> Track:
 	return $Track as Track
@@ -333,7 +344,7 @@ func calculateKartOrders() -> void:
 	
 	if kartPreviousOrders != kartOrders:
 		kartPreviousOrders = kartOrders.duplicate()
-		updateRacerDisplay(kartOrders)
+		updateRacerDisplay()
 
 func isKartCloserToFinishingRace(kartIdA, kartIdB):
 	var kartAFinishTime: float = kartFinishTimes.get(kartIdA, INF)
@@ -368,6 +379,7 @@ func resetRace() -> void:
 	updateTimeDisplay(raceTime)
 	updateLapDisplay(0)
 	updateCoinDisplay(0)
+	updateRacerDisplay()
 
 func restartGame() -> void:
 	get_tree().reload_current_scene()
@@ -464,10 +476,17 @@ func updateLapDisplay(lapNumber: int) -> void:
 	
 	$Ui/Race/LapInfo/Count.text = lapNumberString
 
-func updateRacerDisplay(kartOrders: Array) -> void:
+func updateRacerDisplay() -> void:
+	#var totalKartCoinCount := getTotalKartCoinCount()
+	
 	for i in range(0, $Ui/Race/RacerInfo.get_child_count()):
+		var racerIndex: int = kartOrders[i]
+		
 		var racerIcon: TextureRect = $Ui/Race/RacerInfo.get_child(i)
-		racerIcon.self_modulate = racerColors[kartOrders[i]]
+		racerIcon.modulate = racerColors[racerIndex]
+		
+		var racerCoinAmountBar: ColorRect = racerIcon.get_node("ColorRect")
+		racerCoinAmountBar.rect_size.x = 1 * $Karts.get_child(racerIndex).coinCount
 
 func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:
@@ -475,6 +494,8 @@ func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 		
 		if getKartIdFromKart(kart) == humanControlledKartId:
 			updateCoinDisplay(kart.coinCount)
+		
+		updateRacerDisplay()
 
 func onTrackKartEnteredRoughZone(kart: Kart) -> void:
 	kart.roughZoneCounter += 1
