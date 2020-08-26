@@ -6,6 +6,17 @@ signal sawInstructions()
 const aiControllerPrefab := preload("res://Scenes/AiController.tscn")
 const humanControllerPrefab := preload("res://Scenes/HumanController.tscn")
 
+const racerColors := [
+	Color("ff7777"),
+	Color("0088ff"),
+	Color("00cc55"),
+	Color("cc44cc"),
+	Color("aaffee"),
+	Color("880000"),
+	Color("333333"),
+	Color("eeee77")
+]
+
 const maxNumberOfLaps := 4
 
 var humanControlledKartId := 7
@@ -21,6 +32,7 @@ var raceEnded := false
 var raceTime := 0.0
 var kartFinishTimes := {}
 var kartOrders := []
+var kartPreviousOrders := []
 
 var instructionMessageIndex := -1
 
@@ -318,6 +330,10 @@ func calculateKartOrders() -> void:
 		kartOrders = kartIds.values().duplicate()
 	
 	kartOrders.sort_custom(self, "isKartCloserToFinishingRace")
+	
+	if kartPreviousOrders != kartOrders:
+		kartPreviousOrders = kartOrders.duplicate()
+		updateRacerDisplay(kartOrders)
 
 func isKartCloserToFinishingRace(kartIdA, kartIdB):
 	var kartAFinishTime: float = kartFinishTimes.get(kartIdA, INF)
@@ -447,6 +463,11 @@ func updateLapDisplay(lapNumber: int) -> void:
 		lapNumberString = str(lapNumber)
 	
 	$Ui/Race/LapInfo/Count.text = lapNumberString
+
+func updateRacerDisplay(kartOrders: Array) -> void:
+	for i in range(0, $Ui/Race/RacerInfo.get_child_count()):
+		var racerIcon: TextureRect = $Ui/Race/RacerInfo.get_child(i)
+		racerIcon.self_modulate = racerColors[kartOrders[i]]
 
 func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 	if item is Coin:
