@@ -601,9 +601,10 @@ __meta__ = {
 
 [node name="RacerInfo" type="Control" parent="Ui/Race"]
 margin_left = 16.0
-margin_top = 368.0
+margin_top = 464.0
 margin_right = 80.0
-margin_bottom = 880.0
+margin_bottom = 976.0
+rect_scale = Vector2( 0.5, 0.5 )
 
 [node name="RacerHead1" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_right = 96.0
