@@ -351,6 +351,11 @@ func isKartCloserToFinishingRace(kartIdA, kartIdB):
 	if kartAFinishTime < INF or kartBFinishTime < INF:
 		return (kartAFinishTime < kartBFinishTime)
 	
+	#var kartALapNumber := getKartLapNumber(kartIdA)
+	#var kartBLapNumber := getKartLapNumber(kartIdB)
+	#if kartALapNumber != kartBLapNumber:
+	#	return kartALapNumber < kartBLapNumber
+	
 	var track := getTrack()
 	
 	var kartA := $Karts.get_child(kartIdA) as Kart
