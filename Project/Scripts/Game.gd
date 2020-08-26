@@ -248,14 +248,13 @@ func initializeTrack() -> void:
 
 func initializeKarts() -> void:
 	initializeKartIds()
-	initializeKartOrders()
 	
 	resetAllKarts()
 	initializeKartsAtPolePositions()
 	initializeKartWaypoints()
-	
 	initializeKartFinishTimes()
 	initializeKartLapNumbers()
+	initializeKartOrders()
 
 func initializeKartIds() -> void:
 	var id = 0
