@@ -18,6 +18,7 @@ var game: Game = null
 var debug := false
 
 var hasSeenInstructions := false
+var isMuted := false setget setIsMuted
 
 func _ready():
 	loadConfiguration()
@@ -47,6 +48,14 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_key_pressed(KEY_F2):
 		debug = true
+	
+	if event.is_action_pressed("client_mute_all_sound"):
+		setIsMuted(not isMuted)
+		saveConfiguration()
+
+func setIsMuted(newIsMuted: bool) -> void:
+	isMuted = newIsMuted
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), newIsMuted)
 
 func loadConfiguration() -> void:
 	var configFile = ConfigFile.new() 
@@ -57,11 +66,16 @@ func loadConfiguration() -> void:
 	var _hasSeenInstructions = configFile.get_value("Game", "HasSeenInstructions")
 	if _hasSeenInstructions != null:
 		hasSeenInstructions = _hasSeenInstructions
+	
+	var _isMuted = configFile.get_value("Game", "IsMuted")
+	if _isMuted != null:
+		setIsMuted(_isMuted)
 
 func saveConfiguration() -> void:
 	var configFile = ConfigFile.new()
 	
 	configFile.set_value("Game", "HasSeenInstructions", hasSeenInstructions)
+	configFile.set_value("Game", "IsMuted", isMuted)
 	
 	configFile.save(configFilePath)
 
