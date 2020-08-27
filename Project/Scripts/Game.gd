@@ -332,17 +332,29 @@ func initializeKartWaypoint(kart: Kart) -> void:
 	kart.currentWaypoint = getTrack().getFinishLineWaypoint()
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
-	# TODO: Temporarily disabled the usage of this callback.
-	pass
+	var kartId = getKartIdFromKart(kart)
+	var kartLapNumber = getKartLapNumber(kartId)
+	if kartLapNumber != maxNumberOfLaps:
+		return
+	
+	# Finished the race.
+	kartFinishTimes[kartId] = raceTime
+	
+	if winnerKartId == -1:
+		winnerKartId = kartId
+	
+	var humanControlledKart := getHumanControlledKart()
+	if humanControlledKart != null:
+		if kartId == getKartIdFromKart(humanControlledKart):
+			updateTimeDisplay(raceTime)
+			endRace()
 
 func onKartPassedWaypoint(kart: Kart, passedWaypoint: Waypoint) -> void:
 	if passedWaypoint != getTrack().getFinishLineWaypoint():
 		return
 	
-	# Cross finish line.
-	
+	# Crossed finish line.
 	var kartId = getKartIdFromKart(kart)
-	
 	increaseKartLapNumber(kartId)
 	
 	var kartLapNumber = getKartLapNumber(kartId)
@@ -355,15 +367,7 @@ func onKartPassedWaypoint(kart: Kart, passedWaypoint: Waypoint) -> void:
 	var humanControlledKart := getHumanControlledKart()
 	
 	if kartLapNumber > maxNumberOfLaps:
-		kartFinishTimes[kartId] = raceTime
-		
-		if winnerKartId == -1:
-			winnerKartId = kartId
-		
-		if humanControlledKart != null:
-			if kartId == getKartIdFromKart(humanControlledKart):
-				updateTimeDisplay(raceTime)
-				endRace()
+		pass
 	else:
 		if humanControlledKart != null:
 			if kartId == getKartIdFromKart(humanControlledKart):
