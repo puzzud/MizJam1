@@ -130,7 +130,7 @@ func getKartDistanceToFinishingRace(kartId: int) -> float:
 	var track := getTrack()
 	var kart := $Karts.get_child(kartId) as Kart
 	
-	var distanceToFinishLine := track.getDistanceToFinishLine(kart.global_transform.origin, kart.currentWaypoint)
+	var distanceToFinishLine := track.getDistanceToFinishLine(kart.global_transform.origin, kart.positionWaypoint)
 	distanceToFinishLine += track.getTrackLength() * (maxNumberOfLaps - getKartLapNumber(kartId))
 	
 	return distanceToFinishLine
@@ -140,20 +140,6 @@ func isKartCloserToFinishingRace(kartIdA: int, kartIdB: int) -> bool:
 	var kartBFinishTime: float = kartFinishTimes.get(kartIdB, INF)
 	if kartAFinishTime < INF or kartBFinishTime < INF:
 		return (kartAFinishTime < kartBFinishTime)
-	
-	#var kartALapNumber := getKartLapNumber(kartIdA)
-	#var kartBLapNumber := getKartLapNumber(kartIdB)
-	#if kartALapNumber != kartBLapNumber:
-	#	return kartALapNumber < kartBLapNumber
-	
-	#var track := getTrack()
-	
-	#var kartA := $Karts.get_child(kartIdA) as Kart
-	#var kartB := $Karts.get_child(kartIdB) as Kart
-	
-	#var kartADistanceToFinishLine := track.getDistanceToFinishLine(kartA.global_transform.origin, kartA.currentWaypoint)
-	#var kartBDistanceToFinishLine := track.getDistanceToFinishLine(kartB.global_transform.origin, kartB.currentWaypoint)
-	#return (kartADistanceToFinishLine < kartBDistanceToFinishLine)
 	
 	var kartADistanceToFinishingRace := getKartDistanceToFinishingRace(kartIdA)
 	var kartBDistanceToFinishingRace := getKartDistanceToFinishingRace(kartIdB)
@@ -329,7 +315,7 @@ func initializeKartWaypoints() -> void:
 		initializeKartWaypoint(_kart)
 
 func initializeKartWaypoint(kart: Kart) -> void:
-	kart.currentWaypoint = getTrack().getFinishLineWaypoint()
+	kart.positionWaypoint = getTrack().getFinishLineWaypoint()
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
 	var kartId = getKartIdFromKart(kart)

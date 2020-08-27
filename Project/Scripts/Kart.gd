@@ -1,6 +1,8 @@
 extends KinematicBody
 class_name Kart
 
+signal passedWaypoint(kart, waypoint)
+
 const nominalVelocityLength := 0.1
 const wheelBase := 0.5 # TODO: Needs to be based on scene.
 const steeringAngle := 1.0
@@ -30,7 +32,7 @@ var roughZoneCounter := 0
 var coinCount := 0
 var coinsAhead := []
 
-var currentWaypoint: Waypoint = null
+var positionWaypoint: Waypoint = null
 
 func _ready() -> void:
 	$AudioPlayers/Engine.stream.loop_offset = randf()
@@ -90,14 +92,14 @@ func checkWaypointOrientation() -> void:
 		ig2.add_vertex(to_local(global_transform.origin) + (Vector3.FORWARD * 10.0))
 		ig2.end()
 	
-	if currentWaypoint == null:
+	if positionWaypoint == null:
 		return
 	
 	var ig1: ImmediateGeometry = $ig1
 	ig1.clear()
 	
 	if Global.debug:
-		var position: Vector3 = currentWaypoint.global_transform.origin
+		var position: Vector3 = positionWaypoint.global_transform.origin
 		
 		ig1.begin(Mesh.PRIMITIVE_LINES)
 		ig1.add_vertex(to_local(global_transform.origin))
@@ -105,11 +107,10 @@ func checkWaypointOrientation() -> void:
 		ig1.end()
 	
 	# Check if kart is closer to the next way point than the current waypoint.
-	if currentWaypoint.nextWaypoint != null:
-		if currentWaypoint.isPositionCloserToNextWaypoint(global_transform.origin):
-			var passedWaypoint := currentWaypoint
-			currentWaypoint = currentWaypoint.nextWaypoint
-			Global.game.onKartPassedWaypoint(self, passedWaypoint)
+	if positionWaypoint.nextWaypoint != null:
+		if positionWaypoint.isPositionCloserToNextWaypoint(global_transform.origin):
+			emit_signal("passedWaypoint", self, positionWaypoint)
+			positionWaypoint = positionWaypoint.nextWaypoint
 
 func isInRoughZone() -> bool:
 	return (roughZoneCounter > 0)
@@ -168,7 +169,7 @@ func resetValues() -> void:
 	
 	coinsAhead = []
 	
-	currentWaypoint = null
+	positionWaypoint = null
 
 func resetController() -> void:
 	var controller := getController()

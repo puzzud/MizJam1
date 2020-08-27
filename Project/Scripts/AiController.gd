@@ -3,10 +3,12 @@ class_name AiController
 
 export (float) var waypointDistanceTolerance = 5.0
 
+var currentWaypoint: Waypoint = null
+
 var previousDistanceToDestination := 0.0
 
-var path = []
-var pathIndex = 0
+#var path = []
+#var pathIndex = 0
 
 #var targetPosition := Vector3.ZERO
 var targetCoin: Coin = null
@@ -19,18 +21,21 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
 	
-	# TODO: Temporarily disabled these additional AI checks.
-	#if parent.currentWaypoint != null:
-	#	if parent.global_transform.origin.distance_to(parent.currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
-	#		parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
-	#		if parent.currentWaypoint != null:
-	#			previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
+	if currentWaypoint == null:
+		currentWaypoint = parent.positionWaypoint
+	
+	if currentWaypoint != null:
 		
-	#	if parent.currentWaypoint != null:
-	#		if getDistanceToWaypoint(parent.currentWaypoint) > previousDistanceToDestination:
-	#			parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
-	#			if parent.currentWaypoint != null:
-	#				previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
+		if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
+			currentWaypoint = currentWaypoint.nextWaypoint
+			if currentWaypoint != null:
+				previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
+		
+		if currentWaypoint != null:
+			if getDistanceToWaypoint(currentWaypoint) > previousDistanceToDestination:
+				currentWaypoint = currentWaypoint.nextWaypoint
+				if currentWaypoint != null:
+					previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
 	checkForTargetCoin()
 	
@@ -45,7 +50,7 @@ func getDistanceToWaypoint(waypoint: Spatial) -> float:
 # position: global
 func isCloserToCurrentWaypoint(position: Vector3) -> bool:
 	var parent: Spatial = get_parent()
-	return (parent.currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(parent.currentWaypoint))
+	return (currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(currentWaypoint))
 
 func getParentRayCast() -> RayCast:
 	return get_parent().get_node("RayCast") as RayCast
@@ -85,8 +90,8 @@ func resetValues() -> void:
 	
 	previousDistanceToDestination = 0.0
 	
-	path = []
-	pathIndex = 0
+	#path = []
+	#pathIndex = 0
 	
 	#targetPosition = get_parent().global_transform.origin
 	targetCoin = null
@@ -94,10 +99,10 @@ func resetValues() -> void:
 func updateTurnDirectionFromPath() -> void:
 	var parent: Spatial = get_parent()
 	
-	if parent.currentWaypoint == null:
+	if currentWaypoint == null:
 		return
 	
-	var position: Vector3 = parent.currentWaypoint.global_transform.origin
+	var position: Vector3 = currentWaypoint.global_transform.origin
 	
 	if targetCoin != null:
 		position = targetCoin.global_transform.origin
@@ -127,7 +132,7 @@ func updateTurnDirectionFromPath() -> void:
 func updateAcceleratingBasedOnRayCast() -> void:
 	var parent = get_parent()
 	
-	accelerating = (parent.currentWaypoint != null)
+	accelerating = (currentWaypoint != null)
 	
 	var rayCast := getParentRayCast()
 	
