@@ -30,7 +30,6 @@ var roughZoneCounter := 0
 var coinCount := 0
 var coinsAhead := []
 
-var startingWaypoint: Waypoint = null
 var currentWaypoint: Waypoint = null
 
 func _ready() -> void:
@@ -108,10 +107,9 @@ func checkWaypointOrientation() -> void:
 	# Check if kart is closer to the next way point than the current waypoint.
 	if currentWaypoint.nextWaypoint != null:
 		if currentWaypoint.isPositionCloserToNextWaypoint(global_transform.origin):
+			var passedWaypoint := currentWaypoint
 			currentWaypoint = currentWaypoint.nextWaypoint
-	else:
-		#currentWaypoint = startingWaypoint
-		pass
+			Global.game.onKartPassedWaypoint(self, passedWaypoint)
 
 func isInRoughZone() -> bool:
 	return (roughZoneCounter > 0)
@@ -170,7 +168,6 @@ func resetValues() -> void:
 	
 	coinsAhead = []
 	
-	startingWaypoint = null
 	currentWaypoint = null
 
 func resetController() -> void:

@@ -29,9 +29,10 @@ func copy() -> Waypoint:
 func getDistanceToPosition(position: Vector3) -> float:
 	return global_transform.origin.distance_to(position)
 
-func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
-	if self == targetWaypoint:
-		return 0.0
+func getDistanceToWaypoint(targetWaypoint: Waypoint, allowDistanceToSelf: bool = false) -> float:
+	if not allowDistanceToSelf:
+		if self == targetWaypoint:
+			return 0.0
 	
 	if distanceToWaypoints.has(targetWaypoint):
 		return distanceToWaypoints[targetWaypoint]
@@ -57,7 +58,8 @@ func getDistanceToWaypoint(targetWaypoint: Waypoint) -> float:
 		currentWaypoint = currentWaypoint.nextWaypoint
 		
 		if currentWaypoint == self:
-			break
+			if not allowDistanceToSelf:
+				break
 		
 	# Error condition.
 	inaccessibleWaypoints[targetWaypoint] = -INF

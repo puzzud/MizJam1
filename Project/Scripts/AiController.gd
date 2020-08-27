@@ -19,17 +19,18 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
 	
-	if parent.currentWaypoint != null:
-		if parent.global_transform.origin.distance_to(parent.currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
-			parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
-			if parent.currentWaypoint != null:
-				previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
+	# TODO: Temporarily disabled these additional AI checks.
+	#if parent.currentWaypoint != null:
+	#	if parent.global_transform.origin.distance_to(parent.currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
+	#		parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
+	#		if parent.currentWaypoint != null:
+	#			previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
 		
-		if parent.currentWaypoint != null:
-			if getDistanceToWaypoint(parent.currentWaypoint) > previousDistanceToDestination:
-				parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
-				if parent.currentWaypoint != null:
-					previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
+	#	if parent.currentWaypoint != null:
+	#		if getDistanceToWaypoint(parent.currentWaypoint) > previousDistanceToDestination:
+	#			parent.currentWaypoint = parent.currentWaypoint.nextWaypoint
+	#			if parent.currentWaypoint != null:
+	#				previousDistanceToDestination = getDistanceToWaypoint(parent.currentWaypoint)
 	
 	checkForTargetCoin()
 	
