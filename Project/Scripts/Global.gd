@@ -11,6 +11,15 @@ enum ScreenStates {
 	RACE_END
 }
 
+enum ItemType {
+	NONE = -1,
+	SHIELD,
+	MISSILE,
+	SPEED_UP
+}
+
+const numberOfItemTypes = ItemType.SPEED_UP
+
 var screenState: int = ScreenStates.NONE
 
 var game: Game = null

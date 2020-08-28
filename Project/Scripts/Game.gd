@@ -396,6 +396,7 @@ func resetRace() -> void:
 	updateTimeDisplay(raceTime)
 	updateLapDisplay(0)
 	updateCoinDisplay(0)
+	updateItemDisplay(Global.ItemType.NONE)
 	updateRacerDisplay()
 
 func restartGame() -> void:
@@ -486,6 +487,17 @@ func updateOrderDisplay(orderNumber: int) -> void:
 func updateCoinDisplay(coinCount: int) -> void:
 	$Ui/Race/CoinInfo/Count.text = str(coinCount)
 
+func updateItemDisplay(itemType: int) -> void:
+	var itemIcons := $Ui/Race/ItemInfo/Items.get_children()
+	
+	for itemIcon in itemIcons:
+		itemIcon.visible = false
+	
+	if itemType != Global.ItemType.NONE:
+		for i in range(0, itemIcons.size()):
+			var itemIcon: TextureRect = itemIcons[i]
+			itemIcon.visible = (i == itemType)
+
 func updateLapDisplay(lapNumber: int) -> void:
 	var lapNumberString := ""
 	if lapNumber > 0:
@@ -513,6 +525,17 @@ func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 			updateCoinDisplay(kart.coinCount)
 		
 		updateRacerDisplay()
+	elif item is QuestionBlock:
+		if kart.ownedItem == Global.ItemType.NONE:
+			var itemType: int = randi() % Global.numberOfItemTypes
+			kart.ownedItem = itemType
+			
+			if getKartIdFromKart(kart) == humanControlledKartId:
+				updateItemDisplay(kart.ownedItem)
+
+func onKartUsedItem(kart: Kart) -> void:
+	if getKartIdFromKart(kart) == humanControlledKartId:
+		updateItemDisplay(kart.ownedItem)
 
 func onTrackKartEnteredRoughZone(kart: Kart) -> void:
 	kart.roughZoneCounter += 1

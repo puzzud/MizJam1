@@ -2,6 +2,7 @@ extends KinematicBody
 class_name Kart
 
 signal passedWaypoint(kart, waypoint)
+signal usedItem(kart)
 
 const nominalVelocityLength := 0.1
 const wheelBase := 0.5 # TODO: Needs to be based on scene.
@@ -26,11 +27,15 @@ var positionLocked := true
 var intendedTurnDirection := 0.0
 var intendedAccelerating := false
 var intendedBraking := false
+var intendedUseItem := false
 
 var roughZoneCounter := 0
 
 var coinCount := 0
+var ownedItem: int = Global.ItemType.NONE
+
 var coinsAhead := []
+var questionBlocksAhead := []
 
 var positionWaypoint: Waypoint = null
 
@@ -43,14 +48,19 @@ func _process(delta: float) -> void:
 	intendedTurnDirection = 0.0
 	intendedAccelerating = false
 	intendedBraking = false
+	intendedUseItem = false
 	
 	var controller := getController()
 	if controller != null:
 		intendedTurnDirection = controller.turnDirection
 		intendedAccelerating = controller.accelerating
 		intendedBraking = controller.braking
+		intendedUseItem = controller.useItem
 	
 	steerDirection = deg2rad(-intendedTurnDirection * steeringAngle)
+	
+	if intendedUseItem:
+		useItem()
 	
 	$AudioPlayers/Engine.pitch_scale = 1.0 + (velocity.length() / 4.0)
 
@@ -166,8 +176,10 @@ func resetValues() -> void:
 	roughZoneCounter = 0
 	
 	coinCount = 0
+	ownedItem = Global.ItemType.NONE
 	
 	coinsAhead = []
+	questionBlocksAhead = []
 	
 	positionWaypoint = null
 
@@ -182,13 +194,27 @@ func startEngine(on: bool) -> void:
 	else:
 		$AudioPlayers/Engine.stop()
 
+func useItem() -> void:
+	if ownedItem == Global.ItemType.NONE:
+		return
+	
+	ownedItem = Global.ItemType.NONE
+	emit_signal("usedItem", self)
+
 func onAreaAheadAreaEntered(area: Area) -> void:
 	if area is Coin:
 		if coinsAhead.find(area) == -1:
 			coinsAhead.append(area)
+	elif area is QuestionBlock:
+		if questionBlocksAhead.find(area) == -1:
+			questionBlocksAhead.append(area)
 
 func onAreaAheadAreaExited(area: Area) -> void:
 	if area is Coin:
 		var coinIndex := coinsAhead.find(area)
 		if coinIndex > -1:
 			coinsAhead.remove(coinIndex)
+	elif area is QuestionBlock:
+		var questionBlockIndex := questionBlocksAhead.find(area)
+		if questionBlockIndex > -1:
+			questionBlocksAhead.remove(questionBlockIndex)
