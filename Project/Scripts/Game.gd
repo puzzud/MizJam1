@@ -527,7 +527,8 @@ func onTrackItemPickedUp(item: Spatial, kart: Kart) -> void:
 		updateRacerDisplay()
 	elif item is QuestionBlock:
 		if kart.ownedItem == Global.ItemType.NONE:
-			var itemType: int = randi() % Global.numberOfItemTypes
+			#var itemType: int = randi() % Global.numberOfItemTypes
+			var itemType: int = Global.ItemType.SPEED_UP
 			kart.ownedItem = itemType
 			
 			if getKartIdFromKart(kart) == humanControlledKartId:

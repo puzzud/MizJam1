@@ -195,8 +195,11 @@ func startEngine(on: bool) -> void:
 		$AudioPlayers/Engine.stop()
 
 func useItem() -> void:
-	if ownedItem == Global.ItemType.NONE:
-		return
+	match ownedItem:
+		Global.ItemType.NONE:
+			return
+		Global.ItemType.SPEED_UP:
+			velocity += -transform.basis.z * 100.0
 	
 	ownedItem = Global.ItemType.NONE
 	emit_signal("usedItem", self)
