@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Kart.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=2]
@@ -12,13 +12,20 @@ size = Vector3( 0.25, 0.125, 0.6 )
 radius = 0.5
 height = 0.5
 
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+albedo_color = Color( 0.121569, 0, 1, 1 )
+
 [sub_resource type="SpatialMaterial" id=3]
 flags_unshaded = true
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=6]
 flags_unshaded = true
-albedo_color = Color( 0.121569, 0, 1, 1 )
+albedo_color = Color( 0.2, 1, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=7]
+flags_unshaded = true
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 5, 0.5, 8 )
@@ -71,13 +78,21 @@ material = ExtResource( 4 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
 shape = SubResource( 2 )
 
-[node name="ig1" type="ImmediateGeometry" parent="."]
+[node name="ForwardIg" type="ImmediateGeometry" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
+material_override = SubResource( 4 )
+
+[node name="PreviousIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
 material_override = SubResource( 3 )
 
-[node name="ig2" type="ImmediateGeometry" parent="."]
+[node name="NextIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 4 )
+material_override = SubResource( 6 )
+
+[node name="AiIg" type="ImmediateGeometry" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
+material_override = SubResource( 7 )
 
 [node name="RayCast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136099, 0 )

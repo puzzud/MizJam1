@@ -18,6 +18,9 @@ export (NodePath) var trackNodePath = null
 func _ready() -> void:
 	resetValues()
 
+func _process(delta: float) -> void:
+	updateDebugDisplay()
+
 func _physics_process(delta: float) -> void:
 	var parent: Spatial = get_parent()
 	
@@ -25,7 +28,6 @@ func _physics_process(delta: float) -> void:
 		currentWaypoint = parent.positionWaypoint
 	
 	if currentWaypoint != null:
-		
 		if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
 			currentWaypoint = currentWaypoint.nextWaypoint
 			if currentWaypoint != null:
@@ -170,3 +172,20 @@ func checkForTargetCoin() -> void:
 		targetCoin = getOptimalClosestCoin()
 		#if targetCoin != null:
 		#	print("Found coin")
+
+func updateDebugDisplay() -> void:
+	var parent: Spatial = get_parent()
+	
+	var aiIg: ImmediateGeometry = parent.get_node("AiIg")
+	aiIg.clear()
+	
+	if currentWaypoint == null:
+		return
+	
+	if Global.debug:
+		var position: Vector3 = currentWaypoint.global_transform.origin
+		
+		aiIg.begin(Mesh.PRIMITIVE_LINES)
+		aiIg.add_vertex(parent.to_local(parent.global_transform.origin))
+		aiIg.add_vertex(parent.to_local(position))
+		aiIg.end()

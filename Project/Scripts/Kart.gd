@@ -97,28 +97,28 @@ func isInRoughZone() -> bool:
 	return (roughZoneCounter > 0)
 
 func updateDebugDisplay() -> void:
-	var ig2: ImmediateGeometry = $ig2
-	ig2.clear()
+	var forwardIg: ImmediateGeometry = $ForwardIg
+	forwardIg.clear()
 	
 	if Global.debug:
-		ig2.begin(Mesh.PRIMITIVE_LINES)
-		ig2.add_vertex(to_local(global_transform.origin))
-		ig2.add_vertex(to_local(global_transform.origin) + (Vector3.FORWARD * 10.0))
-		ig2.end()
+		forwardIg.begin(Mesh.PRIMITIVE_LINES)
+		forwardIg.add_vertex(to_local(global_transform.origin))
+		forwardIg.add_vertex(to_local(global_transform.origin) + (Vector3.FORWARD * 10.0))
+		forwardIg.end()
 	
 	if positionWaypoint == null:
 		return
 	
-	var ig1: ImmediateGeometry = $ig1
-	ig1.clear()
+	var nextIg: ImmediateGeometry = $NextIg
+	nextIg.clear()
 	
 	if Global.debug:
 		var position: Vector3 = positionWaypoint.global_transform.origin
 		
-		ig1.begin(Mesh.PRIMITIVE_LINES)
-		ig1.add_vertex(to_local(global_transform.origin))
-		ig1.add_vertex(to_local(position))
-		ig1.end()
+		nextIg.begin(Mesh.PRIMITIVE_LINES)
+		nextIg.add_vertex(to_local(global_transform.origin))
+		nextIg.add_vertex(to_local(position))
+		nextIg.end()
 
 func applyFriction() -> void:
 	if velocity.length() < nominalVelocityLength:
