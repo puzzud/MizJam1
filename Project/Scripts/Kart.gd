@@ -37,6 +37,8 @@ var coinsAhead := []
 var questionBlocksAhead := []
 
 var positionWaypoint: Waypoint = null
+#var previousWaypoint: Waypoint = null
+#var nextWaypoint: Waypoint = null
 
 func _ready() -> void:
 	$AudioPlayers/Engine.stream.loop_offset = randf()

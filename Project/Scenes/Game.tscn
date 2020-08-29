@@ -710,6 +710,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead1"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
+
 [node name="RacerHead2" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 64.0
 margin_right = 96.0
@@ -725,6 +733,17 @@ margin_left = 20.0
 margin_top = 4.0
 margin_right = 60.0
 margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead2"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -748,6 +767,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead3"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead4" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 192.0
 margin_right = 96.0
@@ -763,6 +793,17 @@ margin_left = 20.0
 margin_top = 4.0
 margin_right = 60.0
 margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead4"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -786,6 +827,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead5"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead6" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 320.0
 margin_right = 96.0
@@ -801,6 +853,17 @@ margin_left = 20.0
 margin_top = 4.0
 margin_right = 60.0
 margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead6"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -824,6 +887,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead7"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RacerHead8" type="TextureRect" parent="Ui/Race/RacerInfo"]
 margin_top = 448.0
 margin_right = 96.0
@@ -839,6 +913,17 @@ margin_left = 20.0
 margin_top = 4.0
 margin_right = 60.0
 margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugText" type="Label" parent="Ui/Race/RacerInfo/RacerHead8"]
+visible = false
+margin_left = 64.0
+margin_right = 104.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -77,3 +77,19 @@ func isPositionCloserToNextWaypoint(position: Vector3) -> bool:
 	var distanceToNextWaypoint := getDistanceToWaypoint(nextWaypoint)
 	
 	return (positionDistanceToNextWaypoint < distanceToNextWaypoint)
+
+func doesTransitionToWaypointPassWaypoint(toWaypoint: Waypoint, passedWaypoint: Waypoint) -> bool:
+	if self == toWaypoint:
+		return false
+	
+	if toWaypoint == passedWaypoint:
+		return false
+	
+	var currentWaypoint := self
+	while currentWaypoint != toWaypoint:
+		if currentWaypoint == passedWaypoint:
+			return true
+		
+		currentWaypoint = currentWaypoint.nextWaypoint
+	
+	return false

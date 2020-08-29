@@ -29,14 +29,16 @@ func getClosestWaypoint(position: Vector3, fromWaypoint: Waypoint) -> Waypoint:
 	var closestWaypoint: Waypoint = null
 	
 	var waypoint: Waypoint = fromWaypoint
-	while waypoint != null:
+	while true:
 		var waypointDistance := position.distance_to(waypoint.global_transform.origin)
 		if waypointDistance < closestWaypointDistance:
 			closestWaypointDistance = waypointDistance
 			closestWaypoint = waypoint
 		
 		waypoint = waypoint.nextWaypoint
-		# TODO: This may need to be thought about more deeply.
+		
+		if waypoint == fromWaypoint:
+			break
 	
 	return closestWaypoint
 

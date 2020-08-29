@@ -319,6 +319,7 @@ func initializeKartWaypoints() -> void:
 		initializeKartWaypoint(_kart)
 
 func initializeKartWaypoint(kart: Kart) -> void:
+	#kart.nextWaypoint = getTrack().getFinishLineWaypoint()
 	kart.positionWaypoint = getTrack().getFinishLineWaypoint()
 
 func onTrackKartCrossedFinishLine(kart: Kart) -> void:
@@ -374,10 +375,21 @@ func updateKartWaypoint(kart: Kart) -> void:
 	if kart.positionWaypoint == null:
 		return
 	
+	var track := getTrack()
+	var closerWaypoint := track.getClosestWaypointCloserToFinishLine(kart.global_transform.origin, kart.positionWaypoint)
+	
 	# Check if kart is closer to the next way point than the current waypoint.
-	if kart.positionWaypoint.isPositionCloserToNextWaypoint(kart.global_transform.origin):
-		onKartPassedWaypoint(kart, kart.positionWaypoint)
-		kart.positionWaypoint = kart.positionWaypoint.nextWaypoint
+	#if kart.positionWaypoint.isPositionCloserToNextWaypoint(kart.global_transform.origin):
+	#	onKartPassedWaypoint(kart, kart.positionWaypoint)
+	#	kart.positionWaypoint = kart.positionWaypoint.nextWaypoint
+	
+	if closerWaypoint != kart.positionWaypoint:
+		var finishLineWaypoint := track.getFinishLineWaypoint()
+		
+		if kart.positionWaypoint.doesTransitionToWaypointPassWaypoint(closerWaypoint, finishLineWaypoint):
+			onKartPassedWaypoint(kart, finishLineWaypoint)
+		
+		kart.positionWaypoint = closerWaypoint
 
 func endRace() -> void:
 	Global.screenState = Global.ScreenStates.RACE_END
@@ -389,9 +401,16 @@ func calculateKartOrders() -> void:
 	
 	kartOrders.sort_custom(self, "isKartCloserToFinishingRace")
 	
-	var kartDistancesToFinishingRace = []
-	for kartId in range(0, kartIds.size()):
-		kartDistancesToFinishingRace.append(getKartDistanceToFinishingRace(kartId))
+	if Global.debug:
+		for racerInfoIndex in range(0, kartIds.size()):
+			var kartId: int = kartOrders[racerInfoIndex]
+			
+			var kartDistanceToFinishingRace := getKartDistanceToFinishingRace(kartId)
+			
+			var racerInfo := $Ui/Race/RacerInfo.get_child(racerInfoIndex)
+			var debugText: Label = racerInfo.get_node("DebugText")
+			debugText.text = str(int(kartDistanceToFinishingRace))
+			debugText.visible = true
 	
 	if kartPreviousOrders != kartOrders:
 		kartPreviousOrders = kartOrders.duplicate()
