@@ -74,14 +74,18 @@ func _process(delta: float) -> void:
 				if not raceEnded:
 					updateTimeDisplay(raceTime)
 			
+			updateKartWaypoints()
 			calculateKartOrders()
 			updateOrderDisplay(getKartOrder(humanControlledKartId) + 1)
 
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
 
+func getKarts() -> Array:
+	return $Karts.get_children()
+
 func getHumanControlledKart() -> Kart:
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		var kart: Kart = _kart
 		if kart.has_node("Controller"):
 			if kart.get_node("Controller") is HumanController:
@@ -148,7 +152,7 @@ func isKartCloserToFinishingRace(kartIdA: int, kartIdB: int) -> bool:
 func getTotalKartCoinCount() -> int:
 	var totalKartCoinCount := 0
 	
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		var kart: Kart = _kart
 		totalKartCoinCount += kart.coinCount
 	
@@ -277,7 +281,7 @@ func initializeKarts() -> void:
 
 func initializeKartIds() -> void:
 	var id = 0
-	for kart in $Karts.get_children():
+	for kart in getKarts():
 		kartIds[kart] = id
 		id += 1
 
@@ -311,7 +315,7 @@ func initializeKartAtPolePosition(kartId: int, polePositionIndex: int) -> void:
 	kart.global_transform = polePosition.global_transform
 
 func initializeKartWaypoints() -> void:
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		initializeKartWaypoint(_kart)
 
 func initializeKartWaypoint(kart: Kart) -> void:
@@ -361,6 +365,19 @@ func onKartPassedWaypoint(kart: Kart, passedWaypoint: Waypoint) -> void:
 	
 	if haveAllKartsStarted():
 		getTrack().showLapNumber(getHighestLapNumber())
+
+func updateKartWaypoints() -> void:
+	for _kart in getKarts():
+		updateKartWaypoint(_kart)
+
+func updateKartWaypoint(kart: Kart) -> void:
+	if kart.positionWaypoint == null:
+		return
+	
+	# Check if kart is closer to the next way point than the current waypoint.
+	if kart.positionWaypoint.isPositionCloserToNextWaypoint(kart.global_transform.origin):
+		onKartPassedWaypoint(kart, kart.positionWaypoint)
+		kart.positionWaypoint = kart.positionWaypoint.nextWaypoint
 
 func endRace() -> void:
 	Global.screenState = Global.ScreenStates.RACE_END
@@ -413,18 +430,18 @@ func onTrackStartSequenceFinished() -> void:
 	startStartRaceMusic()
 
 func lockAllKarts(lock: bool) -> void:
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		var kart: Kart = _kart
 		kart.positionLocked = lock
 
 func startAllKartEngines(on: bool) -> void:
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		var kart: Kart = _kart
 		kart.startEngine(on)
 
 func resetAllKarts() -> void:
 	# Reset carts.
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		var kart: Kart = _kart
 		kart.resetValues()
 	
@@ -432,8 +449,9 @@ func resetAllKarts() -> void:
 
 func resetAllKartControls() -> void:
 	# Reset controls.
-	for kartIndex in range(0, $Karts.get_child_count()):
-		var kart: Kart = $Karts.get_child(kartIndex)
+	var karts := getKarts()
+	for kartIndex in range(0, karts.size()):
+		var kart: Kart = karts[kartIndex]
 		if kartIndex == humanControlledKartId:
 			giveHumanControlToKart(kart)
 		else:
@@ -445,7 +463,7 @@ func automateAllHumanControlledKarts() -> void:
 		automateKart(kart)
 
 func removeAllAutomatedKartControls() -> void:
-	for _kart in $Karts.get_children():
+	for _kart in getKarts():
 		var kart: Kart = _kart
 		if kart.has_node("Controller") and kart.get_node("Controller") is AiController:
 			removeKartController(kart)

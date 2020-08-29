@@ -1,7 +1,6 @@
 extends KinematicBody
 class_name Kart
 
-signal passedWaypoint(kart, waypoint)
 signal usedItem(kart)
 
 const nominalVelocityLength := 0.1
@@ -62,6 +61,8 @@ func _process(delta: float) -> void:
 	if intendedUseItem:
 		useItem()
 	
+	updateDebugDisplay()
+	
 	$AudioPlayers/Engine.pitch_scale = 1.0 + (velocity.length() / 4.0)
 
 func _physics_process(delta: float) -> void:
@@ -83,8 +84,6 @@ func _physics_process(delta: float) -> void:
 	velocity += acceleration * delta
 	velocity.y = 0.0
 	velocity = move_and_slide(velocity, Vector3.UP)
-	
-	checkWaypointOrientation()
 
 func getController() -> Controller:
 	if has_node("Controller"):
@@ -92,7 +91,10 @@ func getController() -> Controller:
 	
 	return null
 
-func checkWaypointOrientation() -> void:
+func isInRoughZone() -> bool:
+	return (roughZoneCounter > 0)
+
+func updateDebugDisplay() -> void:
 	var ig2: ImmediateGeometry = $ig2
 	ig2.clear()
 	
@@ -115,15 +117,6 @@ func checkWaypointOrientation() -> void:
 		ig1.add_vertex(to_local(global_transform.origin))
 		ig1.add_vertex(to_local(position))
 		ig1.end()
-	
-	# Check if kart is closer to the next way point than the current waypoint.
-	if positionWaypoint.nextWaypoint != null:
-		if positionWaypoint.isPositionCloserToNextWaypoint(global_transform.origin):
-			emit_signal("passedWaypoint", self, positionWaypoint)
-			positionWaypoint = positionWaypoint.nextWaypoint
-
-func isInRoughZone() -> bool:
-	return (roughZoneCounter > 0)
 
 func applyFriction() -> void:
 	if velocity.length() < nominalVelocityLength:
