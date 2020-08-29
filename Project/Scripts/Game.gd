@@ -77,6 +77,9 @@ func _process(delta: float) -> void:
 			updateKartWaypoints()
 			calculateKartOrders()
 			updateOrderDisplay(getKartOrder(humanControlledKartId) + 1)
+		
+		Global.ScreenStates.RACE_END:
+			updateKartWaypoints()
 
 func getKartIdFromKart(kart: Kart) -> int:
 	return kartIds[kart]
