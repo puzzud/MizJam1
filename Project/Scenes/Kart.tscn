@@ -92,6 +92,7 @@ material_override = SubResource( 6 )
 
 [node name="AiIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
+visible = false
 material_override = SubResource( 7 )
 
 [node name="RayCast" type="RayCast" parent="."]

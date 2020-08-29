@@ -194,7 +194,7 @@ func useItem() -> void:
 		Global.ItemType.NONE:
 			return
 		Global.ItemType.SPEED_UP:
-			velocity += -transform.basis.z * 100.0
+			velocity += -transform.basis.z * 50.0
 	
 	ownedItem = Global.ItemType.NONE
 	emit_signal("usedItem", self)

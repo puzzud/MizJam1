@@ -12,6 +12,7 @@ var previousDistanceToDestination := 0.0
 
 #var targetPosition := Vector3.ZERO
 var targetCoin: Coin = null
+var targetQuestionBlock: QuestionBlock = null
 
 export (NodePath) var trackNodePath = null
 
@@ -44,6 +45,8 @@ func _physics_process(delta: float) -> void:
 					previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
 	checkForTargetCoin()
+	checkForTargetQuestionBlock()
+	checkItemUsage()
 	
 	updateTurnDirectionFromPath()
 	
@@ -89,6 +92,34 @@ func getOptimalClosestCoin() -> Coin:
 	
 	return closestCoin
 
+func getOptimalClosestQuestionBlock() -> QuestionBlock:
+	var parent: Spatial = get_parent()
+	
+	var questionBlocksAhead: Array = parent.questionBlocksAhead
+	if questionBlocksAhead.empty():
+		return null
+	
+	var closestQuestionBlock: QuestionBlock = null
+	var closestQuestionDistance := INF
+	
+	var parentPosition := parent.global_transform.origin
+	
+	for questionBlock in questionBlocksAhead:
+		if not questionBlock.isEnabled():
+			continue
+		
+		var questionBlockPosition: Vector3 = questionBlock.global_transform.origin
+		
+		if not isCloserToCurrentWaypoint(questionBlockPosition):
+			continue
+		
+		var distance := parentPosition.distance_to(questionBlockPosition)
+		if distance < closestQuestionDistance:
+			closestQuestionBlock = questionBlock
+			closestQuestionDistance = distance
+	
+	return closestQuestionBlock
+
 func resetValues() -> void:
 	.resetValues()
 	
@@ -101,6 +132,7 @@ func resetValues() -> void:
 	
 	#targetPosition = get_parent().global_transform.origin
 	targetCoin = null
+	targetQuestionBlock = null
 
 func updateTurnDirectionFromPath() -> void:
 	var parent: Spatial = get_parent()
@@ -176,6 +208,43 @@ func checkForTargetCoin() -> void:
 		targetCoin = getOptimalClosestCoin()
 		#if targetCoin != null:
 		#	print("Found coin")
+
+func checkForTargetQuestionBlock() -> void:
+	if targetCoin == null:
+		return
+	
+	if targetQuestionBlock != null:
+		if not targetQuestionBlock.isEnabled():
+			targetQuestionBlock = null
+		elif not isCloserToCurrentWaypoint(targetQuestionBlock.global_transform.origin):
+			targetQuestionBlock = null
+	
+	if targetQuestionBlock == null:
+		targetQuestionBlock = getOptimalClosestQuestionBlock()
+
+func checkItemUsage() -> void:
+	useItem = false
+	
+	if targetCoin != null:
+		return
+	
+	var parent = get_parent()
+	var ownedItem: int = parent.ownedItem
+	if ownedItem == Global.ItemType.NONE:
+		return
+	
+	match ownedItem:
+		Global.ItemType.SPEED_UP:
+			var parentTransform: Transform = parent.global_transform
+			# Check to see if facing next waypoint.
+			var facingDirection: Vector3 = -parentTransform.basis.z
+			var directionToCurrentWaypoint: Vector3 = parentTransform.origin.direction_to(currentWaypoint.global_transform.origin)
+			var angleTo := facingDirection.angle_to(directionToCurrentWaypoint)
+			if angleTo < 0.25:
+				# Check to see if distance between next waypoint is great enough.
+				var distanceToCurrentWaypoint := parentTransform.origin.distance_to(currentWaypoint.global_transform.origin)
+				if distanceToCurrentWaypoint >= 30.0:
+					useItem = true
 
 func updateDebugDisplay() -> void:
 	var parent: Spatial = get_parent()

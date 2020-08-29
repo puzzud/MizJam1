@@ -4,12 +4,14 @@ class_name QuestionBlock
 signal itemPickedUp(item, kart)
 
 func _ready() -> void:
-	#resetValues()
-	pass
+	resetValues()
 
 func resetValues() -> void:
 	$CollisionShape.disabled = false
 	$AnimationPlayer.play("Idle")
+
+func isEnabled() -> bool:
+	return (not $CollisionShape.disabled)
 
 func disable() -> void:
 	$CollisionShape.disabled = true
