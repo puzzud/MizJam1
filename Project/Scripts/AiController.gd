@@ -27,7 +27,10 @@ func _physics_process(delta: float) -> void:
 	if currentWaypoint == null:
 		currentWaypoint = parent.positionWaypoint
 	
-	if currentWaypoint != null:
+	currentWaypoint = parent.positionWaypoint
+	
+	if false:
+	#if currentWaypoint != null:
 		if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
 			currentWaypoint = currentWaypoint.nextWaypoint
 			if currentWaypoint != null:
@@ -36,6 +39,7 @@ func _physics_process(delta: float) -> void:
 		if currentWaypoint != null:
 			if getDistanceToWaypoint(currentWaypoint) > previousDistanceToDestination:
 				currentWaypoint = currentWaypoint.nextWaypoint
+				#currentWaypoint = parent.positionWaypoint
 				if currentWaypoint != null:
 					previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
 	
