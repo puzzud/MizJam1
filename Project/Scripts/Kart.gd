@@ -1,6 +1,7 @@
 extends KinematicBody
 class_name Kart
 
+signal loadedItem(kart, itemType)
 signal usedItem(kart)
 
 const nominalVelocityLength := 0.1
@@ -31,6 +32,7 @@ var intendedUseItem := false
 var roughZoneCounter := 0
 
 var coinCount := 0
+var loadingItem: int = Global.ItemType.NONE
 var ownedItem: int = Global.ItemType.NONE
 
 var coinsAhead := []
@@ -111,6 +113,9 @@ func setColor(color: Color) -> void:
 	$Saucer.modulate = color
 	$TurnSignals.modulate = color
 
+func hasItem() -> bool:
+	return (ownedItem != Global.ItemType.NONE)
+
 func updateDebugDisplay() -> void:
 	var forwardIg: ImmediateGeometry = $ForwardIg
 	forwardIg.clear()
@@ -186,6 +191,7 @@ func resetValues() -> void:
 	roughZoneCounter = 0
 	
 	coinCount = 0
+	loadingItem = Global.ItemType.NONE
 	ownedItem = Global.ItemType.NONE
 	
 	coinsAhead = []
@@ -204,9 +210,22 @@ func startEngine(on: bool) -> void:
 	else:
 		$AudioPlayers/Engine.stop()
 
+func startLoadingItem(itemType: int) -> void:
+	loadingItem = itemType
+	ownedItem = Global.ItemType.UNKNOWN
+	$Timers/ItemLoadTimer.start()
+
+func onItemLoadTimerTimeout() -> void:
+	ownedItem = loadingItem
+	loadingItem = Global.ItemType.NONE
+	
+	emit_signal("loadedItem", self, ownedItem)
+
 func useItem() -> void:
 	match ownedItem:
 		Global.ItemType.NONE:
+			return
+		Global.ItemType.UNKNOWN:
 			return
 		Global.ItemType.SPEED_UP:
 			velocity += -transform.basis.z * 50.0

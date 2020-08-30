@@ -15,7 +15,8 @@ enum ItemType {
 	NONE = -1,
 	SHIELD,
 	MISSILE,
-	SPEED_UP
+	SPEED_UP,
+	UNKNOWN
 }
 
 const numberOfItemTypes = ItemType.SPEED_UP

@@ -120,6 +120,12 @@ collision_layer = 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -8.63153 )
 shape = SubResource( 8 )
 
+[node name="Timers" type="Node" parent="."]
+
+[node name="ItemLoadTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
 [node name="AudioPlayers" type="Spatial" parent="."]
 
 [node name="Engine" type="AudioStreamPlayer3D" parent="AudioPlayers"]
@@ -129,3 +135,4 @@ max_distance = 40.0
 out_of_range_mode = 1
 [connection signal="area_entered" from="AreaAhead" to="." method="onAreaAheadAreaEntered"]
 [connection signal="area_exited" from="AreaAhead" to="." method="onAreaAheadAreaExited"]
+[connection signal="timeout" from="Timers/ItemLoadTimer" to="." method="onItemLoadTimerTimeout"]
