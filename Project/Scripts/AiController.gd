@@ -61,9 +61,6 @@ func isCloserToCurrentWaypoint(position: Vector3) -> bool:
 	var parent: Spatial = get_parent()
 	return (currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(currentWaypoint))
 
-func getParentForwardRayCast() -> RayCast:
-	return get_parent().getRayCast(0) as RayCast
-
 func getOptimalClosestCoin() -> Coin:
 	var parent: Spatial = get_parent()
 	
@@ -177,7 +174,7 @@ func updateAcceleratingBasedOnRayCast() -> void:
 	if parent.isInRoughZone():
 		return
 	
-	var rayCast := getParentForwardRayCast()
+	var rayCast: RayCast = parent.getRayCast(0)
 	
 	if not rayCast.is_colliding():
 		return
@@ -194,7 +191,7 @@ func updateAcceleratingBasedOnRayCast() -> void:
 		# TODO: Only slow down if parent velocity is faster than collider kart.
 		return
 		
-		var distanceToKart: float = parent.global_transform.origin.distance_to(collider.global_transform.origin)
+		var distanceToKart: float = rayCast.global_transform.origin.distance_to(collider.global_transform.origin)
 		if distanceToKart < 3.0:
 			accelerating = false
 			return

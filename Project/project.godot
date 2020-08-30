@@ -190,7 +190,8 @@ client_mute_all_sound={
 
 3d_physics/layer_1="Obstacle"
 3d_physics/layer_2="Kart"
-3d_physics/layer_3="RoughZones"
+3d_physics/layer_3="RoughZone"
+3d_physics/layer_4="Item"
 
 [rendering]
 

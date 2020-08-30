@@ -62,6 +62,8 @@ tracks/1/keys = {
 }
 
 [node name="QuestionBlock" type="Area"]
+collision_layer = 8
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
