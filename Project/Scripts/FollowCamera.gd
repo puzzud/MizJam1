@@ -5,13 +5,14 @@ export (NodePath) var targetNodePath = null
 
 export (float) var followDistance = 3.0
 
+var target: Spatial = null setget setTarget
+
 func _ready():
 	pass
 
 func _physics_process(delta: float) -> void:
-	var target = get_node(targetNodePath) as Spatial
 	if target == null:
-		return
+		setTarget(get_node(targetNodePath))
 	
 	look_at(target.global_transform.origin, Vector3.UP)
 	
@@ -20,3 +21,6 @@ func _physics_process(delta: float) -> void:
 	global_transform.origin = target.global_transform.origin + (target.global_transform.basis.z * followDistance)
 	
 	global_transform.origin.y = followHeight
+
+func setTarget(newTarget: Spatial) -> void:
+	target = newTarget

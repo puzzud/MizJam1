@@ -48,17 +48,25 @@ func _ready():
 	startTitle()
 
 func _input(event: InputEvent) -> void:
-	if Input.is_key_pressed(KEY_P):
-		Engine.time_scale = 0.125
-	else:
-		Engine.time_scale = 1.0
-	
-	if Input.is_key_pressed(KEY_F1):
-		resetAllKartControls()
-	if Input.is_key_pressed(KEY_F5):
-		automateAllHumanControlledKarts()
-	elif Input.is_key_pressed(KEY_F6):
-		removeAllAutomatedKartControls()
+	match Global.screenState:
+		Global.ScreenStates.RACE:
+			if Input.is_key_pressed(KEY_P):
+				Engine.time_scale = 0.125
+			else:
+				Engine.time_scale = 1.0
+			
+			if event is InputEventKey:
+				if Input.is_key_pressed(KEY_F1):
+					resetAllKartControls()
+				if Input.is_key_pressed(KEY_F5):
+					automateAllHumanControlledKarts()
+				elif Input.is_key_pressed(KEY_F6):
+					removeAllAutomatedKartControls()
+				else:
+					var keyEvent: InputEventKey = event
+					var kartId := keyEvent.scancode - KEY_1
+					if kartId in range(0, 8):
+						followKart(kartId)
 
 func _process(delta: float) -> void:
 	match Global.screenState:
@@ -508,6 +516,9 @@ func changeKartController(kart: Kart, controller: Controller) -> void:
 	if controller != null:
 		controller.name = "Controller"
 		kart.add_child(controller)
+
+func followKart(kartId: int) -> void:
+	$Viewports/ViewportContainerTop/ViewportTop/Camera.setTarget(getKarts()[kartId])
 
 func issueRaceResultMessage(humanWinner: bool) -> void:
 	if humanWinner:
