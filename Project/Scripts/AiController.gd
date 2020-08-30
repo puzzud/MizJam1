@@ -137,6 +137,13 @@ func updateTurnDirectionFromPath() -> void:
 	if currentWaypoint == null:
 		return
 	
+	var rayCast: RayCast = parent.getRayCast(0)
+	if getRayCastDistanceToItsCollider(rayCast) < 7.0:
+		var turnDirectionFromRayCasts := getTurnDirectionFromRayCasts()
+		if turnDirectionFromRayCasts != 0.0:
+			turnDirection = turnDirectionFromRayCasts
+			return
+	
 	var position: Vector3 = currentWaypoint.global_transform.origin
 	
 	if targetCoin != null:
@@ -254,6 +261,45 @@ func checkItemUsage() -> void:
 				var distanceToCurrentWaypoint := parentTransform.origin.distance_to(currentWaypoint.global_transform.origin)
 				if distanceToCurrentWaypoint >= 30.0:
 					useItem = true
+
+func getRayCastDistanceToItsCollider(rayCast: RayCast) -> float:
+	if not rayCast.is_colliding():
+		return INF
+	
+	var collider: Spatial = rayCast.get_collider()
+	return rayCast.global_transform.origin.distance_to(collider.global_transform.origin)
+
+func getCloserCollisionRayCast(rayCastA: RayCast, rayCastB: RayCast) -> RayCast:
+	if getRayCastDistanceToItsCollider(rayCastA) < getRayCastDistanceToItsCollider(rayCastB):
+		return rayCastA
+	elif getRayCastDistanceToItsCollider(rayCastA) > getRayCastDistanceToItsCollider(rayCastB):
+		return rayCastB
+	else:
+		return null
+
+func getTurnDirectionFromCloserRayCast(leftRayCast: RayCast, rightRayCast: RayCast) -> float:
+	match getCloserCollisionRayCast(leftRayCast, rightRayCast):
+		leftRayCast:
+			return 1.0
+		rightRayCast:
+			return -1.0
+	
+	return 0.0
+
+func getTurnDirectionFromRayCasts() -> float:
+	var parent = get_parent()
+	
+	var frontCenterRayCast: RayCast = parent.getRayCast(0)
+	if frontCenterRayCast.is_colliding():
+		var left15RayCast: RayCast = parent.getRayCast(-2)
+		var right15RayCast: RayCast = parent.getRayCast(2)
+		
+		if left15RayCast.is_colliding() or right15RayCast.is_colliding():
+			return getTurnDirectionFromCloserRayCast(left15RayCast, right15RayCast)
+		else:
+			return 0.0
+	
+	return 0.0
 
 func updateDebugDisplay() -> void:
 	var parent: Spatial = get_parent()
