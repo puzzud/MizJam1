@@ -95,17 +95,32 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
 visible = false
 material_override = SubResource( 7 )
 
-[node name="RayCast" type="RayCast" parent="."]
+[node name="ForwardRayCast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136099, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -10 )
-collision_mask = 5
+collision_mask = 7
 collide_with_areas = true
 
-[node name="AreaAhead" type="Area" parent="RayCast"]
+[node name="ForwardLeftRayCast" type="RayCast" parent="."]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0.136099, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -10 )
+collision_mask = 7
+collide_with_areas = true
+
+[node name="ForwardRightRayCast" type="RayCast" parent="."]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0, 0.136099, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -10 )
+collision_mask = 7
+collide_with_areas = true
+
+[node name="AreaAhead" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136099, 0 )
 collision_layer = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="RayCast/AreaAhead"]
+[node name="CollisionShape" type="CollisionShape" parent="AreaAhead"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -8.63153 )
 shape = SubResource( 5 )
 
@@ -116,5 +131,5 @@ stream = ExtResource( 3 )
 unit_db = 2.0
 max_distance = 40.0
 out_of_range_mode = 1
-[connection signal="area_entered" from="RayCast/AreaAhead" to="." method="onAreaAheadAreaEntered"]
-[connection signal="area_exited" from="RayCast/AreaAhead" to="." method="onAreaAheadAreaExited"]
+[connection signal="area_entered" from="AreaAhead" to="." method="onAreaAheadAreaEntered"]
+[connection signal="area_exited" from="AreaAhead" to="." method="onAreaAheadAreaExited"]

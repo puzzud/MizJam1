@@ -61,8 +61,14 @@ func isCloserToCurrentWaypoint(position: Vector3) -> bool:
 	var parent: Spatial = get_parent()
 	return (currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(currentWaypoint))
 
-func getParentRayCast() -> RayCast:
-	return get_parent().get_node("RayCast") as RayCast
+func getParentForwardRayCast() -> RayCast:
+	return get_parent().get_node("ForwardRayCast") as RayCast
+
+func isParentForwardLeftRayCastColliding() -> bool:
+	return get_parent().get_node("ForwardLeftRayCast").is_colliding()
+
+func isParentForwardRightRayCastColliding() -> bool:
+	return get_parent().get_node("ForwardRightRayCast").is_colliding()
 
 func getOptimalClosestCoin() -> Coin:
 	var parent: Spatial = get_parent()
@@ -144,6 +150,8 @@ func updateTurnDirectionFromPath() -> void:
 	
 	if targetCoin != null:
 		position = targetCoin.global_transform.origin
+	elif targetQuestionBlock != null:
+		position = targetQuestionBlock.global_transform.origin
 	
 	var lookingAtEuler: Vector3 = parent.global_transform.looking_at(position, Vector3.UP).basis.get_euler()
 	
@@ -172,7 +180,10 @@ func updateAcceleratingBasedOnRayCast() -> void:
 	
 	accelerating = (currentWaypoint != null)
 	
-	var rayCast := getParentRayCast()
+	if parent.isInRoughZone():
+		return
+	
+	var rayCast := getParentForwardRayCast()
 	
 	if not rayCast.is_colliding():
 		return
@@ -185,9 +196,16 @@ func updateAcceleratingBasedOnRayCast() -> void:
 	if collider is QuestionBlock:
 		return
 	
-	if parent.isInRoughZone():
+	if collider is Kart:
+		# TODO: Only slow down if parent velocity is faster than collider kart.
 		return
+		
+		var distanceToKart: float = parent.global_transform.origin.distance_to(collider.global_transform.origin)
+		if distanceToKart < 3.0:
+			accelerating = false
+			return
 	
+	# Assume a rough zone at this point.
 	var kartVelocityLength: float = parent.velocity.length()
 	if kartVelocityLength < 5.0:
 		return
