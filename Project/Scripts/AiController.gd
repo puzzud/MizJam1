@@ -140,10 +140,11 @@ func updateTurnDirectionFromPath() -> void:
 	var position: Vector3 = currentWaypoint.global_transform.origin
 	
 	if not parent.isInRoughZone():
-		var turnDirectionFromRayCasts := getTurnDirectionFromRayCasts()
-		if turnDirectionFromRayCasts != 0.0:
-			turnDirection = turnDirectionFromRayCasts
-			return
+		if areFrontRayCastsCollding():
+			var turnDirectionFromRayCasts := getTurnDirectionFromRayCasts()
+			if turnDirectionFromRayCasts != 0.0:
+				turnDirection = turnDirectionFromRayCasts
+				return
 		
 		if targetCoin != null:
 			position = targetCoin.global_transform.origin
@@ -255,9 +256,24 @@ func checkItemUsage() -> void:
 				if distanceToCurrentWaypoint >= 30.0:
 					useItem = true
 
+func areFrontRayCastsCollding() -> bool:
+	var parent = get_parent()
+	
+	if parent.getRayCast(-1).is_colliding():
+		return true
+	
+	if parent.getRayCast(0).is_colliding():
+		return true
+	
+	if parent.getRayCast(1).is_colliding():
+		return true
+	
+	return false
+
 func getRayCastDistanceToItsCollider(rayCast: RayCast) -> float:
 	if not rayCast.is_colliding():
-		return INF
+		var distance: float = get_parent().to_global(rayCast.cast_to).length()
+		return distance
 	
 	var collider: Spatial = rayCast.get_collider()
 	return rayCast.global_transform.origin.distance_to(collider.global_transform.origin)
@@ -282,19 +298,38 @@ func getTurnDirectionFromCloserRayCast(leftRayCast: RayCast, rightRayCast: RayCa
 func getTurnDirectionFromRayCasts() -> float:
 	var parent = get_parent()
 	
+	var left15RayCast: RayCast = parent.getRayCast(-2)
 	var frontLeftRayCast: RayCast = parent.getRayCast(-1)
-	var frontCenterRayCast: RayCast = parent.getRayCast(0)
+	#var frontCenterRayCast: RayCast = parent.getRayCast(0)
 	var frontRightRayCast: RayCast = parent.getRayCast(1)
-	if frontCenterRayCast.is_colliding() or frontLeftRayCast.is_colliding() or frontRightRayCast.is_colliding():
-		var left15RayCast: RayCast = parent.getRayCast(-2)
-		var right15RayCast: RayCast = parent.getRayCast(2)
-		
-		if left15RayCast.is_colliding() or right15RayCast.is_colliding():
-			return getTurnDirectionFromCloserRayCast(left15RayCast, right15RayCast)
-		else:
-			return 0.0
+	var right15RayCast: RayCast = parent.getRayCast(2)
 	
-	return 0.0
+	var left15RayCastColliding  := left15RayCast.is_colliding()
+	var frontLeftRayCastColliding := frontLeftRayCast.is_colliding()
+	var frontRightRayCastColliding := frontRightRayCast.is_colliding()
+	var right15RayCastColliding := right15RayCast.is_colliding()
+	
+	var left15RayCastDistance  := getRayCastDistanceToItsCollider(left15RayCast)
+	var frontLeftRayCastDistance := getRayCastDistanceToItsCollider(frontLeftRayCast)
+	var frontRightRayCastDistance := getRayCastDistanceToItsCollider(frontRightRayCast)
+	var right15RayCastDistance := getRayCastDistanceToItsCollider(right15RayCast)
+	
+	var turnDirection := 0.0
+	turnDirection += 0.125 * (left15RayCastDistance) * left15RayCastColliding as int
+	turnDirection += (frontLeftRayCastDistance) * frontLeftRayCastColliding as int
+	turnDirection += -(frontRightRayCastDistance) * frontRightRayCastColliding as int
+	turnDirection += 0.125 * -(right15RayCastDistance) * right15RayCastColliding as int
+	
+	if turnDirection == 0.0:
+		return 0.0
+	
+	if abs(turnDirection) < 0.125:
+		turnDirection = 0.0
+	
+	if turnDirection != 0.0:
+		turnDirection /= abs(turnDirection)
+	
+	return turnDirection
 
 func updateDebugDisplay() -> void:
 	var parent: Spatial = get_parent()

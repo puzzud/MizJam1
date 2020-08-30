@@ -8,7 +8,7 @@ const wheelBase := 0.5 # TODO: Needs to be based on scene.
 const steeringAngle := 1.0
 const reverseSpeedRatio := 0.975
 
-export (float) var enginePower := 25.0
+export (float) var enginePower := 7.5#25.0
 export (float) var brakingPower := -15.0
 export (float) var slipSpeed := 12.0
 export (float) var tractionFast := 0.1
@@ -96,7 +96,7 @@ func _physics_process(delta: float) -> void:
 	
 	velocity += acceleration * delta
 	velocity.y = 0.0
-	velocity = move_and_slide(velocity, Vector3.UP)
+	velocity = move_and_slide(velocity, Vector3.UP, false, 12)
 
 func getController() -> Controller:
 	if has_node("Controller"):
