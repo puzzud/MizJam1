@@ -105,24 +105,25 @@ func getRayCast(rayCastId: int = 0) -> RayCast:
 	#print(name)
 	return rayCast
 
-func areFrontRayCastsColliding() -> bool:
-	if getRayCast(-1).is_colliding():
-		return true
-	
-	if getRayCast(0).is_colliding():
-		return true
-	
-	if getRayCast(1).is_colliding():
-		return true
+func areFrontRayCastsColliding(distanceThreshold: float = 0.0) -> bool:
+	for i in range(-1, 2):
+		var rayCast := getRayCast(i)
+		if rayCast.is_colliding():
+			if distanceThreshold > 0.0:
+				if getRayCastDistanceToItsCollider(rayCast) <= distanceThreshold:
+					return true
 	
 	return false
 
-func getRayCastScaledDistanceToItsCollider(rayCast: RayCast) -> float:
+func getRayCastDistanceToItsCollider(rayCast: RayCast) -> float:
 	if not rayCast.is_colliding():
-		return 1.0
+		return 10.0
 	
 	var collider: Spatial = rayCast.get_collider()
-	return Vector3.ZERO.distance_to(rayCast.to_local(rayCast.get_collision_point())) / 10.0
+	return Vector3.ZERO.distance_to(rayCast.to_local(rayCast.get_collision_point()))
+
+func getRayCastScaledDistanceToItsCollider(rayCast: RayCast) -> float:
+	return getRayCastDistanceToItsCollider(rayCast) / 10.0
 
 func getTurnDirectionFromRayCasts() -> float:
 	var left15RayCast: RayCast = getRayCast(-2)
@@ -193,15 +194,15 @@ func updateWaypoint() -> void:
 			currentWaypoint = currentWaypoint.nextWaypoint
 
 func updateTurnDirectionFromPath() -> void:
-	var parent: Spatial = get_parent()
-	
 	if currentWaypoint == null:
 		return
 	
 	var position: Vector3 = currentWaypoint.global_transform.origin
 	
+	var parent: Spatial = get_parent()
+	
 	if not parent.isInRoughZone():
-		if areFrontRayCastsColliding():
+		if areFrontRayCastsColliding(6.0):
 			var turnDirectionFromRayCasts := getTurnDirectionFromRayCasts()
 			if turnDirectionFromRayCasts != 0.0:
 				turnDirection = turnDirectionFromRayCasts

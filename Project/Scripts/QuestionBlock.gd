@@ -20,8 +20,9 @@ func disable() -> void:
 	$AnimationPlayer.play("PickedUp")
 
 func onBodyEntered(body: Node) -> void:
-	emit_signal("itemPickedUp", self, body)
-	disable()
+	if not body.hasItem():
+		emit_signal("itemPickedUp", self, body)
+		disable()
 
 func onRespawnTimerTimeout() -> void:
 	resetValues()
