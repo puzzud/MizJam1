@@ -140,7 +140,7 @@ func updateTurnDirectionFromPath() -> void:
 	var position: Vector3 = currentWaypoint.global_transform.origin
 	
 	if not parent.isInRoughZone():
-		if areFrontRayCastsCollding():
+		if areFrontRayCastsColliding():
 			var turnDirectionFromRayCasts := getTurnDirectionFromRayCasts()
 			if turnDirectionFromRayCasts != 0.0:
 				turnDirection = turnDirectionFromRayCasts
@@ -256,7 +256,7 @@ func checkItemUsage() -> void:
 				if distanceToCurrentWaypoint >= 30.0:
 					useItem = true
 
-func areFrontRayCastsCollding() -> bool:
+func areFrontRayCastsColliding() -> bool:
 	var parent = get_parent()
 	
 	if parent.getRayCast(-1).is_colliding():
@@ -285,11 +285,6 @@ func getTurnDirectionFromRayCasts() -> float:
 	#var frontCenterRayCast: RayCast = parent.getRayCast(0)
 	var frontRightRayCast: RayCast = parent.getRayCast(1)
 	var right15RayCast: RayCast = parent.getRayCast(2)
-	
-	var left15RayCastColliding  := left15RayCast.is_colliding()
-	var frontLeftRayCastColliding := frontLeftRayCast.is_colliding()
-	var frontRightRayCastColliding := frontRightRayCast.is_colliding()
-	var right15RayCastColliding := right15RayCast.is_colliding()
 	
 	var left15RayCastDistance  := getRayCastScaledDistanceToItsCollider(left15RayCast)
 	var frontLeftRayCastDistance := getRayCastScaledDistanceToItsCollider(frontLeftRayCast)
