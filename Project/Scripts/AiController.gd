@@ -62,13 +62,7 @@ func isCloserToCurrentWaypoint(position: Vector3) -> bool:
 	return (currentWaypoint.getDistanceToPosition(position) < getDistanceToWaypoint(currentWaypoint))
 
 func getParentForwardRayCast() -> RayCast:
-	return get_parent().get_node("ForwardRayCast") as RayCast
-
-func isParentForwardLeftRayCastColliding() -> bool:
-	return get_parent().get_node("ForwardLeftRayCast").is_colliding()
-
-func isParentForwardRightRayCastColliding() -> bool:
-	return get_parent().get_node("ForwardRightRayCast").is_colliding()
+	return get_parent().getRayCast(0) as RayCast
 
 func getOptimalClosestCoin() -> Coin:
 	var parent: Spatial = get_parent()

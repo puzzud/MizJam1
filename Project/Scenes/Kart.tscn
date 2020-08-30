@@ -12,22 +12,22 @@ size = Vector3( 0.25, 0.125, 0.6 )
 radius = 0.5
 height = 0.5
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=3]
 flags_unshaded = true
 albedo_color = Color( 0.121569, 0, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=5]
 flags_unshaded = true
 albedo_color = Color( 0.2, 1, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=7]
+[sub_resource type="SpatialMaterial" id=6]
 flags_unshaded = true
 
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=7]
 extents = Vector3( 5, 0.5, 8 )
 
 [node name="Kart" type="KinematicBody"]
@@ -80,37 +80,54 @@ shape = SubResource( 2 )
 
 [node name="ForwardIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 4 )
+material_override = SubResource( 3 )
 
 [node name="PreviousIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 3 )
+material_override = SubResource( 4 )
 
 [node name="NextIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 6 )
+material_override = SubResource( 5 )
 
 [node name="AiIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
 visible = false
-material_override = SubResource( 7 )
+material_override = SubResource( 6 )
 
-[node name="ForwardRayCast" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136099, 0 )
+[node name="RayCasts" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136, 0 )
+
+[node name="Left15" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.5, 0, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -10 )
 collision_mask = 7
 collide_with_areas = true
 
-[node name="ForwardLeftRayCast" type="RayCast" parent="."]
-transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0.136099, 0 )
+[node name="ForwardLeft" type="RayCast" parent="RayCasts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -10 )
 collision_mask = 7
 collide_with_areas = true
 
-[node name="ForwardRightRayCast" type="RayCast" parent="."]
-transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0, 0.136099, 0 )
+[node name="ForwardCenter" type="RayCast" parent="RayCasts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.89884e-05, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -10 )
+collision_mask = 7
+collide_with_areas = true
+
+[node name="ForwardRight" type="RayCast" parent="RayCasts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -10 )
+collision_mask = 7
+collide_with_areas = true
+
+[node name="Right15" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.5, 0, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -10 )
 collision_mask = 7
@@ -122,7 +139,7 @@ collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaAhead"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -8.63153 )
-shape = SubResource( 5 )
+shape = SubResource( 7 )
 
 [node name="AudioPlayers" type="Spatial" parent="."]
 

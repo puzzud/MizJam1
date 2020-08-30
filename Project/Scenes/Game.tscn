@@ -16,28 +16,27 @@
 [ext_resource path="res://Graphics/KeyRight.tres" type="Texture" id=14]
 [ext_resource path="res://Graphics/KeyLeft.tres" type="Texture" id=15]
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 8 )
 region = Rect2( 136, 170, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 8 )
 region = Rect2( 136, 408, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 8 )
 region = Rect2( 289, 527, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 8 )
 region = Rect2( 391, 357, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 8 )
 region = Rect2( 289, 374, 16, 16 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "Idle"
+[sub_resource type="Animation" id=6]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("./.:modulate")
@@ -52,7 +51,7 @@ tracks/0/keys = {
 "values": [ Color( 0.933333, 0.933333, 0.466667, 1 ), Color( 0.866667, 0.533333, 0.333333, 1 ), Color( 0.4, 0.266667, 0, 1 ), Color( 0.866667, 0.533333, 0.333333, 1 ), Color( 0.933333, 0.933333, 0.466667, 1 ) ]
 }
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 8 )
 region = Rect2( 85, 374, 16, 16 )
 
@@ -486,7 +485,7 @@ __meta__ = {
 [node name="Frame" type="TextureRect" parent="Ui/Race/ItemInfo"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 4 )
+texture = SubResource( 1 )
 expand = true
 __meta__ = {
 "_edit_lock_": true
@@ -507,7 +506,7 @@ margin_left = 16.0
 margin_top = 16.0
 margin_right = 64.0
 margin_bottom = 64.0
-texture = SubResource( 5 )
+texture = SubResource( 2 )
 expand = true
 __meta__ = {
 "_edit_lock_": true
@@ -520,7 +519,7 @@ margin_left = 16.0
 margin_top = 16.0
 margin_right = 64.0
 margin_bottom = 64.0
-texture = SubResource( 6 )
+texture = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_lock_": true
@@ -533,7 +532,7 @@ margin_left = 16.0
 margin_top = 16.0
 margin_right = 64.0
 margin_bottom = 64.0
-texture = SubResource( 7 )
+texture = SubResource( 4 )
 expand = true
 __meta__ = {
 "_edit_lock_": true
@@ -633,7 +632,7 @@ __meta__ = {
 modulate = Color( 0.933333, 0.933333, 0.466667, 1 )
 margin_right = 32.0
 margin_bottom = 32.0
-texture = SubResource( 1 )
+texture = SubResource( 5 )
 expand = true
 __meta__ = {
 "_edit_lock_": true,
@@ -641,7 +640,7 @@ __meta__ = {
 }
 
 [node name="ColorAnimationPlayer" type="AnimationPlayer" parent="Ui/Race/CoinInfo/Symbol"]
-anims/Idle = SubResource( 2 )
+anims/Idle = SubResource( 6 )
 
 [node name="Count" type="Label" parent="Ui/Race/CoinInfo"]
 margin_left = 32.0
@@ -695,7 +694,7 @@ __meta__ = {
 margin_right = 96.0
 margin_bottom = 16.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -723,7 +722,7 @@ margin_top = 64.0
 margin_right = 96.0
 margin_bottom = 80.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -753,7 +752,7 @@ margin_top = 128.0
 margin_right = 96.0
 margin_bottom = 144.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -783,7 +782,7 @@ margin_top = 192.0
 margin_right = 96.0
 margin_bottom = 208.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -813,7 +812,7 @@ margin_top = 256.0
 margin_right = 96.0
 margin_bottom = 272.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -843,7 +842,7 @@ margin_top = 320.0
 margin_right = 96.0
 margin_bottom = 336.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -873,7 +872,7 @@ margin_top = 384.0
 margin_right = 96.0
 margin_bottom = 400.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -903,7 +902,7 @@ margin_top = 448.0
 margin_right = 96.0
 margin_bottom = 464.0
 rect_scale = Vector2( 4, 4 )
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }

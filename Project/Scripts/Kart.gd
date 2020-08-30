@@ -96,6 +96,10 @@ func getController() -> Controller:
 func isInRoughZone() -> bool:
 	return (roughZoneCounter > 0)
 
+func getRayCast(rayCastId: int = 0) -> RayCast:
+	var centerRayCastIndex := int($RayCasts.get_child_count() / 2)
+	return $RayCasts.get_child(centerRayCastIndex + rayCastId) as RayCast
+
 func updateDebugDisplay() -> void:
 	var forwardIg: ImmediateGeometry = $ForwardIg
 	forwardIg.clear()
