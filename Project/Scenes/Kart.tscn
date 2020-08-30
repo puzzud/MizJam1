@@ -112,44 +112,6 @@ material_override = SubResource( 6 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
 material_override = SubResource( 7 )
 
-[node name="RayCasts" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136, 0 )
-
-[node name="Left15" type="RayCast" parent="RayCasts"]
-transform = Transform( 0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.5, 0, 0 )
-enabled = true
-cast_to = Vector3( 0, 0, -10 )
-collision_mask = 7
-collide_with_areas = true
-
-[node name="ForwardLeft" type="RayCast" parent="RayCasts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-enabled = true
-cast_to = Vector3( 0, 0, -10 )
-collision_mask = 7
-collide_with_areas = true
-
-[node name="ForwardCenter" type="RayCast" parent="RayCasts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.89884e-05, 0 )
-enabled = true
-cast_to = Vector3( 0, 0, -10 )
-collision_mask = 7
-collide_with_areas = true
-
-[node name="ForwardRight" type="RayCast" parent="RayCasts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-enabled = true
-cast_to = Vector3( 0, 0, -10 )
-collision_mask = 7
-collide_with_areas = true
-
-[node name="Right15" type="RayCast" parent="RayCasts"]
-transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.5, 0, 0 )
-enabled = true
-cast_to = Vector3( 0, 0, -10 )
-collision_mask = 7
-collide_with_areas = true
-
 [node name="AreaAhead" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136099, 0 )
 collision_layer = 0
