@@ -58,7 +58,18 @@ func _process(delta: float) -> void:
 		intendedBraking = controller.braking
 		intendedUseItem = controller.useItem
 	
-	steerDirection = deg2rad(-intendedTurnDirection * steeringAngle)
+	steerDirection = deg2rad(intendedTurnDirection * steeringAngle)
+	
+	if Global.debug:
+		$TurnSignals.visible = true
+		
+		if steerDirection == 0.0:
+			$TurnSignals.frame = 1
+		else:
+			if steerDirection < 0.0:
+				$TurnSignals.frame = 0
+			else:
+				$TurnSignals.frame = 2
 	
 	if intendedUseItem:
 		useItem()
@@ -98,7 +109,14 @@ func isInRoughZone() -> bool:
 
 func getRayCast(rayCastId: int = 0) -> RayCast:
 	var centerRayCastIndex := int($RayCasts.get_child_count() / 2)
-	return $RayCasts.get_child(centerRayCastIndex + rayCastId) as RayCast
+	var rayCast := $RayCasts.get_child(centerRayCastIndex + rayCastId) as RayCast
+	#var name := rayCast.name
+	#print(name)
+	return rayCast
+
+func setColor(color: Color) -> void:
+	$Saucer.modulate = color
+	$TurnSignals.modulate = color
 
 func updateDebugDisplay() -> void:
 	var forwardIg: ImmediateGeometry = $ForwardIg
@@ -142,7 +160,7 @@ func calculateSteering(delta: float) -> void:
 	var frontWheel := transform.origin - transform.basis.z * wheelBase / 2.0
 	
 	rearWheel += velocity * delta
-	frontWheel += velocity.rotated(Vector3.UP, steerDirection) * delta
+	frontWheel += velocity.rotated(Vector3.UP, -steerDirection) * delta
 	
 	var newHeading := (frontWheel - rearWheel).normalized()
 	
@@ -156,10 +174,10 @@ func calculateSteering(delta: float) -> void:
 		
 		# NOTE: It's questionable to do rotation like this.
 		# TODO: Should try to use newHeading.
-		rotate(Vector3.UP, steerDirection)
+		rotate(Vector3.UP, -steerDirection)
 	elif dotProduct < 0.0:
 		velocity = -newHeading * velocity.length() * reverseSpeedRatio
-		rotate(Vector3.UP, -steerDirection)
+		rotate(Vector3.UP, steerDirection)
 
 func resetValues() -> void:
 	acceleration = Vector3.ZERO

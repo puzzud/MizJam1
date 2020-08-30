@@ -1,33 +1,44 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Kart.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/tileset_legacy_trans.png" type="Texture" id=2]
 [ext_resource path="res://Sounds/Engine.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Graphics/DarkSteel.tres" type="Material" id=4]
+[ext_resource path="res://Graphics/KeyLeft.tres" type="Texture" id=5]
+[ext_resource path="res://Graphics/KeyRight.tres" type="Texture" id=6]
+[ext_resource path="res://Graphics/KeyUp.tres" type="Texture" id=7]
 
-[sub_resource type="CubeMesh" id=1]
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.25, 0.125, 0.6 )
 
-[sub_resource type="CylinderShape" id=2]
+[sub_resource type="CylinderShape" id=3]
 radius = 0.5
 height = 0.5
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
 albedo_color = Color( 0.121569, 0, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=5]
 flags_unshaded = true
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="SpatialMaterial" id=6]
 flags_unshaded = true
 albedo_color = Color( 0.2, 1, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=7]
 flags_unshaded = true
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape" id=8]
 extents = Vector3( 5, 0.5, 8 )
 
 [node name="Kart" type="KinematicBody"]
@@ -62,38 +73,45 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 408, 136, 16, 16 )
 
+[node name="TurnSignals" type="AnimatedSprite3D" parent="."]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.06082, 0 )
+visible = false
+billboard = 1
+frames = SubResource( 1 )
+frame = 1
+
 [node name="Base" type="Spatial" parent="."]
 
 [node name="CSGMeshLeft" type="CSGMesh" parent="Base"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.255311, 0.124663, -0.00826359 )
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material = ExtResource( 4 )
 
 [node name="CSGMeshRight" type="CSGMesh" parent="Base"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.259856, 0.124663, -0.00826359 )
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="ForwardIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 3 )
+material_override = SubResource( 4 )
 
 [node name="PreviousIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 4 )
+material_override = SubResource( 5 )
 
 [node name="NextIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
-material_override = SubResource( 5 )
+material_override = SubResource( 6 )
 
 [node name="AiIg" type="ImmediateGeometry" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.258726, 0 )
 visible = false
-material_override = SubResource( 6 )
+material_override = SubResource( 7 )
 
 [node name="RayCasts" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136, 0 )
@@ -139,7 +157,7 @@ collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaAhead"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -8.63153 )
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="AudioPlayers" type="Spatial" parent="."]
 

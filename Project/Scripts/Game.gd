@@ -463,9 +463,12 @@ func startAllKartEngines(on: bool) -> void:
 
 func resetAllKarts() -> void:
 	# Reset carts.
-	for _kart in getKarts():
-		var kart: Kart = _kart
+	var karts := getKarts()
+	
+	for i in range(0, kartIds.size()):
+		var kart: Kart = karts[i]
 		kart.resetValues()
+		kart.setColor(racerColors[i])
 	
 	resetAllKartControls()
 
