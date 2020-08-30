@@ -23,26 +23,7 @@ func _process(delta: float) -> void:
 	updateDebugDisplay()
 
 func _physics_process(delta: float) -> void:
-	var parent: Spatial = get_parent()
-	
-	if currentWaypoint == null:
-		currentWaypoint = parent.positionWaypoint
-	
-	currentWaypoint = parent.positionWaypoint
-	
-	if false:
-	#if currentWaypoint != null:
-		if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
-			currentWaypoint = currentWaypoint.nextWaypoint
-			if currentWaypoint != null:
-				previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
-		
-		if currentWaypoint != null:
-			if getDistanceToWaypoint(currentWaypoint) > previousDistanceToDestination:
-				currentWaypoint = currentWaypoint.nextWaypoint
-				#currentWaypoint = parent.positionWaypoint
-				if currentWaypoint != null:
-					previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
+	updateWaypoint()
 	
 	checkForTargetCoin()
 	checkForTargetQuestionBlock()
@@ -181,6 +162,35 @@ func resetValues() -> void:
 	#targetPosition = get_parent().global_transform.origin
 	targetCoin = null
 	targetQuestionBlock = null
+
+func updateWaypoint() -> void:
+	var parent: Spatial = get_parent()
+	
+	if currentWaypoint == null:
+		currentWaypoint = parent.positionWaypoint
+	
+	currentWaypoint = parent.positionWaypoint
+	
+	if false:
+	#if currentWaypoint != null:
+		if parent.global_transform.origin.distance_to(currentWaypoint.global_transform.origin) < waypointDistanceTolerance:
+			currentWaypoint = currentWaypoint.nextWaypoint
+			if currentWaypoint != null:
+				previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
+		
+		if currentWaypoint != null:
+			if getDistanceToWaypoint(currentWaypoint) > previousDistanceToDestination:
+				currentWaypoint = currentWaypoint.nextWaypoint
+				#currentWaypoint = parent.positionWaypoint
+				if currentWaypoint != null:
+					previousDistanceToDestination = getDistanceToWaypoint(currentWaypoint)
+	
+	if currentWaypoint != null:
+		var rayCast: RayCast = $WaypointRayCast
+		rayCast.cast_to = rayCast.to_local(currentWaypoint.nextWaypoint.global_transform.origin)
+		rayCast.force_raycast_update()
+		if not rayCast.is_colliding():
+			currentWaypoint = currentWaypoint.nextWaypoint
 
 func updateTurnDirectionFromPath() -> void:
 	var parent: Spatial = get_parent()
