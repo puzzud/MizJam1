@@ -107,13 +107,6 @@ func getController() -> Controller:
 func isInRoughZone() -> bool:
 	return (roughZoneCounter > 0)
 
-func getRayCast(rayCastId: int = 0) -> RayCast:
-	var centerRayCastIndex := int($RayCasts.get_child_count() / 2)
-	var rayCast := $RayCasts.get_child(centerRayCastIndex + rayCastId) as RayCast
-	#var name := rayCast.name
-	#print(name)
-	return rayCast
-
 func setColor(color: Color) -> void:
 	$Saucer.modulate = color
 	$TurnSignals.modulate = color
