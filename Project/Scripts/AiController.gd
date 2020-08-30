@@ -137,19 +137,18 @@ func updateTurnDirectionFromPath() -> void:
 	if currentWaypoint == null:
 		return
 	
-	var rayCast: RayCast = parent.getRayCast(0)
-	if getRayCastDistanceToItsCollider(rayCast) < 7.0:
+	var position: Vector3 = currentWaypoint.global_transform.origin
+	
+	if not parent.isInRoughZone():
 		var turnDirectionFromRayCasts := getTurnDirectionFromRayCasts()
 		if turnDirectionFromRayCasts != 0.0:
 			turnDirection = turnDirectionFromRayCasts
 			return
-	
-	var position: Vector3 = currentWaypoint.global_transform.origin
-	
-	if targetCoin != null:
-		position = targetCoin.global_transform.origin
-	elif targetQuestionBlock != null:
-		position = targetQuestionBlock.global_transform.origin
+		
+		if targetCoin != null:
+			position = targetCoin.global_transform.origin
+		elif targetQuestionBlock != null:
+			position = targetQuestionBlock.global_transform.origin
 	
 	var lookingAtEuler: Vector3 = parent.global_transform.looking_at(position, Vector3.UP).basis.get_euler()
 	
@@ -187,12 +186,6 @@ func updateAcceleratingBasedOnRayCast() -> void:
 		return
 	
 	var collider := rayCast.get_collider()
-	
-	if collider is Coin:
-		return
-	
-	if collider is QuestionBlock:
-		return
 	
 	if collider is Kart:
 		# TODO: Only slow down if parent velocity is faster than collider kart.
@@ -289,8 +282,10 @@ func getTurnDirectionFromCloserRayCast(leftRayCast: RayCast, rightRayCast: RayCa
 func getTurnDirectionFromRayCasts() -> float:
 	var parent = get_parent()
 	
+	var frontLeftRayCast: RayCast = parent.getRayCast(-1)
 	var frontCenterRayCast: RayCast = parent.getRayCast(0)
-	if frontCenterRayCast.is_colliding():
+	var frontRightRayCast: RayCast = parent.getRayCast(1)
+	if frontCenterRayCast.is_colliding() or frontLeftRayCast.is_colliding() or frontRightRayCast.is_colliding():
 		var left15RayCast: RayCast = parent.getRayCast(-2)
 		var right15RayCast: RayCast = parent.getRayCast(2)
 		
